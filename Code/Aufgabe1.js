@@ -1,15 +1,15 @@
-var fs = require('fs'); //File System einbinden(ermöglicht Asynchronität)
+var fs = require('fs'); //File System einbinden
 
 fs.readFile(__dirname+"/staedte.json", function(err, data){ //Daten einlesen
 
     if (err) throw err;
 
-	var tmp = data.toString(); //Binärdaten in String umwandeln
-	//console.log(tmp); //test
-	var obj = JSON.parse(tmp); //JSON-String in Javascript-Objekt umwandeln
+	var tmp = data.toString(); //Daten von Binär nach String ändern
+
+	var obj = JSON.parse(tmp); //String in Java Objek ändern
 
 	console.log('\n');
-	//Objekt auslesen
+
 	for ( var i=0; i < obj.cities.length; i++){
 		console.log('Name: ' + obj.cities[i].name);
 		console.log('Land: ' + obj.cities[i].country);

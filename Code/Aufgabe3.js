@@ -8,16 +8,11 @@ fs.readFile(__dirname+"/staedte.json", function(err, data){ //Daten einlesen
 
 	var tmp = data.toString();     //Daten in String umwandeln
 	obj = JSON.parse(tmp);     //in Objekt umwandeln
-    
 
-    
+
+
     var sor = obj.cities.sort(function (a, b) {       //aufsteigend sortieren
- 		if (a.anzahl < b.anzahl) {
-  			return 1;
-  		}
-  		if (a.anzahl > b.anzahl) {
-    		return -1;
-  		}
+      return a.population - b.population;
 	});
 	var str = JSON.stringify(sor);     //sortierte Objekte in String umwandeln
 
@@ -31,7 +26,7 @@ fs.readFile(__dirname+"/staedte.json", function(err, data){ //Daten einlesen
 
 
 function print(){
-    
+
 	console.log('\n');
 	//Objekt auslesen
 	for ( var i=0; i < obj.cities.length; i++){
