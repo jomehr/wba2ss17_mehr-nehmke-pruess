@@ -1,8 +1,8 @@
 var fs = require('fs');
 var _dirname = "./../Code";
 
-fs.readFile(_dirname+"/staedte.json", function(err, data){
+fs.readFile(_dirname+"/staedte.json", "utf8", function(err, data){
   if (err) throw err;
-  data.toString(data);
+  data
   console.log(data);
 });
