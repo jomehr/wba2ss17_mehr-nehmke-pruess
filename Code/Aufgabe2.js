@@ -8,9 +8,7 @@ fs.readFile(__dirname+"/staedte.json", function(err, data){ //Daten einlesen
 	var tmp = data.toString();     //Daten in String umwandeln
 	var obj = JSON.parse(tmp);     //in Objekt umwandeln
 
-	console.log('\n');
-	//Objekt auslesen
-	for ( var i=0; i < obj.cities.length; i++){
+	for ( var i=0; i < obj.cities.length; i++){  //Objekt auslesen
 		console.log('Name: ' + chalk.red(obj.cities[i].name));
 		console.log('Land: ' + chalk.green(obj.cities[i].country));
 		console.log('Population: ' + chalk.blue(obj.cities[i].population));

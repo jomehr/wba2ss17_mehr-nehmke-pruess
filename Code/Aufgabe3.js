@@ -7,7 +7,7 @@ fs.readFile(__dirname+"/staedte.json", function(err, data){ //Daten einlesen
     if (err) throw err;
 
 	var tmp = data.toString();     //Daten in String umwandeln
-	obj = JSON.parse(tmp);     //in Objekt umwandeln
+	obj = JSON.parse(tmp);         //in Objekt umwandeln
 
 
 
@@ -16,7 +16,7 @@ fs.readFile(__dirname+"/staedte.json", function(err, data){ //Daten einlesen
 	});
 	var str = JSON.stringify(sor);     //sortierte Objekte in String umwandeln
 
-	fs.writeFile(__dirname+"staedte_sortiert.json", str, function(error){      //JSON-Datai mit Sortiertem String schreiben
+	fs.writeFile(__dirname+"/staedte_sortiert.json", str, function(err){      //JSON-Datai mit Sortiertem String schreiben
 
 	   if (err) throw err;
 
@@ -25,10 +25,8 @@ fs.readFile(__dirname+"/staedte.json", function(err, data){ //Daten einlesen
 });
 
 
-function print(){
+function print(){ 	//Objekt auslesen
 
-	console.log('\n');
-	//Objekt auslesen
 	for ( var i=0; i < obj.cities.length; i++){
 		console.log('Name: ' + chalk.red(obj.cities[i].name));
 		console.log('Land: ' + chalk.green(obj.cities[i].country));
