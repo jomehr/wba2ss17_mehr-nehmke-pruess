@@ -1,0 +1,26 @@
+{
+  "name": "schnitzeljagd",
+  "version": "1.0.0",
+  "description": "wba2 projekt von team 38",
+  "main": "mongodb.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "\u0016https://github.com/jomehr/wba2ss17_mehr-nehmke-pruess.git"
+  },
+  "author": "jan mehr",
+  "license": "ISC",
+  "dependencies": {
+    "cookie-parser": "^1.4.3",
+    "express": "^4.15.3",
+    "express-session": "^1.15.3",
+    "mongodb": "^2.2.26",
+    "morgan": "^1.8.1",
+    "quickblox": "^2.5.3"
+  },
+  "devDependencies": {
+    "yakbak": "^2.6.0"
+  }
+}
