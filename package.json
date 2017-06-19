@@ -1,0 +1,17 @@
+{
+  "name": "OAuthProject",
+  "version": "0.0.0",
+  "description": "",
+  "main": "server.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "cookie-parser": "latest",
+    "express": "~4.12.3",
+    "express-session": "latest",
+    "morgan": "~1.5.2"
+  }
+}
