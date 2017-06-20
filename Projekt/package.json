@@ -9,8 +9,9 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
+    "body-parser": "^1.17.2",
     "cookie-parser": "latest",
-    "express": "~4.12.3",
+    "express": "^4.12.4",
     "express-session": "latest",
     "morgan": "~1.5.2"
   }
