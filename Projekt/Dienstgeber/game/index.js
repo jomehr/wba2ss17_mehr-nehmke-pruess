@@ -22,7 +22,7 @@ router.get("/:gameId", function(req, res) {
     //   return u.gameId == gameID
     // });
     // res.status(200).json(gameId);
-    res.send("Game mit ID: " + req.params.gameId);
+    res.send("Game mit Titel: " + req.params.gameId);
 });
 
 router.get("/:gameId/clue", function(req, res) {
@@ -31,6 +31,10 @@ router.get("/:gameId/clue", function(req, res) {
 
 router.get("/:gameId/clue/:clueId", function(req, res) {
     res.send("Clue mit ID: " + req.params.clueId);
+});
+
+router.get("/:gameId/clue/:clueId/media", function(req, res) {
+  res.send("Alle Medien zu Hinweis mit ID: " + req.params.clueId);
 });
 
 router.post("/", bodyParser.json(), function(req, res) {
@@ -44,7 +48,7 @@ router.post("/", bodyParser.json(), function(req, res) {
   //});
   console.log(req.body);
   res.status(200).json({
-    uri: req.protocol + "://" + req.headers.host + "/" + ressourceName + "/" + req.body.id
+    uri: req.protocol + "://" + req.headers.host + "/" + ressourceName + "/" + req.body.titel
   });
 });
 router.post("/:gameId/clue/", bodyParser.json(), function(req, res) {

@@ -2,7 +2,8 @@
 const express =  require ("express");
 const app =  express ();
 const fs = require ("fs");
-//const router = express.Router();
+const async = require ("async")
+
 const settings = {
   port: 3000,
   datafile: "./gametest.json"
@@ -46,33 +47,20 @@ app.get("/process_get", function(req,res) {
     }
   };
   console.log(response);
-  var tmp = JSON.stringify(response)
+  var tmp = JSON.stringify(response);
   res.end(tmp);
-
   fs.writeFile(__dirname+"/testgame.json", tmp, function(err){      //JSON-Datai mit Sortiertem String schreiben
      if (err) throw err;
   });
 });
 
 app.get("/", function(req, res) {
-  res.send("GET Request Hello World");
+  res.send("GET Request");
 });
 
 app.post("/", function(req, res) {
   res.send("POST Request");
 })
-
-app.put("/game", function(req, res) {
-  res.send("PUT Request at /game");
-})
-
-app.delete("/game", function(req, res) {
-  res.send("DELETE Request at /game");
-})
-
-app.get("/", function(req, res) {
-  res.send("GET Request game userid");
-});
 
 //Server auf localhost 127.0.0.1:3000
 app.listen(3000, function(){
