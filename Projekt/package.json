@@ -13,6 +13,7 @@
     "cookie-parser": "latest",
     "express": "^4.12.4",
     "express-session": "latest",
+    "fs": "0.0.1-security",
     "morgan": "~1.5.2"
   }
 }

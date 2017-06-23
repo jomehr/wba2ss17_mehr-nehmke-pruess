@@ -1,6 +1,7 @@
 
 const express =  require ("express");
-const app =  express();
+const app =  express ();
+const fs = require ("fs");
 //const router = express.Router();
 const settings = {
   port: 3000,
@@ -19,37 +20,61 @@ app.use(function(req, res, next) {
   next();
 });
 
+//routing einbinden
 const game = require("./game");
-const clue = require("./game/clue");
-const media = require("./game/clue/media");
 const user =  require("./user");
-
-
 app.use("/game", game);
-app.use("/game/clue", clue);
-app.use("/game/clue/media", media);
 app.use("/user", user);
 
-app.get('/', function(req, res) {
-  res.send('GET Request Hello World');
+//statischer Ordner (klappt noch nicht)
+app.use(express.static("game"));
+
+//REST methods
+app.get("/index.html", function(req, res) {
+  res.sendFile(__dirname + "/" + "index.html");
 });
 
-app.post('/', function(req, res) {
-  res.send('POST Request');
-})
+app.get("/process_get", function(req,res) {
+  response = {
+    titel: req.query.titel,
+    description: req.query.description,
+    creationdate: req.query.creationdate,
+    expirationdate: req.query.expirationdate,
+    user: {
+      first_name: req.query.first_name,
+      last_name: req.query.last_name
+    }
+  };
+  console.log(response);
+  var tmp = JSON.stringify(response)
+  res.end(tmp);
 
-app.put('/game', function(req, res) {
-  res.send('PUT Request at /game');
-})
-
-app.delete('/game', function(req, res) {
-  res.send('DELETE Request at /game');
-})
-
-app.get('/', function(req, res) {
-  res.send('GET Request game userid');
+  fs.writeFile(__dirname+"/testgame.json", tmp, function(err){      //JSON-Datai mit Sortiertem String schreiben
+     if (err) throw err;
+  });
 });
 
+app.get("/", function(req, res) {
+  res.send("GET Request Hello World");
+});
+
+app.post("/", function(req, res) {
+  res.send("POST Request");
+})
+
+app.put("/game", function(req, res) {
+  res.send("PUT Request at /game");
+})
+
+app.delete("/game", function(req, res) {
+  res.send("DELETE Request at /game");
+})
+
+app.get("/", function(req, res) {
+  res.send("GET Request game userid");
+});
+
+//Server auf localhost 127.0.0.1:3000
 app.listen(3000, function(){
   console.log("Dienstgeber ist nun auf Port "+settings.port+" verfügbar.");
 });

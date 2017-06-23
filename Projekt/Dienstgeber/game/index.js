@@ -25,13 +25,13 @@ router.get("/:gameId", function(req, res) {
     res.send("Game mit ID: " + req.params.gameId);
 });
 
-// router.get("/:gameId/clue", function(req, res) {
-//     res.send("Alle clues zu Game mit ID: " + req.params.gameId);
-// });
-//
-// router.get("/:gameId/clue/:clueId", function(req, res) {
-//     res.send("Clue mit ID: " + req.params.clueId);
-// });
+router.get("/:gameId/clue", function(req, res) {
+    res.send("Alle clues zu Game mit ID: " + req.params.gameId);
+});
+
+router.get("/:gameId/clue/:clueId", function(req, res) {
+    res.send("Clue mit ID: " + req.params.clueId);
+});
 
 router.post("/", bodyParser.json(), function(req, res) {
   // console.log(req.body);
