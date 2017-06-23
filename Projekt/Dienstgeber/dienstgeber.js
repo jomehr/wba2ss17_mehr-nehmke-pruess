@@ -24,9 +24,14 @@ app.use(function(req, res, next) {
 });
 
 const game = require("./game");
+const clue = require("./game/clue");
+const media = require("./game/clue/media");
 const user =  require("./user");
 
+
 app.use("/game", game);
+app.use("/game/clue", clue);
+app.use("/game/clue/media", media);
 app.use("/user", user);
 
 app.get('/', function(req, res) {
