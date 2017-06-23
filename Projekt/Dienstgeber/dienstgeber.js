@@ -3,7 +3,8 @@ const express =  require ("express");
 const app =  express();
 //const router = express.Router();
 const settings = {
-  port: 3000
+  port: 3000,
+  datafile: "./gametest.json"
 };
 
 app.listen(3000, function(){
@@ -23,8 +24,10 @@ app.use(function(req, res, next) {
 });
 
 const game = require("./game");
+const user =  require("./user");
 
 app.use("/game", game);
+app.use("/user", user);
 
 app.get('/', function(req, res) {
   res.send('GET Request Hello World');
