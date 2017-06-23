@@ -7,10 +7,6 @@ const settings = {
   datafile: "./gametest.json"
 };
 
-app.listen(3000, function(){
-  console.log("Dienstgeber ist nun auf Port "+settings.port+" verfügbar.");
-});
-
 //errorhandler
 app.use(function(err, req, res, next) {
   console.log(err.stack);
@@ -52,4 +48,8 @@ app.delete('/game', function(req, res) {
 
 app.get('/', function(req, res) {
   res.send('GET Request game userid');
+});
+
+app.listen(3000, function(){
+  console.log("Dienstgeber ist nun auf Port "+settings.port+" verfügbar.");
 });
