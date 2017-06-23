@@ -1,0 +1,19 @@
+{
+  "name": "schnitzeljagd-user",
+  "version": "1.0.0",
+  "description": "wba2 projekt von team 38",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "dependencies": {
+    "pody-parser": "^1.16.0",
+    "express": "^4.14.1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "\u0016https://github.com/jomehr/wba2ss17_mehr-nehmke-pruess.git"
+  },
+  "author": "jared pruess",
+  "license": "ISC",
+}

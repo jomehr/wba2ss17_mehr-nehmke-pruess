@@ -1,0 +1,52 @@
+
+const express =  require ("express");
+const app =  express();
+//const router = express.Router();
+const settings = {
+  port: 3000,
+  datafile: "./gametest.json"
+};
+
+app.listen(3000, function(){
+  console.log("Dienstgeber ist nun auf Port "+settings.port+" verfügbar.");
+});
+
+//errorhandler
+app.use(function(err, req, res, next) {
+  console.log(err.stack);
+  res.end(err.status + " " + err.messages);
+});
+
+//log mit pfad und zeit
+app.use(function(req, res, next) {
+  console.log("Time: %d " + "Request-Pfad: " + req.path, Date.now());
+  next();
+});
+
+//binden des PFades an eine Konstante
+const game = require("./game");
+const user =  require("./user");
+
+//express sagen er soll diese Route an die App binden
+app.use("/game", game);
+app.use("/user", user);
+
+app.get('/', function(req, res) {
+  res.send('GET Request Hello World');
+});
+
+app.post('/', function(req, res) {
+  res.send('POST Request');
+})
+
+app.put('/game', function(req, res) {
+  res.send('PUT Request at /game');
+})
+
+app.delete('/game', function(req, res) {
+  res.send('DELETE Request at /game');
+})
+
+app.get('/', function(req, res) {
+  res.send('GET Request game userid');
+});
