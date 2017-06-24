@@ -82,7 +82,22 @@ app.get("/", function(req, res) {
 
 app.post("/", function(req, res) {
   res.send("POST Request");
-})
+});
+
+//PUT Request auf Pfad "/user"
+app.put("/user", function (req, res){
+  res.send("PUT User")
+}),
+
+//DELETE Request auf Pfad "/user"
+app.delete("/user", function (req, res){
+  res.send("DELETE User")
+}),
+
+//GET Request auf Parameter userId
+app.get("/user/:userId", function (req, res){
+  res.send("UserId: " +req.params.userId)
+});
 
 //Server auf localhost 127.0.0.1:3000
 app.listen(3000, function(){
