@@ -33,6 +33,29 @@ router.get("/", bodyParser.json(), function(req, res) {
   //res.send("Alle games");
 });
 
+router.get("/create", function(req, res) {
+  res.sendFile(__dirname + "/" + "index.html");
+});
+
+router.post("/created", function(req,res) {
+  response = {
+    titel: res.query.titel,
+    description: res.query.description,
+    creationdate: res.query.creationdate,
+    expirationdate: res.query.expirationdate,
+    user: {
+      first_name: res.query.first_name,
+      last_name: res.query.last_name
+    }
+  };
+  var tmp = JSON.stringify(response, null, 4);
+  console.log(tmp);
+  res.end(tmp);
+  fs.writeFile(__dirname+"/testgame.json", tmp, function(err){      //JSON-Datai mit Sortiertem String schreiben
+     if (err) throw err;
+  });
+});
+
 router.get("/:gameId", function(req, res) {
   // res.format({
   //   "application/json": function() {

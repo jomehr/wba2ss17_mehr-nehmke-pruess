@@ -53,29 +53,6 @@ app.use(function(req, res, next) {
 //app.use(express.static("game"));
 
 //REST methods
-app.get("/index.html", function(req, res) {
-  res.sendFile(__dirname + "/" + "index.html");
-});
-
-app.get("/process_get", function(req,res) {
-  response = {
-    titel: req.query.titel,
-    description: req.query.description,
-    creationdate: req.query.creationdate,
-    expirationdate: req.query.expirationdate,
-    user: {
-      first_name: req.query.first_name,
-      last_name: req.query.last_name
-    }
-  };
-  console.log(response);
-  var tmp = JSON.stringify(response, null, 4);
-  res.end(tmp);
-  fs.writeFile(__dirname+"/testgame.json", tmp, function(err){      //JSON-Datai mit Sortiertem String schreiben
-     if (err) throw err;
-  });
-});
-
 app.get("/", function(req, res) {
   res.send("GET Request");
 });
