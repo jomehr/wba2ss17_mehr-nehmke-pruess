@@ -35,7 +35,7 @@ router.post("/:userId", bodyParser(), function(req,res) {
 });
 
 router.get("/:userId/media", function(req, res) {
-  res.send("User mit ID: " + req.params.userId "Anzeige Profilbild:" + req.params.userId.media);
+  res.send("User mit ID: " + req.params.userId + "Anzeige Profilbild:" + req.params.userId.media);
 });
 
 //POST auf Pfad "/user" und Parameter userId
@@ -44,21 +44,14 @@ router.post("/:userId/media", bodyParser(), function(req,res) {
   res.status(200).json({uri: req.protocol + "://" + req.headers.host + "/:userId/media" + ressourceName + "/:userId/media" + req.body.id});
 });
 
-/*
-//zugriff auf den kompletten body des Requests
-req.body;
+// //Zugriff auf Parameter userId
+// router.get("/:userId", function(req, res) {
+//     var userId=parseInt(req.params.userId);   //Parameter aus dem Request Objekt auslesen und in eine Variable speichern
+//     if (isNaN(userId)){res.status(400).json(data.errors.badParameters)}   //Parameter zur Vailidierung
+//     var user=data.users.filter(function(u){return u.userId==userId});     //Response mit gefilterten User Daten
+//     res.status(200).json(user);
+// });
 
-//zugriff auf einzelne übergebene Parameter
-req.params;
-
-//Zugriff auf Parameter userId
-router.get("/:userId", function(req, res) {
-    var userId=parseInt(req.params.userId);   //Parameter aus dem Request Objekt auslesen und in eine Variable speichern
-    if (isNaN(userId)){res.status(400).json(data.errors.badParameters)}   //Parameter zur Vailidierung
-    var user=data.users.filter(function(u){return u.userId==userId});     //Response mit gefilterten User Daten
-    res.status(200).json(user);
-});
-*/
 
 //POST auf "/" erhält JSON bodies
 router.post("/", bodyParser(), function(req,res) {
