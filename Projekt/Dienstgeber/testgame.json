@@ -1,1 +1,10 @@
-{"titel":"Schnitzeljagd an der TH","description":"Hey Leute ich habe fuer euch eine kleine Schnitzeljagd um das TH Gelaende erstellt. Belohnung fuer den ersten ist ein Kasten","creationdate":"23.06.2017","expirationdate":"25.06.2017","user":{"first_name":"Jan ","last_name":"Mehr"}}
+{
+    "titel": "testitel",
+    "description": "testbeschreibung für ein testspiel",
+    "creationdate": "heute",
+    "expirationdate": "morgen",
+    "user": {
+        "first_name": "Jan",
+        "last_name": "Mehr"
+    }
+}

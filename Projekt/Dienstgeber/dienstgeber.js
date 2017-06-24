@@ -6,8 +6,36 @@ const async = require ("async")
 
 const settings = {
   port: 3000,
-  datafile: "./gametest.json"
+  datafile: "./testgame.json"
 };
+
+global.data = require("./data");
+//read data from disk to memory
+async.waterfall( [
+  //reads data asynchronous and uses waterfall callback
+  function(callback) {
+    fs.readFile(settings.datafile, "utf-8", function(err, filestring) {
+      callback(null, err, filestring);
+    });
+  },
+  //parse as JSON and modify it to fit data strucuture
+  function(err, filestring, callback) {
+    if (err != null) { callback(null, false); }
+    else {
+      data.game = JSON.parse(filestring).game;
+      callback(null, true);
+    }
+  }
+], function(err, success) {
+  if (err != null) { success = false }
+  console.log("Gamedaten wurden " + (success ? "erfolgreich" : "nicht erfolgreich") + "in den Speicher geladen.");
+});
+
+//routing einbinden
+const game = require("./game");
+const user =  require("./user");
+app.use("/game", game);
+app.use("/user", user);
 
 //errorhandler
 app.use(function(err, req, res, next) {
@@ -21,14 +49,8 @@ app.use(function(req, res, next) {
   next();
 });
 
-//routing einbinden
-const game = require("./game");
-const user =  require("./user");
-app.use("/game", game);
-app.use("/user", user);
-
 //statischer Ordner (klappt noch nicht)
-app.use(express.static("game"));
+//app.use(express.static("game"));
 
 //REST methods
 app.get("/index.html", function(req, res) {
@@ -47,7 +69,7 @@ app.get("/process_get", function(req,res) {
     }
   };
   console.log(response);
-  var tmp = JSON.stringify(response);
+  var tmp = JSON.stringify(response, null, 4);
   res.end(tmp);
   fs.writeFile(__dirname+"/testgame.json", tmp, function(err){      //JSON-Datai mit Sortiertem String schreiben
      if (err) throw err;
