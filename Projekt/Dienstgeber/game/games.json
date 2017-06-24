@@ -1,0 +1,37 @@
+{
+    "game": [
+        {
+            "id": 0,
+            "titel": "Schnitzeljagd Gummersbach",
+            "description": "Hey Leute ich habe fuer euch eine kleine Schnitzeljagd um das TH Gelaende des Campus Gummersbach erstellt. Belohnung fuer den ersten ist ein Kasten",
+            "creationdate": "23.06.2017",
+            "expirationdate": "25.06.2017",
+            "user": {
+                "first_name": "Jan ",
+                "last_name": "Mehr"
+            }
+        },
+        {
+            "id": 1,
+            "titel": "Schnitzeljagd in Deutz",
+            "description": "Hey Leute ich habe fuer euch eine kleine Schnitzeljagd um das TH Gelaende des Campus Deutz erstellt. Belohnung fuer den ersten ist ein Kasten",
+            "creationdate": "25.06.2017",
+            "expirationdate": "28.06.2017",
+            "user": {
+                "first_name": "Jan ",
+                "last_name": "Mehr"
+            }
+        },
+        {
+            "id": 2,
+            "titel": "Schnitzeljagd in Deutz",
+            "description": "Hey Leute ich habe fuer euch eine kleine Schnitzeljagd um das TH Gelaende des Campus Deutz erstellt. Belohnung fuer den ersten ist ein Kasten",
+            "creationdate": "25.06.2017",
+            "expirationdate": "28.06.2017",
+            "user": {
+                "first_name": "Jan ",
+                "last_name": "Mehr"
+            }
+        }
+    ]
+}

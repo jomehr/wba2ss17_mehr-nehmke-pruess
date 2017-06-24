@@ -1,11 +1,41 @@
 
 const express =  require ("express");
-const app =  express();
-//const router = express.Router();
+const app =  express ();
+const fs = require ("fs");
+const async = require ("async")
+
 const settings = {
   port: 3000,
-  datafile: "./gametest.json"
+  datafile: "./testgame.json"
 };
+
+global.data = require("./data");
+//read data from disk to memory
+async.waterfall( [
+  //reads data asynchronous and uses waterfall callback
+  function(callback) {
+    fs.readFile(settings.datafile, "utf-8", function(err, filestring) {
+      callback(null, err, filestring);
+    });
+  },
+  //parse as JSON and modify it to fit data strucuture
+  function(err, filestring, callback) {
+    if (err != null) { callback(null, false); }
+    else {
+      data.game = JSON.parse(filestring).game;
+      callback(null, true);
+    }
+  }
+], function(err, success) {
+  if (err != null) { success = false }
+  console.log("Gamedaten wurden " + (success ? "erfolgreich" : "nicht erfolgreich") + "in den Speicher geladen.");
+});
+
+//routing einbinden
+const game = require("./game");
+const user =  require("./user");
+app.use("/game", game);
+app.use("/user", user);
 
 //errorhandler
 app.use(function(err, req, res, next) {
@@ -19,37 +49,19 @@ app.use(function(req, res, next) {
   next();
 });
 
-const game = require("./game");
-const clue = require("./game/clue");
-const media = require("./game/clue/media");
-const user =  require("./user");
+//statischer Ordner (klappt noch nicht)
+//app.use(express.static("game"));
 
-
-app.use("/game", game);
-app.use("/game/clue", clue);
-app.use("/game/clue/media", media);
-app.use("/user", user);
-
-app.get('/', function(req, res) {
-  res.send('GET Request Hello World');
+//REST methods
+app.get("/", function(req, res) {
+  res.send("GET Request");
 });
 
-app.post('/', function(req, res) {
-  res.send('POST Request');
-})
-
-app.put('/game', function(req, res) {
-  res.send('PUT Request at /game');
-})
-
-app.delete('/game', function(req, res) {
-  res.send('DELETE Request at /game');
-})
-
-app.get('/', function(req, res) {
-  res.send('GET Request game userid');
+app.post("/", function(req, res) {
+  res.send("POST Request");
 });
 
+//Server auf localhost 127.0.0.1:3000
 app.listen(3000, function(){
   console.log("Dienstgeber ist nun auf Port "+settings.port+" verfügbar.");
 });
