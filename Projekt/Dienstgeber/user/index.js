@@ -21,7 +21,7 @@ router.get("/:userId", function(req, res) {
     res.send("User mit ID: " + req.params.userId);
 });
 
-router.get("/:userProfilbild", function(req, res) {
+/*router.get("/:userProfilbild", function(req, res) {
     res.send("User mit Profilbild: " + req.params.userProfilbild);
 });
 
@@ -31,24 +31,25 @@ router.get("/:userName", function(req, res) {
 
 router.get("/:userAlter", function(req, res) {
     res.send("User mit Alter: " + req.params.userAlter);
-});
+});*/
 
 
 //POST auf "/" erhält JSON bodies
-router.post("/", bodyParser.json(), function(req, res) {
-  req.accpets("html")           //req=request
-  res.format({                  //res=response
-    //erstelle einen neuen User aus req.body
-    "application/json": function() {
-      var data = require("./usertest.json");
-      res.send(data);
-    }
-  });
-  console.log(req.body)
-  // res.status(200).json({
-  //   uri: req.protocol + "://" + req.headers.host + "/" + ressourceName + "/" + req.body.id
+router.post("/", bodyParser(), function(req,res) {
+  // res.format({                  //res=response
+  //   //erstelle einen neuen User aus req.body
+  //   "application/json": function() {
+  //     var data = require("./usertest.json");
+  //     res.send(data);
+  //   }
   // });
+  console.log(req.body)
+  res.status(200).json({
+    uri: req.protocol + "://" + req.headers.host + "/" + ressourceName + "/" + req.body.id
+  });
 });
+
+
 
 
 //Modul bereitstellen, um es in der Main App zur verfügung zu haben

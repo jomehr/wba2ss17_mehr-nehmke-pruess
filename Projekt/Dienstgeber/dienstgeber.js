@@ -4,7 +4,7 @@ const app =  express();
 //const router = express.Router();
 const settings = {
   port: 3000,
-  datafile: "./gametest.json"
+  //datafile: "./gametest.json"
 };
 
 app.listen(3000, function(){
@@ -24,11 +24,11 @@ app.use(function(req, res, next) {
 });
 
 //binden des PFades an eine Konstante
-const game = require("./game");
+//const game = require("./game");
 const user =  require("./user");
 
 //express sagen er soll diese Route an die App binden
-app.use("/game", game);
+//app.use("/game", game);
 app.use("/user", user);
 
 app.get('/', function(req, res) {
@@ -39,14 +39,14 @@ app.post('/', function(req, res) {
   res.send('POST Request');
 })
 
-app.put('/game', function(req, res) {
-  res.send('PUT Request at /game');
-})
-
-app.delete('/game', function(req, res) {
-  res.send('DELETE Request at /game');
-})
+// app.put('/game', function(req, res) {
+//   res.send('PUT Request at /game');
+// })
+//
+// app.delete('/game', function(req, res) {
+//   res.send('DELETE Request at /game');
+// })
 
 app.get('/', function(req, res) {
-  res.send('GET Request game userid');
+  res.send('GET Request user userid');
 });
