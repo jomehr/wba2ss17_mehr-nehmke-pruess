@@ -61,22 +61,43 @@ router.get("/:gameId", bodyParser.json(), function(req, res) {
   res.format({
     "application/json": function() {
       var data = require("./games.json");
-      console.log(data.game[req.params.gameId]);
-      res.json(data.game[req.params.gameId]);
+      console.log(data.games[req.params.gameId]);
+      res.json(data.games[req.params.gameId]);
     }
   });
 });
 
-router.get("/:gameId/clue", function(req, res) {
-    res.send("Alle clues zu Game mit ID: " + req.params.gameId);
+router.get("/:gameId/clues", function(req, res) {
+    //res.send("Alle clues zu Game mit ID: " + req.params.gameId);
+    res.format({
+      "application/json": function() {
+        var data = require("./games.json");
+        console.log(data.games[req.params.gameId].clues);
+        res.json(data.games[req.params.gameId].clues);
+      }
+    });
 });
 
-router.get("/:gameId/clue/:clueId", function(req, res) {
-    res.send("Clue mit ID: " + req.params.clueId);
+router.get("/:gameId/:clueId", function(req, res) {
+    //res.send("Clue mit ID: " + req.params.clueId);
+    res.format({
+      "application/json": function() {
+        var data = require("./games.json");
+        console.log(data.games[req.params.gameId].clues[req.params.clueId]);
+        res.json(data.games[req.params.gameId].clues[req.params.clueId]);
+      }
+    });
 });
 
-router.get("/:gameId/clue/:clueId/media", function(req, res) {
-  res.send("Alle Medien zu Hinweis mit ID: " + req.params.clueId);
+router.get("/:gameId/:clueId/media", function(req, res) {
+  //res.send("Alle Medien zu Hinweis mit ID: " + req.params.clueId);
+  res.format({
+    "application/jpeg": function() {
+      var data = require("./testbild.jpeg");
+      //console.log(data.games[req.params.gameId].clues[req.params.clueId]);
+      res.json(data);
+    }
+  });
 });
 
 router.post("/", bodyParser.json(), function(req, res) {
