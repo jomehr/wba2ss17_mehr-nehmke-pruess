@@ -29,7 +29,6 @@ router.get("/", bodyParser.json(), function(req, res) {
       res.json(data);
     }
   });
-  console.log(req.body);
   //res.send("Alle games");
 });
 
@@ -37,46 +36,68 @@ router.get("/create", function(req, res) {
   res.sendFile(__dirname + "/" + "index.html");
 });
 
-router.post("/created", function(req,res) {
-  response = {
-    titel: res.query.titel,
-    description: res.query.description,
-    creationdate: res.query.creationdate,
-    expirationdate: res.query.expirationdate,
+router.post("/created", bodyParser.json(), function(req,res) {
+  console.log(req.body);
+  game = {
+    titel: req.body.titel,
+    description: req.body.description,
+    creationdate: req.body.creationdate,
+    expirationdate: req.body.expirationdate,
     user: {
-      first_name: res.query.first_name,
-      last_name: res.query.last_name
+      first_name: req.body.first_name,
+      last_name: req.body.last_name
     }
   };
-  var tmp = JSON.stringify(response, null, 4);
+  var tmp = JSON.stringify(game, null, 4);
   console.log(tmp);
   res.end(tmp);
-  fs.writeFile(__dirname+"/testgame.json", tmp, function(err){      //JSON-Datai mit Sortiertem String schreiben
+  fs.writeFile(__dirname + "/testgame.json", tmp, function(err){      //JSON-Datai mit Sortiertem String schreiben
      if (err) throw err;
   });
 });
 
-router.get("/:gameId", function(req, res) {
-  // res.format({
-  //   "application/json": function() {
-  //     var data = require("./gametest.json");
-  //
-  //     res.json(data.game.id[gameId]);
-  //   }
-  // });
-  res.send("Game mit Titel: " + req.params.gameId);
+router.get("/:gameId", bodyParser.json(), function(req, res) {
+  //res.send("Game mit ID: " + req.params.gameId);
+  res.format({
+    "application/json": function() {
+      var data = require("./games.json");
+      console.log(data.games[req.params.gameId]);
+      res.json(data.games[req.params.gameId]);
+    }
+  });
 });
 
-router.get("/:gameId/clue", function(req, res) {
-    res.send("Alle clues zu Game mit ID: " + req.params.gameId);
+router.get("/:gameId/clues", function(req, res) {
+    //res.send("Alle clues zu Game mit ID: " + req.params.gameId);
+    res.format({
+      "application/json": function() {
+        var data = require("./games.json");
+        console.log(data.games[req.params.gameId].clues);
+        res.json(data.games[req.params.gameId].clues);
+      }
+    });
 });
 
-router.get("/:gameId/clue/:clueId", function(req, res) {
-    res.send("Clue mit ID: " + req.params.clueId);
+router.get("/:gameId/:clueId", function(req, res) {
+    //res.send("Clue mit ID: " + req.params.clueId);
+    res.format({
+      "application/json": function() {
+        var data = require("./games.json");
+        console.log(data.games[req.params.gameId].clues[req.params.clueId]);
+        res.json(data.games[req.params.gameId].clues[req.params.clueId]);
+      }
+    });
 });
 
-router.get("/:gameId/clue/:clueId/media", function(req, res) {
-  res.send("Alle Medien zu Hinweis mit ID: " + req.params.clueId);
+router.get("/:gameId/:clueId/media", function(req, res) {
+  //res.send("Alle Medien zu Hinweis mit ID: " + req.params.clueId);
+  res.format({
+    "application/jpeg": function() {
+      var data = require("./testbild.jpeg");
+      //console.log(data.games[req.params.gameId].clues[req.params.clueId]);
+      res.json(data);
+    }
+  });
 });
 
 router.post("/", bodyParser.json(), function(req, res) {
@@ -97,13 +118,13 @@ router.post("/", bodyParser.json(), function(req, res) {
   //   uri: req.protocol + "://" + req.headers.host + "/" + ressourceName + "/" + req.body.titel
   // });
 });
-router.post("/:gameId/clue/", bodyParser.json(), function(req, res) {
 
-  res.format({
-    "application/json": function() {
-      var data = require("./clue/cluetest.json");
-      res.json(data);
-    }
+router.post("/:gameId/clue/", bodyParser.json(), function(req, res) {
+  console.log(req.body);
+  var tmp = JSON.stringify(req.body, null, 4);
+  res.end(tmp);
+  fs.writeFile(__dirname + "/clue" + "/clues.json", tmp, function(err){      //JSON-Datai mit Sortiertem String schreiben
+     if (err) throw err;
   });
 });
 
