@@ -1,0 +1,17 @@
+{
+    "games": [
+        {
+            "titel": "titel",
+            "description": "beschreibung",
+            "creator": "torben torsten 6",
+            "creationdate": "heute",
+            "expirationdate": "morgen",
+            "participants": [
+                {
+                    "first_name": "jan",
+                    "last_name": "mehr"
+                }
+            ]
+        }
+    ]
+}

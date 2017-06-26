@@ -9,27 +9,27 @@ const settings = {
   datafile: "./testgame.json"
 };
 
-global.data = require("./data");
-//read data from disk to memory
-async.waterfall( [
-  //reads data asynchronous and uses waterfall callback
-  function(callback) {
-    fs.readFile(settings.datafile, "utf-8", function(err, filestring) {
-      callback(null, err, filestring);
-    });
-  },
-  //parse as JSON and modify it to fit data strucuture
-  function(err, filestring, callback) {
-    if (err != null) { callback(null, false); }
-    else {
-      data.game = JSON.parse(filestring).game;
-      callback(null, true);
-    }
-  }
-], function(err, success) {
-  if (err != null) { success = false }
-  console.log("Gamedaten wurden " + (success ? "erfolgreich" : "nicht erfolgreich") + "in den Speicher geladen.");
-});
+// global.data = require("./data");
+// //read data from disk to memory
+// async.waterfall( [
+//   //reads data asynchronous and uses waterfall callback
+//   function(callback) {
+//     fs.readFile(settings.datafile, "utf-8", function(err, filestring) {
+//       callback(null, err, filestring);
+//     });
+//   },
+//   //parse as JSON and modify it to fit data strucuture
+//   function(err, filestring, callback) {
+//     if (err != null) { callback(null, false); }
+//     else {
+//       data.game = JSON.parse(filestring).game;
+//       callback(null, true);
+//     }
+//   }
+// ], function(err, success) {
+//   if (err != null) { success = false }
+//   console.log("Gamedaten wurden " + (success ? "erfolgreich" : "nicht erfolgreich") + "in den Speicher geladen.");
+// });
 
 //routing einbinden
 const game = require("./game");
