@@ -4,7 +4,8 @@
   "description": "dienstgeber deployment for weba2 project \"schnztzeljagd\"",
   "main": "dienstgeber.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node dienstgeber.js"
   },
   "repository": {
     "type": "git",
