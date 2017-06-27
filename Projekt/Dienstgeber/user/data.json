@@ -1,0 +1,15 @@
+{
+	"users": [
+		{
+			"first_name": "Niklas",
+			"last_name": "Gruhn",
+			"id": 200,
+			"age": 22
+		}, {
+			"first_name": "Thomas",
+			"last_name": "Müller",
+			"id": 201,
+			"age": 30
+		}
+	]
+}
