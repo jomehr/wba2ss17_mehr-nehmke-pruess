@@ -2,10 +2,11 @@
 const express =  require ("express");
 const app =  express ();
 const fs = require ("fs");
+const bodyParser =  require("body-parser");
 const async = require ("async")
 
 const settings = {
-  port: 3000,
+  port: process.env.PORT || 3000,
   datafile: "./testgame.json"
 };
 
@@ -45,16 +46,25 @@ app.use(function(err, req, res, next) {
 
 //log mit pfad und zeit
 app.use(function(req, res, next) {
-  console.log("Time: %d " + "Request-Pfad: " + req.path, Date.now());
+  var time = new Date();
+  console.log("Time: " + time);
+  console.log("Request-Pfad: " + req.path);
   next();
 });
+
+//bodyparser für json und html einbinden
+app.use(bodyParser.urlencoded({ extended: true }));
+app.use(bodyParser.json());
 
 //statischer Ordner (klappt noch nicht)
 //app.use(express.static("game"));
 
 //REST methods
 app.get("/", function(req, res) {
-  res.send("GET Request");
+  res.links ( {
+    next: "http://localhost:3000/game"
+  });
+  res.send("Hi das ist die Startseite der Schnitzeljagd-App.");
 });
 
 app.post("/", function(req, res) {
@@ -62,6 +72,6 @@ app.post("/", function(req, res) {
 });
 
 //Server auf localhost 127.0.0.1:3000
-app.listen(3000, function(){
+app.listen(settings.port, function(){
   console.log("Dienstgeber ist nun auf Port "+settings.port+" verfügbar.");
 });
