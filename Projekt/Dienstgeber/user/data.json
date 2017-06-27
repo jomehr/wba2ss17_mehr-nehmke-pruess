@@ -1,15 +1,61 @@
 {
 	"users": [
 		{
-			"first_name": "Niklas",
-			"last_name": "Gruhn",
+			"user": "Jared",
+			"first_name": "Jared",
+			"last_name": "Pruess",
 			"id": 200,
 			"age": 22
 		}, {
-			"first_name": "Thomas",
-			"last_name": "Müller",
+			"user": "Tim",
+			"first_name": "Tim",
+			"last_name": "Nehmke",
 			"id": 201,
 			"age": 30
+		}, {
+			"user": "Jan",
+			"first_name": "Jan",
+			"last_name": "Mehr",
+			"id": 203,
+			"age": 17
 		}
 	]
+}
+
+{
+    "games": [
+        {
+            "id": 0,
+            "titel": "Schnitzeljagd Gummersbach",
+            "description": "Hey Leute ich habe fuer euch eine kleine Schnitzeljagd um das TH Gelaende des Campus Gummersbach erstellt. Belohnung fuer den ersten ist ein Kasten",
+            "creationdate": "23.06.2017",
+            "expirationdate": "25.06.2017",
+            "user": {
+                "first_name": "Jared",
+                "last_name": "Pruess"
+            }
+        },
+        {
+            "id": 1,
+            "titel": "Schnitzeljagd in Deutz",
+            "description": "Hey Leute ich habe fuer euch eine kleine Schnitzeljagd um das TH Gelaende des Campus Deutz erstellt. Belohnung fuer den ersten ist ein Kasten",
+            "creationdate": "25.06.2017",
+            "expirationdate": "28.06.2017",
+            "user": {
+                "first_name": "Tim",
+                "last_name": "Nehmke"
+            }
+        },
+        {
+            "id": 2,
+            "titel": "Schnitzeljagd in Deutz",
+            "description": "Hey Leute ich habe fuer euch eine kleine Schnitzeljagd um das TH Gelaende des Campus Deutz erstellt. Belohnung fuer den ersten ist ein Kasten",
+            "creationdate": "25.06.2017",
+            "expirationdate": "28.06.2017",
+            "user": {
+                "first_name": "Jan ",
+                "last_name": "Mehr"
+            }
+        }
+    ]
 }
