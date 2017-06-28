@@ -5,72 +5,102 @@ const fs = require("fs");
 
 const ressourceName ="game";
 
-//log mit pfad und zeit
-// router.use(function(req, res, next) {
-//   var time = new Date();
-//   console.log("Time: " + time);
-//   console.log("Request-Pfad in /game: " + req.path);
-//   next();
-// });
+//speicher aktuelle zeit ab
+var date = Date();
 
 //bodyparser für json und html einbinden
 router.use(bodyParser.urlencoded({ extended: true }));
 router.use(bodyParser.json());
 
 
-router.get("/listGames", function(req, res) {
-  // res.format({
-  //   "application/json": function() {
-  //     var data = require("./games.json");
-  //     res.json(data);
-  //   }
-  // });
+router.get("/listgames", function(req, res) {
   fs.readFile(__dirname + "/" + "games.json", "utf-8", function(err, data) {
-    console.log(data);
-    res.json(data);
+    res.format({
+      "application/json": function() {
+        res.json(data);
+      }
+    });
   });
 });
 
-router.get("/create", function(req, res) {
-  res.sendFile(__dirname + "/" + "index.html");
+
+router.get("/creategame", function(req, res) {
+  res.sendFile(__dirname + "/" + "game.html");
 });
 
-router.post("/created", function(req,res) {
-  //console.log(req.body);
+router.get("/createclue", function(req, res) {
+  res.sendFile(__dirname + "/" + "clue.html");
+});
+
+router.post("/createdgame", function(req,res) {
+  //read json into buffer and parse it into json object
   fs.readFile(__dirname + "/testgame.json", "utf-8", function(err, data) {
     if(err) throw err;
-    console.log("gelesen wird: " + data);
-    //var json = JSON.parse(data);
-
+    var obj = JSON.parse(data);
+    //create latest gameid according to array lenght in json
+    var gameid = 0;
+    for (var i = 0; i < obj.games.length; i++) {
+      gameid ++;
+    }
+    //fill json with request data
     games = {
-      "games": [
-        {
-          //id: gameid,
+          "id": gameid,
           "titel": req.body.titel,
           "description": req.body.description,
           "creator": req.body.creator,
-          "creationdate": req.body.creationdate,
+          "creationdate": Date(),
+          "startdate": req.body.startdate,
           "expirationdate": req.body.expirationdate,
-          "participants": [
-            {
-              "first_name": req.body.first_name,
-              "last_name": req.body.last_name
-            }
-          ]
-        }
-      ]
-    };
-    //json.push(json + games.games);
-    var write = JSON.stringify(games, null, 4)
-    fs.writeFile(__dirname + "/testgame.json", write, function(err){
+          "reward": req.body.reward
+        };
+    //push data into existing json and stringify it for saving
+    obj["games"].push(games);
+    var json = JSON.stringify(obj, null, 4);
+    //writes data into exisitng file
+    fs.writeFile(__dirname + "/testgame.json", json, "utf8", function(err){
        if (err) throw err;
-       console.log("geschrieben wird" + write);
     });
-    res.end(write);
-  // for (var i = 0; i < games.games.length; i++) {
-  //   var gameid = games.id + 1;
-  // };
-  //var tmp = JSON.stringify(games, null, 4);
+    //formats responds to json
+    res.format({
+      "application/json": function() {
+        res.end(json);
+      }
+    });
+  });
+});
+
+router.post("/createdclue", function(req,res) {
+  //read json into buffer and parse it into json object
+  fs.readFile(__dirname + "/testgame.json", "utf-8", function(err, data) {
+    if(err) throw err;
+    var obj = JSON.parse(data);
+    //create latest gameid according to array lenght in json
+    var clueid = 0;
+    for (var i = 0; i < obj.games[0].clues.length; i++) {
+      clueid ++;
+    }
+    //fill json with request data
+    clues = {
+          "id": clueid,
+          "titel": req.body.titel,
+          "description": req.body.description,
+          "coordinate": req.body.coordinate,
+          "creator": req.body.creator,
+          "creationdate": Date()
+        };
+    //push data into existing json and stringify it for saving
+    obj["games"].push(clues);
+    var json = JSON.stringify(obj, null, 4);
+    //writes data into exisitng file
+    fs.writeFile(__dirname + "/testgame.json", json, "utf8", function(err){
+       if (err) throw err;
+    });
+    //formats responds to json
+    res.format({
+      "application/json": function() {
+        res.end(json);
+      }
+    });
   });
 });
 
