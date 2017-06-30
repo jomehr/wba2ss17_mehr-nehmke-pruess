@@ -1,83 +1,67 @@
 {
     "games": [
         {
-          "id": 0,
-          "titel": "Schnitzeljagd Gummersbach",
-          "description": "Hey Leute ich habe fuer euch eine kleine Schnitzeljagd um das TH Gelaende des Campus Gummersbach erstellt. Belohnung fuer den ersten ist ein Kasten",
-          "creationdate": "23.06.2017",
-          "expirationdate": "25.06.2017",
-          "clues": [
-            {
-              "id": 0,
-              "titel": "geheimpe Post",
-              "description": "Sucht nach einem auffälligen Briefkasten",
-              "coordinates": "16518,51651",
-              "creator": "Jan Mehr"
-            },
-            {
-              "id": 1,
-              "titel": "heruntergekommene Parkbank",
-              "description": "haltet nach einer abgenutzten Parkbank Auschau",
-              "coordinates": "52345,483438",
-              "creator": "Jan Mehr"
-            }
-          ],
-          "participants": [
-            {
-              "id": 0,
-              "first_name": "Jan ",
-              "last_name": "Mehr"
-            }
-          ]
+            "id": 0,
+            "titel": "erstes Spiel",
+            "description": "erste Beschreibung",
+            "creator": "jan mehr",
+            "creationdate": "Fri Jun 30 2017 22:49:44 GMT+0200 (Mitteleuropäische Sommerzeit)",
+            "startdate": "1.7.2017",
+            "expirationdate": "10.7.2017",
+            "reward": "kiste bier",
+            "clues": [
+                {
+                    "gameid": "0",
+                    "id": 0,
+                    "titel": "erster Hinweis ",
+                    "description": "erste Beschreibung ",
+                    "coordinate": "234324",
+                    "creator": "jan mehr",
+                    "creationdate": "Fri Jun 30 2017 22:50:24 GMT+0200 (Mitteleuropäische Sommerzeit)"
+                }
+            ],
+            "participants": [
+                {
+                    "gameid": "0",
+                    "id": 0,
+                    "first_name": "Jan",
+                    "last_name": "Mehr",
+                    "joindate": "Fri Jun 30 2017 22:58:45 GMT+0200 (Mitteleuropäische Sommerzeit)"
+                },
+                {
+                    "gameid": "0",
+                    "id": 1,
+                    "first_name": "Tim",
+                    "last_name": "Nehmke ",
+                    "joindate": "Fri Jun 30 2017 23:02:31 GMT+0200 (Mitteleuropäische Sommerzeit)"
+                },
+                {
+                    "gameid": "0",
+                    "id": 2,
+                    "first_name": "Jared",
+                    "last_name": "Prüß ",
+                    "joindate": "Fri Jun 30 2017 23:03:27 GMT+0200 (Mitteleuropäische Sommerzeit)"
+                },
+                {
+                    "gameid": "0",
+                    "id": 3,
+                    "first_name": "Max",
+                    "last_name": "Mustermann ",
+                    "joindate": "Fri Jun 30 2017 23:06:49 GMT+0200 (Mitteleuropäische Sommerzeit)"
+                }
+            ]
         },
         {
-          "id": 1,
-          "titel": "Schnitzeljagd in Deutz",
-          "description": "Hey Leute ich habe fuer euch eine kleine Schnitzeljagd um das TH Gelaende des Campus Deutz erstellt. Belohnung fuer den ersten ist ein Kasten",
-          "creationdate": "25.06.2017",
-          "expirationdate": "28.06.2017",
-          "clues": [
-            {
-              "id": 0,
-              "titel": "geheimpe Post",
-              "description": "Sucht nach einem auffälligen Briefkasten",
-              "coordinates": "16518,51651",
-              "creator": "Jan Mehr"
-            },
-            {
-              "id": 1,
-              "titel": "heruntergekommene Parkbank",
-              "description": "haltet nach einer abgenutzten Parkbank Auschau",
-              "coordinates": "52345,483438",
-              "creator": "Jan Mehr"
-            }
-          ],
-          "participants": [
-            {
-              "id": 0,
-              "first_name": "Jan ",
-              "last_name": "Mehr"
-            },
-            {
-              "id": 1,
-              "first_name": "Jared ",
-              "last_name": "Prüß"
-            }
-          ]
-        },
-        {
-          "id": 2,
-          "titel": "Schnitzeljagd in Deutz",
-          "description": "Hey Leute ich habe fuer euch eine kleine Schnitzeljagd um das TH Gelaende des Campus Deutz erstellt. Belohnung fuer den ersten ist ein Kasten",
-          "creationdate": "25.06.2017",
-          "expirationdate": "28.06.2017",
-          "participants": [
-            {
-              "id": 0,
-              "first_name": "Jan ",
-              "last_name": "Mehr"
-            }
-          ]
+            "id": 1,
+            "titel": "zweites Spiel",
+            "description": "zweite Beschreibung",
+            "creator": "jan mehr",
+            "creationdate": "Fri Jun 30 2017 23:20:39 GMT+0200 (Mitteleuropäische Sommerzeit)",
+            "startdate": "30.6.2017",
+            "expirationdate": "30.7.2017",
+            "reward": "500 xp",
+            "clues": [],
+            "participants": []
         }
-      ]
-    }
+    ]
+}

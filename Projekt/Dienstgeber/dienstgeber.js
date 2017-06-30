@@ -10,8 +10,8 @@ const settings = {
   datafile: "./testgame.json"
 };
 
- global.gamedata = require("./game/games.json");
- gloabal.userdata = require("./user/users.json")
+ // global.gamedata = require("./game/games.json");
+ // global.userdata = require("./user/users.json")
 // //read data from disk to memory
 // async.waterfall( [
 //   //reads data asynchronous and uses waterfall callback

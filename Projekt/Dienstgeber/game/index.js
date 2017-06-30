@@ -8,34 +8,34 @@ const ressourceName ="game";
 //speicher aktuelle zeit ab
 var date = Date();
 
+//errorhandler
+router.use(function(err, req, res, next) {
+  console.log(err.stack);
+  res.end(err.status + " " + err.messages);
+});
+
+//log mit pfad und zeit
+router.use(function(req, res, next) {
+  var time = new Date();
+  console.log("Time: " + time);
+  console.log("Request-Pfad: " + req.path);
+  next();
+});
+
 //bodyparser für json und html einbinden
 router.use(bodyParser.urlencoded({ extended: true }));
 router.use(bodyParser.json());
 
-
-router.get("/listgames", function(req, res) {
-  fs.readFile(__dirname + "/" + "games.json", "utf-8", function(err, data) {
-    res.format({
-      "application/json": function() {
-        res.json(data);
-      }
-    });
-  });
-});
-
-
-router.get("/creategame", function(req, res) {
+//nur zum testen, nicht in finaler version benötigt
+router.get("/game.html", function(req, res) {
   res.sendFile(__dirname + "/" + "game.html");
 });
 
-router.get("/createclue", function(req, res) {
-  res.sendFile(__dirname + "/" + "clue.html");
-});
-
-router.post("/createdgame", function(req,res) {
+router.post("/", function(req,res) {
   //read json into buffer and parse it into json object
-  fs.readFile(__dirname + "/testgame.json", "utf-8", function(err, data) {
+  fs.readFile(__dirname + "/games.json", "utf-8", function(err, data) {
     if(err) throw err;
+    console.log(data);
     var obj = JSON.parse(data);
     //create latest gameid according to array lenght in json
     var gameid = 0;
@@ -51,13 +51,15 @@ router.post("/createdgame", function(req,res) {
           "creationdate": Date(),
           "startdate": req.body.startdate,
           "expirationdate": req.body.expirationdate,
-          "reward": req.body.reward
+          "reward": req.body.reward,
+          "clues": [],
+          "participants": []
         };
     //push data into existing json and stringify it for saving
-    obj["games"].push(games);
+    obj.games.push(games);
     var json = JSON.stringify(obj, null, 4);
     //writes data into exisitng file
-    fs.writeFile(__dirname + "/testgame.json", json, "utf8", function(err){
+    fs.writeFile(__dirname + "/games.json", json, "utf8", function(err){
        if (err) throw err;
     });
     //formats responds to json
@@ -69,18 +71,20 @@ router.post("/createdgame", function(req,res) {
   });
 });
 
-router.post("/createdclue", function(req,res) {
+router.post("/:gameId/clue", function(req,res) {
   //read json into buffer and parse it into json object
-  fs.readFile(__dirname + "/testgame.json", "utf-8", function(err, data) {
+  fs.readFile(__dirname + "/games.json", "utf-8", function(err, data) {
     if(err) throw err;
+    console.log(data);
     var obj = JSON.parse(data);
     //create latest gameid according to array lenght in json
     var clueid = 0;
-    for (var i = 0; i < obj.games[0].clues.length; i++) {
+    for (var i = 0; i < obj.games[req.params.gameId].clues.length; i++) {
       clueid ++;
     }
     //fill json with request data
     clues = {
+          "gameid": req.params.gameId,
           "id": clueid,
           "titel": req.body.titel,
           "description": req.body.description,
@@ -89,16 +93,61 @@ router.post("/createdclue", function(req,res) {
           "creationdate": Date()
         };
     //push data into existing json and stringify it for saving
-    obj["games"].push(clues);
+    obj.games[req.params.gameId].clues.push(clues);
     var json = JSON.stringify(obj, null, 4);
     //writes data into exisitng file
-    fs.writeFile(__dirname + "/testgame.json", json, "utf8", function(err){
+    fs.writeFile(__dirname + "/games.json", json, "utf8", function(err){
        if (err) throw err;
     });
     //formats responds to json
     res.format({
       "application/json": function() {
         res.end(json);
+      }
+    });
+  });
+});
+
+router.post("/:gameId/participants", function(req,res) {
+  //read json into buffer and parse it into json object
+  fs.readFile(__dirname + "/games.json", "utf-8", function(err, data) {
+    if(err) throw err;
+    console.log(data);
+    var obj = JSON.parse(data);
+    //create latest gameid according to array lenght in json
+    var participantid = 0;
+    for (var i = 0; i < obj.games[req.params.gameId].participants.length; i++) {
+      participantid ++;
+    }
+    //fill json with request data
+    participants = {
+          "gameid": req.params.gameId,
+          "id": participantid,
+          "first_name": req.body.first_name,
+          "last_name": req.body.last_name,
+          "joindate": Date()
+        };
+    //push data into existing json and stringify it for saving
+    obj.games[req.params.gameId].participants.push(participants);
+    var json = JSON.stringify(obj, null, 4);
+    //writes data into exisitng file
+    fs.writeFile(__dirname + "/games.json", json, "utf8", function(err){
+       if (err) throw err;
+    });
+    //formats responds to json
+    res.format({
+      "application/json": function() {
+        res.end(json);
+      }
+    });
+  });
+});
+
+router.get("/", function(req, res) {
+  fs.readFile(__dirname + "/" + "games.json", "utf-8", function(err, data) {
+    res.format({
+      "application/json": function() {
+        res.send(data);
       }
     });
   });
@@ -146,24 +195,6 @@ router.get("/:gameId/:clueId/media", function(req, res) {
       res.json(data);
     }
   });
-});
-
-router.post("/", function(req, res) {
-  console.log(req.body);
-  var tmp = JSON.stringify(req.body, null, 4);
-  fs.writeFile(__dirname + "/gamestest.json", tmp, function(err){
-     if (err) throw err;
-  });
-  res.end(tmp);
-});
-
-router.post("/:gameId/clues/", function(req, res) {
-  console.log(req.body);
-  var tmp = JSON.stringify(req.body, null, 4);
-  fs.writeFile(__dirname + "/clues.json", tmp, function(err){
-     if (err) throw err;
-  });
-  res.end(tmp);
 });
 
 module.exports = router;
