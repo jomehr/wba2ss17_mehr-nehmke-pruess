@@ -1,0 +1,37 @@
+{
+  "game": {
+    "0": {
+      "id": "0",
+      "titel": "erstes spiel",
+      "clue": {
+        "0": {
+          "id": "0",
+          "titel": "erstes hinweis",
+          "text": "punkt punkt komma strich",
+          "media": {
+            "0": {
+              "id": "0",
+              "name": "hallooooo",
+              "path": "http://localhost/schnitzeljagd/game/0/clue/0/media/0/klebeetikett0.jpg"
+            },
+            "1": {
+              "id": "1",
+              "name": "klebeetikett1",
+              "path": "http://localhost/schnitzeljagd/game/0/clue/0/media/0/klebeetikett0.jpg"
+            },
+            "2": {
+              "id": "2",
+              "name": "Das ist Jared",
+              "path": "http://localhost/schnitzeljagd/game/0/clue/0/media/0/klebeetikett0.jpg"
+            }
+          }
+        },
+        "1": {
+          "id": "1",
+          "titel": "zweiter hinweis",
+          "text": "irgendwas machen du musst"
+        }
+      }
+    }
+  }
+}
