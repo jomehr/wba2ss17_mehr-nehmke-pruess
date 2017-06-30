@@ -51,12 +51,7 @@ router.post("/created", function(req,res) {
           "creator": req.body.creator,
           "creationdate": req.body.creationdate,
           "expirationdate": req.body.expirationdate,
-          "participants": [
-            {
-              "first_name": req.body.first_name,
-              "last_name": req.body.last_name
-            }
-          ]
+          "reward": req.body.reward
         }
       ]
     };
@@ -84,6 +79,16 @@ router.get("/:gameId", function(req, res) {
     }
   });
 });
+
+router.get("/test", function(req, res) {
+  res.format({
+    "application/json": function() {
+      var data = require("./testgame.json");
+      console.log(data);
+      res.json(data);
+    }
+  });
+})
 
 router.get("/:gameId/clues", function(req, res) {
     //res.send("Alle clues zu Game mit ID: " + req.params.gameId);
