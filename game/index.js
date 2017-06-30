@@ -81,14 +81,11 @@ router.get("/:gameId", function(req, res) {
 });
 
 router.get("/test", function(req, res) {
-  res.format({
-    "application/json": function() {
-      var data = require("./testgame.json");
-      console.log(data);
-      res.json(data);
-    }
+  fs.readFile(__dirname + "/" + "testgame.json", "utf-8", function(err, data) {
+    console.log(data);
+    res.json(data);
   });
-})
+});
 
 router.get("/:gameId/clues", function(req, res) {
     //res.send("Alle clues zu Game mit ID: " + req.params.gameId);
