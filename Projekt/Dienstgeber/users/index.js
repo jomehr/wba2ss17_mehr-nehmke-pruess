@@ -45,7 +45,7 @@ function onExit () {
 function findUserIndexById (userId) {
 	// NOTE: Sicher stellen, dass ALLE IDs Strings sind !!!
 	return database.users.findIndex(
-		user => user.userid === userId		//=== -> überprüft ob beide Strings sind und beide den selben Index haben
+		user => user.id === userId		//=== -> überprüft ob beide Strings sind und beide den selben Index haben
 	)
 }
 
@@ -57,9 +57,15 @@ router.get('/', function (req, res) {
 //Einen User mit einer bestimmten ID ausgeben
 //https://stackoverflow.com/questions/7364150/find-object-by-id-in-an-array-of-javascript-objects
 router.get('/:userid', function (req, res) {
-  for(var i = 0; i < database.users.length; i++){
-		if(req.params.userid == database.users[i].id)
-		res.send(database.users[i]);
+	let userIndex = findUserIndexById(req.params.userid)		//userIndex -> das eigentliche Objekt
+	let user = database.users[userIndex]
+
+	if (userIndex > -1) {
+		res.send(user);
+	} else {
+		// NOTE: Benutzer mit der geben ID existiert nicht
+		res.status(404)
+		res.send(null)
 	}
 });
 
@@ -73,7 +79,26 @@ router.post('/create', function(req, res){
 });
 
 //Einen User löschen
+//let var1 [= wert1] [, var2 [= wert2]] [, ..., varN [= wertN]];
+//https://developer.mozilla.org/de/docs/Web/JavaScript/Reference/Statements/let
+router.delete('/:userid', function (req, res) {
+	let userIndex = findUserIndexById(req.params.userid)		//userIndex -> das eigentliche Objekt
+	let user = database.users[userIndex]
 
+	if (userIndex > -1) {
+		let user = database.users[userIndex]
+
+		database.users.splice(userIndex, 1)
+
+		saveDatabase(database);
+
+		res.send(user)
+	} else {
+		// NOTE: Benutzer mit der geben ID existiert nicht
+		res.status(404)
+		res.send(null)
+	}
+})
 
 //Einen User aktualisieren
 
