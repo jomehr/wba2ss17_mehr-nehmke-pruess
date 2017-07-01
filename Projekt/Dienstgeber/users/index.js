@@ -100,7 +100,25 @@ router.delete('/:userid', function (req, res) {
 	}
 })
 
-//Einen User aktualisieren
+router.patch('/:userid', function (req, res) {
+	let userIndex = findUserIndexById(req.params.userid)
+	console.log(req.body);
+	if (userIndex > -1) {
+		let changes = req.body
+		let userBefore = database.users[userIndex]
+		let userAfter = Object.assign(userBefore, changes)
+
+		database.users[userIndex] = userAfter
+
+		saveDatabase(database);
+
+		res.send(userAfter)
+	} else {
+		// NOTE: Benutzer mit der geben ID existiert nicht
+		res.status(404)
+		res.send(null)
+	}
+})
 
 
 module.exports = router
