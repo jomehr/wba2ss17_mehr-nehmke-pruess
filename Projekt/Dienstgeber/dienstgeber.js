@@ -34,9 +34,9 @@ const settings = {
 
 //routing einbinden
 const game = require("./game");
-const user =  require("./user");
+const users =  require("./users");
 app.use("/game", game);
-app.use("/user", user);
+app.use("/users", users);
 
 //errorhandler
 app.use(function(err, req, res, next) {
