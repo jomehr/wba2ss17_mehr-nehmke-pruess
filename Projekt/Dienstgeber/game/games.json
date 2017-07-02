@@ -9,25 +9,8 @@
             "startdate": "1.7.2017",
             "expirationdate": "10.7.2017",
             "reward": "kiste bier",
-            "clues": [
-                {
-                    "gameid": "0",
-                    "id": 0,
-                    "titel": "neuer Hinweistitel",
-                    "description": "neue Beschreibung",
-                    "coordinate": "234324",
-                    "creator": "jan mehr",
-                    "creationdate": "Fri Jun 30 2017 22:50:24 GMT+0200 (Mitteleuropäische Sommerzeit)"
-                }
-            ],
+            "clues": [],
             "participants": [
-                {
-                    "gameid": "0",
-                    "id": 0,
-                    "first_name": "Jan",
-                    "last_name": "Mehr",
-                    "joindate": "Fri Jun 30 2017 22:58:45 GMT+0200 (Mitteleuropäische Sommerzeit)"
-                },
                 {
                     "gameid": "0",
                     "id": 1,
@@ -53,13 +36,37 @@
         },
         {
             "id": 1,
-            "titel": "zweites Spiel",
-            "description": "zweite Beschreibung",
-            "creator": "jan mehr",
-            "creationdate": "Fri Jun 30 2017 23:20:39 GMT+0200 (Mitteleuropäische Sommerzeit)",
-            "startdate": "30.6.2017",
-            "expirationdate": "30.7.2017",
-            "reward": "500 xp",
+            "titel": "Titel",
+            "description": "templatebeschreibung",
+            "creator": "templateersteller",
+            "creationdate": "Sun Jul 02 2017 18:09:11 GMT+0200 (Mitteleuropäische Sommerzeit)",
+            "startdate": "templatedatum",
+            "expirationdate": "templatedatum",
+            "reward": "templatebelohnung",
+            "clues": [],
+            "participants": []
+        },
+        {
+            "id": 3,
+            "titel": "templatetitel",
+            "description": "templatebeschreibung",
+            "creator": "templateersteller",
+            "creationdate": "Sun Jul 02 2017 18:14:31 GMT+0200 (Mitteleuropäische Sommerzeit)",
+            "startdate": "templatedatum",
+            "expirationdate": "templatedatum",
+            "reward": "templatebelohnung",
+            "clues": [],
+            "participants": []
+        },
+        {
+            "id": 4,
+            "titel": "templatetitel",
+            "description": "templatebeschreibung",
+            "creator": "templateersteller",
+            "creationdate": "Sun Jul 02 2017 18:15:41 GMT+0200 (Mitteleuropäische Sommerzeit)",
+            "startdate": "templatedatum",
+            "expirationdate": "templatedatum",
+            "reward": "templatebelohnung",
             "clues": [],
             "participants": []
         }
