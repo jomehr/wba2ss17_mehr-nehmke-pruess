@@ -15,7 +15,10 @@ app.get('/users', function(req, res) {
   var url = dURL+ '/users'
 
   //TODO implement GET Request
-
+  request(url, function(err, response, body) {
+    body = JSON.parse(body)
+    res.json(body)
+  })
 });
 
 //GET-Requests
@@ -23,7 +26,7 @@ app.get('/users/:id', function(req, res) {
   var userID = req.params.userID
   var url = dHost + ':' + dPort + '/users/' + userID
 
-  //TODO implement GET Request
+  //TODO implement GET Request  
 /*
   router.get('/:userid', function (req, res) {
   	let userIndex = findUserIndexById(req.params.userid)		//userIndex -> das eigentliche Objekt
