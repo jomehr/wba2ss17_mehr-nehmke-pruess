@@ -2,8 +2,8 @@
     "games": [
         {
             "id": 0,
-            "titel": "erstes Spiel",
-            "description": "erste Beschreibung",
+            "titel": "neuer Titel",
+            "description": "neue Beschreibung",
             "creator": "jan mehr",
             "creationdate": "Fri Jun 30 2017 22:49:44 GMT+0200 (Mitteleuropäische Sommerzeit)",
             "startdate": "1.7.2017",
@@ -13,8 +13,8 @@
                 {
                     "gameid": "0",
                     "id": 0,
-                    "titel": "erster Hinweis ",
-                    "description": "erste Beschreibung ",
+                    "titel": "neuer Hinweistitel",
+                    "description": "neue Beschreibung",
                     "coordinate": "234324",
                     "creator": "jan mehr",
                     "creationdate": "Fri Jun 30 2017 22:50:24 GMT+0200 (Mitteleuropäische Sommerzeit)"
