@@ -80,24 +80,9 @@ app.delete('/users/:id', function(req, res) {
   var url = dURL + '/users/' + id
 
   //TODO implement DELETE Method
-/*
-    let userIndex = findUserIndexById(req.params.userid)		//userIndex -> das eigentliche Objekt
-  	let user = database.users[userIndex]
-
-  	if (userIndex > -1) {
-  		let user = database.users[userIndex]
-
-  		database.users.splice(userIndex, 1)
-
-  		saveDatabase(database);
-
-  		res.send(user)
-  	} else {
-  		// NOTE: Benutzer mit der geben ID existiert nicht
-  		res.status(404)
-  		res.send(null)
-  	}
-    */
+  request.delete(url, function(err, response, body){
+    res.json(body)
+  })
 })
 
 //Dienstnutzer über Port 8080 mittels express zur Verfügung stellen
