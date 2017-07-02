@@ -16,11 +16,11 @@ function saveData (data) {
 	fs.writeFileSync(__dirname + '/games.json', JSON.stringify(data, 0, 4))
 };
 
-global.database = loadData();
+global.gamedatabase = loadData();
 
 function findGameIndexById (gameId) {
 	// NOTE: Sicher stellen, dass ALLE IDs Strings sind !!!
-	return database.games.findIndex(
+	return gamedatabase.games.findIndex(
 		games => games.id === gameId		//=== -> überprüft ob beide Strings sind und beide den selben Index haben
 	);
 };
@@ -51,7 +51,7 @@ router.get("/game.html", function(req, res) {
 router.post("/", function(req,res) {
   //create latest gameid according to array lenght in json
   var gameid = 0;
-  for (var i = 0; i < database.games.length; i++) {
+  for (var i = 0; i < gamedatabase.games.length; i++) {
     gameid ++;
   }
   //fill json with request data
@@ -68,12 +68,12 @@ router.post("/", function(req,res) {
         "participants": []
       };
   //push data into existing json and stringify it for saving
-  database.games.push(games);
-  saveData(database);
+  gamedatabase.games.push(games);
+  saveData(gamedatabase);
   //formats responds to json
   res.format({
     "application/json": function() {
-      res.send(database.games[gameid]);
+      res.send(gamedatabase.games[gameid]);
       }
   });
 });
@@ -81,7 +81,7 @@ router.post("/", function(req,res) {
 router.post("/:gameId/clue", function(req,res) {
   //create latest gameid according to array lenght in json
   var clueid = 0;
-  for (var i = 0; i < database.games[req.params.gameId].clues.length; i++) {
+  for (var i = 0; i < gamedatabase.games[req.params.gameId].clues.length; i++) {
     clueid ++;
   }
   //fill json with request data
@@ -95,8 +95,8 @@ router.post("/:gameId/clue", function(req,res) {
         "creationdate": Date()
       };
   //push data into existing json and stringify it for saving
-  database.games[req.params.gameId].clues.push(clues);
-  saveData(database);
+  gamedatabase.games[req.params.gameId].clues.push(clues);
+  saveData(gamedatabase);
   //formats responds to json
   res.format({
     "application/json": function() {
@@ -108,7 +108,7 @@ router.post("/:gameId/clue", function(req,res) {
 router.post("/:gameId/participants", function(req,res) {
   //create latest gameid according to array lenght in json
   var participantid = 0;
-  for (var i = 0; i < database.games[req.params.gameId].participants.length; i++) {
+  for (var i = 0; i < gamedatabase.games[req.params.gameId].participants.length; i++) {
     participantid ++;
   }
   //fill json with request data
@@ -120,8 +120,8 @@ router.post("/:gameId/participants", function(req,res) {
         "joindate": Date()
       };
   //push data into existing json and stringify it for saving
-  database.games[req.params.gameId].participants.push(participants);
-  saveData(database);
+  gamedatabase.games[req.params.gameId].participants.push(participants);
+  saveData(gamedatabase);
   //formats responds to json
   res.format({
     "application/json": function() {
@@ -133,14 +133,14 @@ router.post("/:gameId/participants", function(req,res) {
 router.get("/", function(req, res) {
   res.format({
     "application/json": function() {
-      res.send(database);
+      res.send(gamedatabase);
     }
   });
 });
 
 router.get("/:gameId", function(req, res) {
   //let gameIndex = findGameIndexById(req.params.gameId); //funktioniert nicht
-  let game = database.games[req.params.gameId];
+  let game = gamedatabase.games[req.params.gameId];
   if (req.params.gameId < 0) {
     res.status(404);
     res.send("Das Spiel mit ID " + req.params.gameId + " existiert noch nicht!");
@@ -155,7 +155,7 @@ router.get("/:gameId", function(req, res) {
 
 router.get("/:gameId/clues", function(req, res) {
   //let gameIndex = findGameIndexById(req.params.gameId); //funktioniert nicht
-  let game = database.games[req.params.gameId].clues;
+  let game = gamedatabase.games[req.params.gameId].clues;
   if (req.params.gameId < 0) {
     res.status(404);
     res.send("Das Spiel mit ID " + req.params.gameId + " existiert noch nicht!");
@@ -170,7 +170,7 @@ router.get("/:gameId/clues", function(req, res) {
 
 router.get("/:gameId/:clueId", function(req, res) {
   //let gameIndex = findGameIndexById(req.params.gameId); //funktioniert nicht
-  let game = database.games[req.params.gameId].clues[req.params.clueId];
+  let game = gamedatabase.games[req.params.gameId].clues[req.params.clueId];
   if (req.params.gameId || req.params.clueId < 0) {
     res.status(404);
     res.send("Das Spiel mit ID " + req.params.gameId + " existiert noch nicht!");
@@ -185,7 +185,7 @@ router.get("/:gameId/:clueId", function(req, res) {
 
 router.get("/:gameId/:participantId", function(req, res) {
   //let gameIndex = findGameIndexById(req.params.gameId); //funktioniert nicht
-  let game = database.games[req.params.gameId].participants[req.params.participantId];
+  let game = gamedatabase.games[req.params.gameId].participants[req.params.participantId];
   if (req.params.gameId || req.params.clueId < 0) {
     res.status(404);
     res.send("Das Spiel mit ID " + req.params.gameId + " existiert noch nicht!");
@@ -216,10 +216,10 @@ router.patch("/:gameId", function(req, res) {
       res.send("Das Spiel mit ID " + req.params.gameId + " existiert noch nicht!");
     } else {
       let changes = req.body;
-      let gameBefore = database.games[req.params.gameId];
+      let gameBefore = gamedatabase.games[req.params.gameId];
       let gameAfter = Object.assign(gameBefore, changes);
-      database.games[req.params.gameId] = gameAfter;
-      saveData(database);
+      gamedatabase.games[req.params.gameId] = gameAfter;
+      saveData(gamedatabase);
       res.format({
         "application/json": function() {
           res.json(gameAfter);
@@ -235,10 +235,10 @@ router.patch("/:gameId/clues/:clueId", function(req, res) {
       res.send("Das Spiel mit ID " + req.params.gameId + " existiert noch nicht!");
     } else {
       let changes = req.body;
-      let clueBefore = database.games[req.params.gameId].clues[req.params.clueId];
+      let clueBefore = gamedatabase.games[req.params.gameId].clues[req.params.clueId];
       let clueAfter = Object.assign(clueBefore, changes);
-      database.games[req.params.gameId].clues[req.params.clueId] = clueAfter;
-      saveData(database);
+      gamedatabase.games[req.params.gameId].clues[req.params.clueId] = clueAfter;
+      saveData(gamedatabase);
       res.format({
         "application/json": function() {
           res.json(clueAfter);
@@ -254,10 +254,10 @@ router.patch("/:gameId/participants/:participantId", function(req, res) {
     res.send("Das Spiel mit ID " + req.params.gameId + " existiert noch nicht!");
   } else {
     let changes = req.body;
-    let participantBefore = database.games[req.params.gameId].participants[req.params.participantId];
+    let participantBefore = gamedatabase.games[req.params.gameId].participants[req.params.participantId];
     let participantAfter = Object.assign(participantBefore, changes);
-    database.games[req.params.gameId].participants[req.params.clueId] = participantAfter;
-    saveData(database);
+    gamedatabase.games[req.params.gameId].participants[req.params.clueId] = participantAfter;
+    saveData(gamedatabase);
     res.format({
       "application/json": function() {
       res.json(participantAfter);
@@ -272,9 +272,9 @@ router.delete("/:gameId", function(req, res) {
     res.status(404);
     res.send("Das Spiel mit ID " + req.params.gameId + " existiert noch nicht!");
   } else {
-    let game = database.games[req.params.gameId];
-    database.games.splice(req.params.gameId, 1);
-    saveData(database);
+    let game = gamedatabase.games[req.params.gameId];
+    gamedatabase.games.splice(req.params.gameId, 1);
+    saveData(gamedatabase);
     res.format({
       "application/json": function() {
         res.json(game);
@@ -289,9 +289,9 @@ router.delete("/:gameId/clues/:clueId", function(req, res) {
     res.status(404);
     res.send("Das Spiel mit ID " + req.params.gameId + " existiert noch nicht!");
   } else {
-    let clue = database.games[req.params.gameId].clues[req.params.clueId];
-    database.games[req.params.gameId].clues.splice(req.params.clueId, 1);
-    saveData(database);
+    let clue = gamedatabase.games[req.params.gameId].clues[req.params.clueId];
+    gamedatabase.games[req.params.gameId].clues.splice(req.params.clueId, 1);
+    saveData(gamedatabase);
     res.format({
       "application/json": function() {
         res.json(clue);
@@ -306,10 +306,10 @@ router.delete("/:gameId/participants/:participantId", function(req, res) {
     res.status(404);
     res.send("Das Spiel mit ID " + req.params.gameId + " existiert noch nicht!");
   } else {
-    let participant = database.games[req.params.gameId].participants[req.params.participantId];
+    let participant = gamedatabase.games[req.params.gameId].participants[req.params.participantId];
     console.log(participant);
-    database.games[req.params.gameId].participants.splice(req.params.participantId, 1);
-    saveData(database);
+    gamedatabase.games[req.params.gameId].participants.splice(req.params.participantId, 1);
+    saveData(gamedatabase);
     res.format({
       "application/json": function() {
         res.json(participant);
