@@ -26,21 +26,11 @@ app.get('/users/:id', function(req, res) {
   var userID = req.params.userID
   var url = dHost + ':' + dPort + '/users/' + userID
 
-  //TODO implement GET Request  
-/*
-  router.get('/:userid', function (req, res) {
-  	let userIndex = findUserIndexById(req.params.userid)		//userIndex -> das eigentliche Objekt
-  	let user = database.users[userIndex]
-
-  	if (userIndex > -1) {
-  		res.send(user);
-  	} else {
-  		// NOTE: Benutzer mit der geben ID existiert nicht
-  		res.status(404)
-  		res.send(null)
-  	}
-  });
-  */
+  //TODO implement GET Request
+  request.get(url, function(err, response, body) {
+    body = JSON.parse(body)
+    res.json(body)
+  })
 });
 
 //POST
@@ -52,13 +42,26 @@ app.post('/users', function(req, res) {
       "age":22,
       "id":"SkPVA6AXb"
     }
-  })
 
-/*
   var url = dURL + '/users'
 
   //TODO implement POST method
+  var options = {
+    uri: url,
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json'
+    },
+    json: userData
+  }
 
+  request(options, function(err, response, body){
+    res.json(body)
+  })
+
+})
+
+/*
   app.post("/", function(req, res) {
     res.send("POST Request");
   });
