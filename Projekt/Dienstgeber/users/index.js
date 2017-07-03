@@ -45,7 +45,7 @@ function onExit () {
 function findUserIndexById (userId) {
 	// NOTE: Sicher stellen, dass ALLE IDs Strings sind !!!
 	return database.users.findIndex(
-		user => user.id === userId		//=== -> überprüft ob beide Strings sind und beide den selben Index haben
+		users => users.id === userId		//=== -> überprüft ob beide Strings sind und beide den selben Index haben
 	)
 }
 
@@ -65,7 +65,7 @@ router.get('/:userid', function (req, res) {
 	} else {
 		// NOTE: Benutzer mit der geben ID existiert nicht
 		res.status(404)
-		res.send(null)
+		res.send("Der User mit ID " + req.params.userId + " existiert noch nicht!")
 	}
 });
 

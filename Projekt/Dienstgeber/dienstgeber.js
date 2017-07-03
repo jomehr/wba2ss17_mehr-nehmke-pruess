@@ -1,4 +1,3 @@
-
 const express =  require ("express");
 const app =  express ();
 const fs = require ("fs");
@@ -10,8 +9,8 @@ const settings = {
   datafile: "./testgame.json"
 };
 
- // global.gamedata = require("./game/games.json");
- // global.userdata = require("./user/users.json")
+// global.gamedata = require("./game/games.json");
+// global.userdata = require("./user/users.json")
 // //read data from disk to memory
 // async.waterfall( [
 //   //reads data asynchronous and uses waterfall callback
@@ -35,9 +34,9 @@ const settings = {
 
 //routing einbinden
 const game = require("./game");
-const users =  require("./users");
+const user =  require("./users");
 app.use("/game", game);
-app.use("/users", users);
+app.use("/users", user);
 
 //errorhandler
 app.use(function(err, req, res, next) {

@@ -1,7 +1,7 @@
 {
     "games": [
         {
-            "id": 0,
+            "id": "BJJUFpvVb",
             "titel": "neuer Titel",
             "description": "neue Beschreibung",
             "creator": "jan mehr",
@@ -9,45 +9,87 @@
             "startdate": "1.7.2017",
             "expirationdate": "10.7.2017",
             "reward": "kiste bier",
-            "clues": [],
+            "clues": [
+                {
+                    "gameid": "BJJUFpvVb",
+                    "id": "S1C-fCwVb",
+                    "titel": "templatetitel",
+                    "description": "templatebeschreibung",
+                    "coordinate": "templatekoordinate",
+                    "creator": "templateersteller",
+                    "creationdate": "Mon Jul 03 2017 16:17:42 GMT+0200 (Mitteleuropäische Sommerzeit)"
+                },
+                {
+                    "gameid": "BJJUFpvVb",
+                    "id": "H1nLMCDVZ",
+                    "titel": "templatetitel",
+                    "description": "templatebeschreibung",
+                    "coordinate": "templatekoordinate",
+                    "creator": "templateersteller",
+                    "creationdate": "Mon Jul 03 2017 16:19:00 GMT+0200 (Mitteleuropäische Sommerzeit)"
+                },
+                {
+                    "gameid": "BJJUFpvVb",
+                    "id": "SJFRG0P4Z",
+                    "titel": "templatetitel",
+                    "description": "templatebeschreibung",
+                    "coordinate": "templatekoordinate",
+                    "creator": "templateersteller",
+                    "creationdate": "Mon Jul 03 2017 16:21:04 GMT+0200 (Mitteleuropäische Sommerzeit)"
+                }
+            ],
             "participants": [
                 {
-                    "gameid": "0",
-                    "id": 1,
-                    "first_name": "Tim",
-                    "last_name": "Nehmke ",
-                    "joindate": "Fri Jun 30 2017 23:02:31 GMT+0200 (Mitteleuropäische Sommerzeit)"
+                    "gameid": "BJJUFpvVb",
+                    "id": "BJOHP0vN-",
+                    "first_name": "templatevorname",
+                    "last_name": "templatenachname ",
+                    "username": "templateusername",
+                    "joindate": "Mon Jul 03 2017 16:40:00 GMT+0200 (Mitteleuropäische Sommerzeit)"
                 },
                 {
-                    "gameid": "0",
-                    "id": 2,
-                    "first_name": "Jared",
-                    "last_name": "Prüß ",
-                    "joindate": "Fri Jun 30 2017 23:03:27 GMT+0200 (Mitteleuropäische Sommerzeit)"
-                },
-                {
-                    "gameid": "0",
-                    "id": 3,
-                    "first_name": "Max",
-                    "last_name": "Mustermann ",
-                    "joindate": "Fri Jun 30 2017 23:06:49 GMT+0200 (Mitteleuropäische Sommerzeit)"
+                    "gameid": "BJJUFpvVb",
+                    "id": "rkaYPCwEb",
+                    "first_name": "templatevorname",
+                    "last_name": "templatenachname ",
+                    "username": "templateusername",
+                    "joindate": "Mon Jul 03 2017 16:41:09 GMT+0200 (Mitteleuropäische Sommerzeit)"
                 }
             ]
         },
         {
-            "id": 1,
+            "id": "SyfeKpDEb",
             "titel": "Titel",
-            "description": "templatebeschreibung",
+            "description": "neue Beschreibung",
             "creator": "templateersteller",
             "creationdate": "Sun Jul 02 2017 18:09:11 GMT+0200 (Mitteleuropäische Sommerzeit)",
             "startdate": "templatedatum",
             "expirationdate": "templatedatum",
             "reward": "templatebelohnung",
-            "clues": [],
-            "participants": []
+            "clues": [
+                {
+                    "gameid": "SyfeKpDEb",
+                    "id": "Bkq8rAv4-",
+                    "titel": "neuer Titel",
+                    "description": "neue Beschreibung",
+                    "coordinate": "templatekoordinate",
+                    "creator": "templateersteller",
+                    "creationdate": "Mon Jul 03 2017 16:31:46 GMT+0200 (Mitteleuropäische Sommerzeit)"
+                }
+            ],
+            "participants": [
+                {
+                    "gameid": "SyfeKpDEb",
+                    "id": "S1PcDAvE-",
+                    "first_name": "templatevorname",
+                    "last_name": "templatenachname ",
+                    "username": "swagboi69",
+                    "joindate": "Mon Jul 03 2017 16:41:18 GMT+0200 (Mitteleuropäische Sommerzeit)"
+                }
+            ]
         },
         {
-            "id": 3,
+            "id": "HkOCdTDNb",
             "titel": "templatetitel",
             "description": "templatebeschreibung",
             "creator": "templateersteller",
@@ -55,15 +97,49 @@
             "startdate": "templatedatum",
             "expirationdate": "templatedatum",
             "reward": "templatebelohnung",
-            "clues": [],
+            "clues": [
+                {
+                    "gameid": "HkOCdTDNb",
+                    "id": "SkynHRP4-",
+                    "titel": "templatetitel",
+                    "description": "templatebeschreibung",
+                    "coordinate": "templatekoordinate",
+                    "creator": "templateersteller",
+                    "creationdate": "Mon Jul 03 2017 16:33:10 GMT+0200 (Mitteleuropäische Sommerzeit)"
+                }
+            ],
             "participants": []
         },
         {
-            "id": 4,
+            "id": "H1GIdTwVW",
             "titel": "templatetitel",
             "description": "templatebeschreibung",
             "creator": "templateersteller",
             "creationdate": "Sun Jul 02 2017 18:15:41 GMT+0200 (Mitteleuropäische Sommerzeit)",
+            "startdate": "templatedatum",
+            "expirationdate": "templatedatum",
+            "reward": "templatebelohnung",
+            "clues": [],
+            "participants": []
+        },
+        {
+            "id": "BkTjFaPVZ",
+            "titel": "templatetitel",
+            "description": "templatebeschreibung",
+            "creator": "templateersteller",
+            "creationdate": "Mon Jul 03 2017 15:41:57 GMT+0200 (Mitteleuropäische Sommerzeit)",
+            "startdate": "templatedatum",
+            "expirationdate": "templatedatum",
+            "reward": "templatebelohnung",
+            "clues": [],
+            "participants": []
+        },
+        {
+            "id": "HyQdqTDEZ",
+            "titel": "templatetitel",
+            "description": "templatebeschreibung",
+            "creator": "templateersteller",
+            "creationdate": "Mon Jul 03 2017 15:45:15 GMT+0200 (Mitteleuropäische Sommerzeit)",
             "startdate": "templatedatum",
             "expirationdate": "templatedatum",
             "reward": "templatebelohnung",
