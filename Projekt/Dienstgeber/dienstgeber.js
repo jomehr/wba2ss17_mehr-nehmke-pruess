@@ -61,11 +61,12 @@ app.use(bodyParser.json());
 //statischer Ordner (klappt noch nicht)
 //app.use(express.static("game"));
 
-//redis client erstellen und mit redit verbinden
+//redis client erstellen und mit redis verbinden
 const client = redis.createClient();
 client.on('connect', function(){
   console.log("Mit Redis Verbunden");
 });
+
 
 //REST methods
 app.get("/", function(req, res) {

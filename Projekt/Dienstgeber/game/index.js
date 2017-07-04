@@ -2,18 +2,21 @@ const express = require("express");
 const router = express.Router();
 const bodyParser =  require("body-parser");
 const fs = require("fs");
-const shortid = require('shortid')
-
+const shortid = require('shortid');
+const redis = require("redis");
+const client = redis.createClient();
 const ressourceName ="game";
 
 //speicher aktuelle zeit ab
 var date = Date();
 
 function loadData() {
+	//console.log(""+JSON.parse(client.get("gamejson")));
 	return JSON.parse(fs.readFileSync(__dirname + '/games.json'))
 };
 
 function saveData (data) {
+	client.set("gamejson", JSON.stringify(data), redis.print);
 	fs.writeFileSync(__dirname + '/games.json', JSON.stringify(data, 0, 4))
 };
 
@@ -56,6 +59,7 @@ router.use(function(req, res, next) {
 });
 
 //nur zum testen, nicht in finaler version benötigt
+
 router.get("/game.html", function(req, res) {
   res.sendFile(__dirname + "/" + "game.html");
 });
