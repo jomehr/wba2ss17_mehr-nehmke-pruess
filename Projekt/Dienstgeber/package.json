@@ -17,6 +17,8 @@
     "async": "^2.5.0",
     "body-parser": "^1.17.2",
     "express": "^4.15.3",
-    "fs": "0.0.1-security"
+    "fs": "0.0.1-security",
+    "redis": "^2.7.1",
+    "shortid": "^2.2.8"
   }
 }

@@ -2,11 +2,13 @@ const express =  require ("express");
 const app =  express ();
 const fs = require ("fs");
 const bodyParser =  require("body-parser");
-const async = require ("async")
+const async = require ("async");
+const redis = require("redis");
+
 
 const settings = {
   port: process.env.PORT || 3000,
-  datafile: "./testgame.json"
+  datafile: "./testgame.json",
 };
 
 // global.gamedata = require("./game/games.json");
@@ -58,6 +60,12 @@ app.use(bodyParser.json());
 
 //statischer Ordner (klappt noch nicht)
 //app.use(express.static("game"));
+
+//redis client erstellen und mit redit verbinden
+const client = redis.createClient();
+client.on('connect', function(){
+  console.log("Mit Redis Verbunden");
+});
 
 //REST methods
 app.get("/", function(req, res) {
