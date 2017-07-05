@@ -16,5 +16,21 @@ client.hkeys("hash key", function (err, replies) {
     replies.forEach(function (reply, i) {
         console.log("    " + i + ": " + reply);
     });
-    client.quit();
+    //disabled for testing
+    //client.quit();
 });
+
+
+//storing JSON objects and return them
+client.hmset('test', {
+  'name': 'wba2',
+  'task': 'development'
+});
+
+client.hgetall('test', function(err, object){
+  console.log(object);
+  console.log("Der Wert des Attributs name ist: "+object.name);
+});
+
+//end redis database
+client.quit();
