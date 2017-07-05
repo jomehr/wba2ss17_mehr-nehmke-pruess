@@ -17,7 +17,8 @@
                     "description": "templatebeschreibung",
                     "coordinate": "templatekoordinate",
                     "creator": "templateersteller",
-                    "creationdate": "Mon Jul 03 2017 16:17:42 GMT+0200 (Mitteleuropäische Sommerzeit)"
+                    "creationdate": "Mon Jul 03 2017 16:17:42 GMT+0200 (Mitteleuropäische Sommerzeit)",
+                    "media": []
                 },
                 {
                     "gameid": "BJJUFpvVb",
@@ -26,7 +27,18 @@
                     "description": "templatebeschreibung",
                     "coordinate": "templatekoordinate",
                     "creator": "templateersteller",
-                    "creationdate": "Mon Jul 03 2017 16:19:00 GMT+0200 (Mitteleuropäische Sommerzeit)"
+                    "creationdate": "Mon Jul 03 2017 16:19:00 GMT+0200 (Mitteleuropäische Sommerzeit)",
+                    "media": [
+                        {
+                            "gameid": "BJJUFpvVb",
+                            "clueid": "H1nLMCDVZ",
+                            "id": "rkPEzFtVZ",
+                            "titel": "templatetitel",
+                            "uploader": "templateuploader",
+                            "url": "neue URL",
+                            "creationdate": "Tue Jul 04 2017 23:01:34 GMT+0200 (Mitteleuropäische Sommerzeit)"
+                        }
+                    ]
                 },
                 {
                     "gameid": "BJJUFpvVb",
@@ -35,7 +47,8 @@
                     "description": "templatebeschreibung",
                     "coordinate": "templatekoordinate",
                     "creator": "templateersteller",
-                    "creationdate": "Mon Jul 03 2017 16:21:04 GMT+0200 (Mitteleuropäische Sommerzeit)"
+                    "creationdate": "Mon Jul 03 2017 16:21:04 GMT+0200 (Mitteleuropäische Sommerzeit)",
+                    "media": []
                 }
             ],
             "participants": [
@@ -69,12 +82,13 @@
             "clues": [
                 {
                     "gameid": "SyfeKpDEb",
-                    "id": "Bkq8rAv4-",
+                    "id": "Bkq8rAv4",
                     "titel": "neuer Titel",
                     "description": "neue Beschreibung",
                     "coordinate": "templatekoordinate",
                     "creator": "templateersteller",
-                    "creationdate": "Mon Jul 03 2017 16:31:46 GMT+0200 (Mitteleuropäische Sommerzeit)"
+                    "creationdate": "Mon Jul 03 2017 16:31:46 GMT+0200 (Mitteleuropäische Sommerzeit)",
+                    "media": []
                 }
             ],
             "participants": [
@@ -97,17 +111,7 @@
             "startdate": "templatedatum",
             "expirationdate": "templatedatum",
             "reward": "templatebelohnung",
-            "clues": [
-                {
-                    "gameid": "HkOCdTDNb",
-                    "id": "SkynHRP4-",
-                    "titel": "templatetitel",
-                    "description": "templatebeschreibung",
-                    "coordinate": "templatekoordinate",
-                    "creator": "templateersteller",
-                    "creationdate": "Mon Jul 03 2017 16:33:10 GMT+0200 (Mitteleuropäische Sommerzeit)"
-                }
-            ],
+            "clues": [],
             "participants": []
         },
         {
