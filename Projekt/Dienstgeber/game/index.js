@@ -2,10 +2,12 @@ const express = require("express");
 const router = express.Router();
 const bodyParser =  require("body-parser");
 const fs = require("fs");
-const shortid = require('shortid')
-
+const shortid = require('shortid');
+const redis = require("redis");
+const client = redis.createClient();
 const ressourceName ="game";
-
+const flatten = require("flat");
+const unflatten = require("flat").unflatten
 //speicher aktuelle zeit ab
 var date = Date();
 
@@ -75,6 +77,7 @@ router.use(function(req, res, next) {
 });
 
 //nur zum testen, nicht in finaler version benötigt
+
 router.get("/game.html", function(req, res) {
   res.sendFile(__dirname + "/" + "game.html");
 });
