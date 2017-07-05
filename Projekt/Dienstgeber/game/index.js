@@ -6,18 +6,32 @@ const shortid = require('shortid');
 const redis = require("redis");
 const client = redis.createClient();
 const ressourceName ="game";
-
+const flatten = require("flat");
+const unflatten = require("flat").unflatten
 //speicher aktuelle zeit ab
 var date = Date();
 
 function loadData() {
 	//console.log(""+JSON.parse(client.get("gamejson")));
-	return JSON.parse(fs.readFileSync(__dirname + '/games.json'))
+ var tmp = "";
+	client.get("gamejson", function(err, reply){
+		tmp = +reply;
+		fs.writeFileSync(__dirname + '/gamesflat.json', tmp)
+			return  JSON.parse(tmp)
+	});
+
+
 };
 
 function saveData (data) {
-	client.set("gamejson", JSON.stringify(data), redis.print);
+	client.set("gamejson", JSON.stringify(data),redis.print);
 	fs.writeFileSync(__dirname + '/games.json', JSON.stringify(data, 0, 4))
+	/*fs.writeFileSync(__dirname + '/gamesflaten.json', JSON.stringify(flatten(data), 0, 4))
+	client.set("gameflat", JSON.stringify(flatten(data)), redis.print);
+	client.get("gamejson", function(err, reply){
+
+		fs.writeFileSync(__dirname + '/gamesflat.json', unflatten(reply));
+	});*/
 };
 
 global.gamedatabase = loadData();
