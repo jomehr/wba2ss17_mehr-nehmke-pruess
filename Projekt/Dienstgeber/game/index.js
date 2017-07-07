@@ -5,32 +5,30 @@ const fs = require("fs");
 
 const ressourceName ="game";
 
-router.use(function timelog(req, res, next) {
-  console.log("Game Route Time Log", Date.now());
-  next();
-});
-
-//errorhandler
-router.use(function(err, req, res, next) {
-  console.log(err.stack);
-  res.end(err.status + " " + err.messages);
-});
-
 //log mit pfad und zeit
-router.use(function(req, res, next) {
-  console.log("Time: %d " + "Request-Pfad: " + req.path, Date.now());
-  next();
-});
+// router.use(function(req, res, next) {
+//   var time = new Date();
+//   console.log("Time: " + time);
+//   console.log("Request-Pfad in /game: " + req.path);
+//   next();
+// });
 
-router.get("/", bodyParser.json(), function(req, res) {
-  res.format({
-    "application/json": function() {
-      var data = require("./games.json");
-      res.json(data);
-    }
+//bodyparser für json und html einbinden
+router.use(bodyParser.urlencoded({ extended: true }));
+router.use(bodyParser.json());
+
+
+router.get("/listGames", function(req, res) {
+  // res.format({
+  //   "application/json": function() {
+  //     var data = require("./games.json");
+  //     res.json(data);
+  //   }
+  // });
+  fs.readFile(__dirname + "/" + "games.json", "utf-8", function(err, data) {
+    console.log(data);
+    res.json(data);
   });
-  console.log(req.body);
-  //res.send("Alle games");
 });
 
 router.get("/create", function(req, res) {
@@ -38,73 +36,104 @@ router.get("/create", function(req, res) {
 });
 
 router.post("/created", function(req,res) {
-  response = {
-    titel: res.query.titel,
-    description: res.query.description,
-    creationdate: res.query.creationdate,
-    expirationdate: res.query.expirationdate,
-    user: {
-      first_name: res.query.first_name,
-      last_name: res.query.last_name
-    }
-  };
-  var tmp = JSON.stringify(response, null, 4);
-  console.log(tmp);
-  res.end(tmp);
-  fs.writeFile(__dirname+"/testgame.json", tmp, function(err){      //JSON-Datai mit Sortiertem String schreiben
-     if (err) throw err;
+  //console.log(req.body);
+  fs.readFile(__dirname + "/testgame.json", "utf-8", function(err, data) {
+    if(err) throw err;
+    console.log("gelesen wird: " + data);
+    //var json = JSON.parse(data);
+
+    games = {
+      "games": [
+        {
+          //id: gameid,
+          "titel": req.body.titel,
+          "description": req.body.description,
+          "creator": req.body.creator,
+          "creationdate": req.body.creationdate,
+          "expirationdate": req.body.expirationdate,
+          "participants": [
+            {
+              "first_name": req.body.first_name,
+              "last_name": req.body.last_name
+            }
+          ]
+        }
+      ]
+    };
+    //json.push(json + games.games);
+    var write = JSON.stringify(games, null, 4)
+    fs.writeFile(__dirname + "/testgame.json", write, function(err){
+       if (err) throw err;
+       console.log("geschrieben wird" + write);
+    });
+    res.end(write);
+  // for (var i = 0; i < games.games.length; i++) {
+  //   var gameid = games.id + 1;
+  // };
+  //var tmp = JSON.stringify(games, null, 4);
   });
 });
 
 router.get("/:gameId", function(req, res) {
-  // res.format({
-  //   "application/json": function() {
-  //     var data = require("./gametest.json");
-  //
-  //     res.json(data.game.id[gameId]);
-  //   }
-  // });
-  res.send("Game mit Titel: " + req.params.gameId);
-});
-
-router.get("/:gameId/clue", function(req, res) {
-    res.send("Alle clues zu Game mit ID: " + req.params.gameId);
-});
-
-router.get("/:gameId/clue/:clueId", function(req, res) {
-    res.send("Clue mit ID: " + req.params.clueId);
-});
-
-router.get("/:gameId/clue/:clueId/media", function(req, res) {
-  res.send("Alle Medien zu Hinweis mit ID: " + req.params.clueId);
-});
-
-router.post("/", bodyParser.json(), function(req, res) {
-  console.log(req.body);
-  var tmp = JSON.stringify(req.body, null, 4);
-  res.end(tmp);
-  fs.writeFile(__dirname+"/games.json", tmp, function(err){      //JSON-Datai mit Sortiertem String schreiben
-     if (err) throw err;
-  });
-  // res.format({
-  //   "application/json": function() {
-  //     var data = require("./gametest.json");
-  //     res.json(data);
-  //   }
-  // });
-  //console.log(req.body);
-  // res.status(200).json({
-  //   uri: req.protocol + "://" + req.headers.host + "/" + ressourceName + "/" + req.body.titel
-  // });
-});
-router.post("/:gameId/clue/", bodyParser.json(), function(req, res) {
-
+  //res.send("Game mit ID: " + req.params.gameId);
   res.format({
     "application/json": function() {
-      var data = require("./clue/cluetest.json");
+      var data = require("./games.json");
+      console.log(data.games[req.params.gameId]);
+      res.json(data.games[req.params.gameId]);
+    }
+  });
+});
+
+router.get("/:gameId/clues", function(req, res) {
+    //res.send("Alle clues zu Game mit ID: " + req.params.gameId);
+    res.format({
+      "application/json": function() {
+        var data = require("./games.json");
+        console.log(data.games[req.params.gameId].clues);
+        res.json(data.games[req.params.gameId].clues);
+      }
+    });
+});
+
+router.get("/:gameId/:clueId", function(req, res) {
+    //res.send("Clue mit ID: " + req.params.clueId);
+    res.format({
+      "application/json": function() {
+        var data = require("./games.json");
+        console.log(data.games[req.params.gameId].clues[req.params.clueId]);
+        res.json(data.games[req.params.gameId].clues[req.params.clueId]);
+      }
+    });
+});
+
+router.get("/:gameId/:clueId/media", function(req, res) {
+  //res.send("Alle Medien zu Hinweis mit ID: " + req.params.clueId);
+  res.format({
+    "application/jpeg": function() {
+      var data = require("./testbild.jpeg");
+      //console.log(data.games[req.params.gameId].clues[req.params.clueId]);
       res.json(data);
     }
   });
+});
+
+router.post("/", function(req, res) {
+  console.log(req.body);
+  var tmp = JSON.stringify(req.body, null, 4);
+  fs.writeFile(__dirname + "/gamestest.json", tmp, function(err){
+     if (err) throw err;
+  });
+  res.end(tmp);
+});
+
+router.post("/:gameId/clues/", function(req, res) {
+  console.log(req.body);
+  var tmp = JSON.stringify(req.body, null, 4);
+  fs.writeFile(__dirname + "/clues.json", tmp, function(err){
+     if (err) throw err;
+  });
+  res.end(tmp);
 });
 
 module.exports = router;
