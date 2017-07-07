@@ -13,6 +13,13 @@ const settings = {
   port: process.env.PORT || 8081,       //<- sollte eigentlich Port 8080!!! wirft jedoch Fehler!
 };
 
+//log mit Pfad und Zeit
+app.use(function(req, res, next) {
+  var time = new Date();
+  console.log("Time: " + time);
+  console.log("Request-Pfad: " + req.path);
+  next();
+});
 
 //Requests die der Dienstgeber zur Verfügung stellt
 
