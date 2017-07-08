@@ -3,31 +3,58 @@ const router = express.Router();
 const bodyParser =  require("body-parser");
 const fs = require("fs");
 const shortid = require('shortid');
-const redis = require("redis");
-const client = redis.createClient();
-const ressourceName ="game";
-const flatten = require("flat");
-const unflatten = require("flat").unflatten
+var mongoose = require("mongoose");
+var GameJSON = require("./gamemodel.js")
+var idGames = '595fc5595c79ed306c6e663e';
+var idPoi = '595fccba535daf3064b71b9c';
+global.tmp;
+
 //speicher aktuelle zeit ab
 var date = Date();
 
+
+
 //Helper-Funktion zum laden der jsons
-function loadGameData() {
-	return JSON.parse(fs.readFileSync(__dirname + "/games.json"))
+function loadGameData(callback) {
+	GameJSON.findById(idGames, function(err, result){
+
+		if(err) {
+			callback(err, null);
+		}
+
+		else{
+			callback(null, result.json);
+		}
+	});
+//return JSON.parse(fs.readFileSync(__dirname + "/games.json"))
 };
+
 function loadOverpassData() {
 	return JSON.parse(fs.readFileSync(__dirname + "/poi.json"))
-};
+	};
+
 
 //Helper-Funktion zum speichern der json
 function saveGameData (data) {
+	//Auf Mongodb wird bei ID 0 die game JSON gespeichert
+	//console.log(JSON.stringify(data));
+	GameJSON.findByIdAndUpdate(idGames, { $set: { json: data }}, { new: false }, function (err, tank) {
+	  if (err) return handleError(err);
+
+	});
+
 	fs.writeFileSync(__dirname + "/games.json", JSON.stringify(data, 0, 4))
 };
+
 function saveOverpassData(data) {
+	//Auf Mongodb wird bei ID 1 die poi JSON gespeichert
 	fs.writeFileSync(__dirname + "/poi.json", JSON.stringify(data, 0, 4))
 };
 
 //läd jsons in Speicher
+//global.gamedatabase = loadGameData();
+
+
 global.gamedatabase = loadGameData();
 global.poidatabase = loadOverpassData();
 
@@ -101,6 +128,7 @@ router.post("/", function(req, res) {
   //push data into existing json and stringify it for saving
   gamedatabase.games.push(games);
   saveGameData(gamedatabase);
+
 	console.log(gameid);
   //formats responds to json
   res.format({

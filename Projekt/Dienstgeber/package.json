@@ -14,6 +14,7 @@
   "author": "Jan Mehr",
   "license": "ISC",
   "dependencies": {
+    "assert": "^1.4.1",
     "async": "^2.5.0",
     "body-parser": "^1.17.2",
     "express": "^4.15.3",

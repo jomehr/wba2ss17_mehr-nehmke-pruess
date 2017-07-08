@@ -3,8 +3,11 @@ const app =  express ();
 const fs = require ("fs");
 const bodyParser =  require("body-parser");
 const async = require ("async");
-const redis = require("redis");
-
+var mongoose = require("mongoose");
+mongoose.Promise = global.Promise;
+var uri = 'mongodb://tnehmke:fn7Xf8bXfnmongodb@cluster0-shard-00-00-4ioss.mongodb.net:27017,cluster0-shard-00-01-4ioss.mongodb.net:27017,cluster0-shard-00-02-4ioss.mongodb.net:27017/Cluster0?ssl=true&replicaSet=Cluster0-shard-0&authSource=admin'
+var GameJSON = require("./game/gamemodel.js")
+var assert = require("assert");
 
 const settings = {
   port: process.env.PORT || 3000,
@@ -34,6 +37,12 @@ const settings = {
 //   console.log("Gamedaten wurden " + (success ? "erfolgreich" : "nicht erfolgreich") + "in den Speicher geladen.");
 // });
 
+//Mongodb client starten
+mongoose.connect(uri, { useMongoClient: true}, function(err,db){
+  if(!err)
+    console.log("Mit Datenbank Verbunden")
+});
+
 //routing einbinden
 const game = require("./game");
 const user =  require("./users");
@@ -61,11 +70,8 @@ app.use(bodyParser.json());
 //statischer Ordner (klappt noch nicht)
 //app.use(express.static("game"));
 
-//redis client erstellen und mit redis verbinden
-const client = redis.createClient();
-client.on('connect', function(){
-  console.log("Mit Redis Verbunden");
-});
+
+
 
 
 //REST methods
