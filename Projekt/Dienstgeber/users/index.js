@@ -2,7 +2,9 @@ const fs = require("fs")	//filesystem
 const express = require('express')
 const shortid = require('shortid')
 const bodyParser =  require("body-parser")
-
+var mongoose = require("mongoose");
+var UserJSON = require("./usermodel.js")
+var idUsers = "59613a68f9b49340fc29859c"
 const router = express.Router()
 
 //bodyparser für json und html einbinden
@@ -21,16 +23,36 @@ process.on('uncaughtException', onExit)	//uncaughtException=Error
 //parse=aus Json-Objekt ein JavaScript-Objekt
 //https://nodejs.org/api/fs.html#fs_fs_readfilesync_path_options
 //fs.readFileSync(path[, options])
-function loadDatabase() {
-	return JSON.parse(fs.readFileSync(__dirname + '/database.json'))			//parse -> wandelt JSON in JavaScript
+function loadDatabase(id, callback) {
+	 UserJSON.findById(id, function(err, result){
+
+		 if(err){
+			 callback(err, null);
+		 }
+		 else{
+			 callback(null, result.json);
+		 }
+	 })
+				//parse -> wandelt JSON in JavaScript
 }
 
 function saveDatabase (data) {
-	fs.writeFileSync(__dirname + '/database.json', JSON.stringify(data))	//stringify -> wandelt JavaScript in JSON
+	UserJSON.findByIdAndUpdate(idUsers, { $set: { json: data }}, { new: false }, function (err, tank) {
+	  if (err) return handleError(err);
+	});
+		fs.writeFileSync(__dirname + '/database.json', JSON.stringify(data))	//stringify -> wandelt JavaScript in JSON
+
 }
 
 //Daten aus Datei laden, wenn der Server startet
-global.database = loadDatabase()
+global.database
+loadDatabase(idUsers, function(err, result){
+	if(err) {
+		console.log(err);
+	}
+	database = result;
+	console.log("Userdatabase in Speicher geladen.")
+});
 
 //Daten in Datei speichern, wenn der Server stoppt
 /*

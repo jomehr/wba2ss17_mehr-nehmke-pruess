@@ -7,16 +7,14 @@ var mongoose = require("mongoose");
 var GameJSON = require("./gamemodel.js")
 var idGames = '595fc5595c79ed306c6e663e';
 var idPoi = '595fccba535daf3064b71b9c';
-global.tmp;
-
 //speicher aktuelle zeit ab
 var date = Date();
 
 
 
 //Helper-Funktion zum laden der jsons
-function loadGameData(callback) {
-	GameJSON.findById(idGames, function(err, result){
+function loadGameData(id, callback) {
+	GameJSON.findById(id, function(err, result){
 
 		if(err) {
 			callback(err, null);
@@ -26,12 +24,22 @@ function loadGameData(callback) {
 			callback(null, result.json);
 		}
 	});
-//return JSON.parse(fs.readFileSync(__dirname + "/games.json"))
 };
 
-function loadOverpassData() {
-	return JSON.parse(fs.readFileSync(__dirname + "/poi.json"))
-	};
+function loadOverpassData(id, callback) {
+	GameJSON.findById(id, function(err, result){
+
+		if(err) {
+			callback(err, null);
+		}
+
+		else{
+			callback(null, result.json);
+		}
+	});
+
+
+};
 
 
 //Helper-Funktion zum speichern der json
@@ -44,19 +52,38 @@ function saveGameData (data) {
 	});
 
 	fs.writeFileSync(__dirname + "/games.json", JSON.stringify(data, 0, 4))
+
 };
 
 function saveOverpassData(data) {
 	//Auf Mongodb wird bei ID 1 die poi JSON gespeichert
+
+	GameJSON.findByIdAndUpdate(idPoi, { $set: { json: data }}, { new: false }, function (err, tank) {
+	  if (err) return handleError(err);
+
+	});
+
 	fs.writeFileSync(__dirname + "/poi.json", JSON.stringify(data, 0, 4))
 };
 
 //läd jsons in Speicher
-//global.gamedatabase = loadGameData();
+global.gamedatabase;
+loadGameData(idGames, function(err, result){
+	if(err) {
+		console.log(err);
+	}
+	gamedatabase = result;
+	console.log("Gamedatabase in Speicher geladen.")
+});
 
-
-global.gamedatabase = loadGameData();
-global.poidatabase = loadOverpassData();
+global.poidatabase;
+loadGameData(idPoi, function(err, result){
+	if(err) {
+		console.log(err);
+	}
+	poidatabase = result;
+	console.log("Poidatabase in Speicher geladen.")
+});
 
 //bodyparser für json und html einbinden
 router.use(bodyParser.urlencoded({ extended: true }));

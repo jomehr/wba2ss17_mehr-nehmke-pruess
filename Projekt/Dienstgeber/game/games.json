@@ -2,9 +2,9 @@
     "games": [
         {
             "id": "BJJUFpvVb",
-            "titel": "neuer Titel",
-            "description": "neue Beschreibung",
-            "creator": "jan mehr",
+            "titel": "testtitel",
+            "description": "nodejs stinkt",
+            "creator": "tim nehmke",
             "creationdate": "Fri Jun 30 2017 22:49:44 GMT+0200 (Mitteleuropäische Sommerzeit)",
             "startdate": "1.7.2017",
             "expirationdate": "10.7.2017",
@@ -211,6 +211,33 @@
                     "coordinate": "templatekoordinate",
                     "creator": "templateersteller",
                     "creationdate": "Sat Jul 08 2017 19:54:43 GMT+0200 (Mitteleuropäische Sommerzeit)"
+                },
+                {
+                    "creationdate": "Sat Jul 08 2017 20:46:34 GMT+0200 (Mitteleuropäische Sommerzeit)",
+                    "creator": "templateersteller",
+                    "coordinate": "templatekoordinate",
+                    "description": "templatebeschreibung",
+                    "titel": "penis",
+                    "id": "rkXqdjC4W",
+                    "gameid": "BJJUFpvVb"
+                },
+                {
+                    "gameid": "BJJUFpvVb",
+                    "id": "S1FTui0Eb",
+                    "titel": "penis",
+                    "description": "templatebeschreibung",
+                    "coordinate": "templatekoordinate",
+                    "creator": "templateersteller",
+                    "creationdate": "Sat Jul 08 2017 20:47:29 GMT+0200 (Mitteleuropäische Sommerzeit)"
+                },
+                {
+                    "creationdate": "Sat Jul 08 2017 20:50:01 GMT+0200 (Mitteleuropäische Sommerzeit)",
+                    "creator": "templateersteller",
+                    "coordinate": "templatekoordinate",
+                    "description": "templatebeschreibung",
+                    "titel": "penis",
+                    "id": "HkfDYs04b",
+                    "gameid": "BJJUFpvVb"
                 }
             ],
             "participants": [
