@@ -3,15 +3,15 @@
     "features": [
         {
             "type": "Feature",
-            "id": "node/2318390720",
+            "id": "node/2086243129",
             "properties": {
                 "type": "node",
-                "id": 2318390720,
+                "id": 2086243129,
                 "tags": {
-                    "access": "private",
-                    "amenity": "bar",
-                    "name": "Göteborgs vinkällare",
-                    "website": "http://www.gbgvin.se"
+                    "amenity": "restaurant",
+                    "cuisine": "chinese",
+                    "name": "China Restaurant",
+                    "opening_hours": "Mo-Su 12:00-15:00,17:30-22:30; We off"
                 },
                 "relations": [],
                 "meta": {}
@@ -19,20 +19,30 @@
             "geometry": {
                 "type": "Point",
                 "coordinates": [
-                    11.9643378,
-                    57.7064417
+                    7.5604839,
+                    51.0257828
                 ]
             }
         },
         {
             "type": "Feature",
-            "id": "node/2468969556",
+            "id": "node/3777050889",
             "properties": {
                 "type": "node",
-                "id": 2468969556,
+                "id": 3777050889,
                 "tags": {
-                    "amenity": "bar",
-                    "name": "Dancing Dingo"
+                    "addr:city": "Gummersbach",
+                    "addr:housenumber": "10",
+                    "addr:postcode": "51643",
+                    "addr:street": "Steinmüller Allee",
+                    "amenity": "restaurant",
+                    "name": "32 Süd",
+                    "opening_hours": "Mo-Su,PH 11:30+",
+                    "outdoor_seating": "yes",
+                    "toilets:wheelchair": "yes",
+                    "website": "http://www.halle32.de/index.php?id=5",
+                    "wheelchair": "yes",
+                    "wheelchair:description": "Ein wunderschönes Restaurant/Bistro mit  Außenterrasse! Auf der unteren Ebene v. Halle.32: befindet sich eine große Rollstuhltoilette. !!"
                 },
                 "relations": [],
                 "meta": {}
@@ -40,20 +50,30 @@
             "geometry": {
                 "type": "Point",
                 "coordinates": [
-                    11.9767677,
-                    57.7002471
+                    7.5637046,
+                    51.0244027
                 ]
             }
         },
         {
             "type": "Feature",
-            "id": "node/2468969615",
+            "id": "node/4218792552",
             "properties": {
                 "type": "node",
-                "id": 2468969615,
+                "id": 4218792552,
                 "tags": {
-                    "amenity": "bar",
-                    "name": "Rockbaren"
+                    "amenity": "restaurant",
+                    "breakfast": "yes",
+                    "breakfast:brunch": "So 10:00-15:00",
+                    "breakfast:buffet": "Mo-Sa 08:00-11:30",
+                    "cuisine": "burger",
+                    "name": "Kunstwerk",
+                    "opening_hours": "Mo-We 08:00-23:00; Fr-Sa 08:00-01:00; Su 10:00-23:00",
+                    "outdoor_seating": "yes",
+                    "toilets:wheelchair": "yes",
+                    "website": "http://kunstwerk-restaurant.de/",
+                    "wheelchair": "yes",
+                    "wheelchair:description": "das ideale Bistro-Restaurant am FORUM!\nrollstuhlgerechte Toilette,im FORUM, WO ES zu den ÕFFENTL.TOILETTEN geht! Toiletten-Ausweichmõglicbjeit am Busbf. neben dem KIOSK.!!"
                 },
                 "relations": [],
                 "meta": {}
@@ -61,28 +81,23 @@
             "geometry": {
                 "type": "Point",
                 "coordinates": [
-                    11.9765627,
-                    57.7001445
+                    7.5650303,
+                    51.0244633
                 ]
             }
         },
         {
             "type": "Feature",
-            "id": "node/2749347064",
+            "id": "node/4232627326",
             "properties": {
                 "type": "node",
-                "id": 2749347064,
+                "id": 4232627326,
                 "tags": {
-                    "addr:city": "Göteborg",
-                    "addr:country": "SE",
-                    "addr:housenumber": "27",
-                    "addr:postcode": "416 64",
-                    "addr:street": "Friggagatan",
-                    "amenity": "bar",
-                    "name": "Ölstugan Tullen",
-                    "opening_hours": "Mo-Th 16:00-01:00; Fr 15:00-01:00; Sa-Su 13:00-01:00",
-                    "phone": "+46 31 16 56 16",
-                    "website": "http://www.olstugan.se"
+                    "amenity": "restaurant",
+                    "level": "0",
+                    "name": "Kunstwerk",
+                    "wheelchair": "yes",
+                    "wheelchair:description": "für ein kleinen Snack, oder anschließendem FORUM-Einkauf geeignet! Toilette im Forum: Ausweichmõglichkeit am Bahnhof/Busbf., seitlich neben dem Kiosk!!"
                 },
                 "relations": [],
                 "meta": {}
@@ -90,20 +105,34 @@
             "geometry": {
                 "type": "Point",
                 "coordinates": [
-                    11.9909991,
-                    57.7125346
+                    7.5653362,
+                    51.0246168
                 ]
             }
         },
         {
             "type": "Feature",
-            "id": "node/3183389861",
+            "id": "node/4729107979",
             "properties": {
                 "type": "node",
-                "id": 3183389861,
+                "id": 4729107979,
                 "tags": {
-                    "amenity": "bar",
-                    "name": "Cristal Bar"
+                    "addr:city": "Gummersbach",
+                    "addr:housenumber": "1",
+                    "addr:postcode": "51643",
+                    "addr:street": "Steinmüllerallee",
+                    "amenity": "restaurant",
+                    "cuisine": "international",
+                    "delivery": "no",
+                    "level": "0",
+                    "name": "Mensa der TH Köln Campus Gummersbach",
+                    "phone": "+492261919266",
+                    "smoking": "outside",
+                    "takeaway": "yes",
+                    "toilets:wheelchair": "yes",
+                    "website": "http://www.kstw.de/index.php?option=com_content&view=article&id=339&itemid=170",
+                    "wheelchair": "yes",
+                    "wheelchair:description": "Mensa/ Fachhochschule Gummersbach bietet Möglichkeiten zur Weiterbildung,! Große Ausstellungsfläche mit kleinem BISTRO!!!"
                 },
                 "relations": [],
                 "meta": {}
@@ -111,77 +140,8 @@
             "geometry": {
                 "type": "Point",
                 "coordinates": [
-                    11.972163,
-                    57.709277
-                ]
-            }
-        },
-        {
-            "type": "Feature",
-            "id": "node/3212503161",
-            "properties": {
-                "type": "node",
-                "id": 3212503161,
-                "tags": {
-                    "amenity": "bar",
-                    "name": "Basque"
-                },
-                "relations": [],
-                "meta": {}
-            },
-            "geometry": {
-                "type": "Point",
-                "coordinates": [
-                    11.961811,
-                    57.704539
-                ]
-            }
-        },
-        {
-            "type": "Feature",
-            "id": "node/3593394528",
-            "properties": {
-                "type": "node",
-                "id": 3593394528,
-                "tags": {
-                    "addr:city": "Göteborg",
-                    "addr:country": "SE",
-                    "addr:housenumber": "8",
-                    "addr:postcode": "41120",
-                    "addr:street": "Rosenlundsgatan",
-                    "amenity": "bar",
-                    "name": "Boulebar",
-                    "opening_hours": "Mo-Th 16:00-23:00; Fr 15:00-24:00; Sa 00:00-01:00,10:00-24:00; Su 00:00-01:00,10:00-22:00"
-                },
-                "relations": [],
-                "meta": {}
-            },
-            "geometry": {
-                "type": "Point",
-                "coordinates": [
-                    11.9587861,
-                    57.7011491
-                ]
-            }
-        },
-        {
-            "type": "Feature",
-            "id": "node/3819446557",
-            "properties": {
-                "type": "node",
-                "id": 3819446557,
-                "tags": {
-                    "amenity": "bar",
-                    "name": "Pix & Pintxos Cocktails"
-                },
-                "relations": [],
-                "meta": {}
-            },
-            "geometry": {
-                "type": "Point",
-                "coordinates": [
-                    11.965178,
-                    57.70257
+                    7.5625692,
+                    51.0222512
                 ]
             }
         }
