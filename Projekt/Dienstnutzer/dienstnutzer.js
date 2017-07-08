@@ -175,15 +175,15 @@ app.get('/game/:gameid/poi/:poiid', function(req, res) {
 //POST Request
 //Datensatz ändert sich nicht dynamisch
 app.post('/users', function(req, res) {
-  var database = {
-      "user_name":    "Glücksbärchie",
-      "first_name":   "Jared",
-      "last_name":    "Prüß",
-      "age":          22,
-      "id":           "SkPVA6AXb"
-    };
 
-  var url = dURL + '/users';
+  var userData = {
+        "user_name": "ggseg",
+        "first_name": "Jarsegesged",
+        "last_name": "fesf",
+        "age": 11,
+        "id": "fsefsefe"
+      }
+  var url = dURL + '/users/';
 
   //TODO implement POST method
   var options = {
@@ -192,13 +192,12 @@ app.post('/users', function(req, res) {
     headers: {
       'Content-Type': 'application/json'        //Typ json wird mitgeschickt
     },
-    json: database                              //fester Datensatz wird übergeben
+    json: userData
   }
 
-  request(options, function(err, response, body){
+  request.post(url, function(err, response, body){
     console.log(body);
-
-    res.json(body);
+    res.json(JSON.parse(body));
   });
 });
 
@@ -283,12 +282,13 @@ app.delete('/game/:gameid/participants/:participantid', function(req, res) {
   });
 });
 
-app.delete('/game/:gameid/poi/:poiid', function(req, res) {
-  var poiid = req.params.poiid;
-  var url = dURL + '/game/' + gameid + '/poi/' + poiid;
+app.delete('/game/:gameid/poi/', function(req, res) {
+  var gameid = req.params.gameid;
+  var url = dURL + '/game/' + gameid + '/poi/';
 
   //TODO implement DELETE Method
   request.delete(url, function(err, response, body) {
+    body = JSON.parse(body);
     res.json(body);
   });
 });

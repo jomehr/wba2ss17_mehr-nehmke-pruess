@@ -26,7 +26,7 @@ function loadDatabase() {
 }
 
 function saveDatabase (data) {
-	fs.writeFileSync(__dirname + '/database.json', JSON.stringify(data))	//stringify -> wandelt JavaScript in JSON
+	fs.writeFileSync(__dirname + '/database.json', JSON.stringify(data,0,4))	//stringify -> wandelt JavaScript in JSON
 }
 
 //Daten aus Datei laden, wenn der Server startet
@@ -71,11 +71,16 @@ router.get('/:userid', function (req, res) {
 
 //Einen neuen User anlegen
 //https://jsonformatter.curiousconcept.com/ zum testen
-router.post('/create', function(req, res){
+router.post('/', function(req, res){
 	console.log(req.body);
-	database.users.push(req.body);
-
+	var user = req.body;
+	database.users.push(user);
 	saveDatabase(database);
+	res.format({
+		"application/json": function() {
+			res.send(user);
+			}
+	});
 });
 
 //Einen User löschen
