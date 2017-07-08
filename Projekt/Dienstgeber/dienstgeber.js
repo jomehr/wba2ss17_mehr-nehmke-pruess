@@ -3,45 +3,20 @@ const app =  express ();
 const fs = require ("fs");
 const bodyParser =  require("body-parser");
 const async = require ("async");
+const jwt = require('jsonwebtoken');
+const config = require('./config');
 var mongoose = require("mongoose");
+
 mongoose.Promise = global.Promise;
-var uri = 'mongodb://tnehmke:fn7Xf8bXfnmongodb@cluster0-shard-00-00-4ioss.mongodb.net:27017,cluster0-shard-00-01-4ioss.mongodb.net:27017,cluster0-shard-00-02-4ioss.mongodb.net:27017/Cluster0?ssl=true&replicaSet=Cluster0-shard-0&authSource=admin'
-var GameJSON = require("./game/gamemodel.js")
-var assert = require("assert");
+mongoose.connect(config.database, { useMongoClient: true});
 
 const settings = {
   port: process.env.PORT || 3000,
   datafile: "./testgame.json",
 };
 
-// global.gamedata = require("./game/games.json");
-// global.userdata = require("./user/users.json")
-// //read data from disk to memory
-// async.waterfall( [
-//   //reads data asynchronous and uses waterfall callback
-//   function(callback) {
-//     fs.readFile(settings.datafile, "utf-8", function(err, filestring) {
-//       callback(null, err, filestring);
-//     });
-//   },
-//   //parse as JSON and modify it to fit data strucuture
-//   function(err, filestring, callback) {
-//     if (err != null) { callback(null, false); }
-//     else {
-//       data.game = JSON.parse(filestring).game;
-//       callback(null, true);
-//     }
-//   }
-// ], function(err, success) {
-//   if (err != null) { success = false }
-//   console.log("Gamedaten wurden " + (success ? "erfolgreich" : "nicht erfolgreich") + "in den Speicher geladen.");
-// });
 
-//Mongodb client starten
-mongoose.connect(uri, { useMongoClient: true}, function(err,db){
-  if(!err)
-    console.log("Mit Datenbank Verbunden")
-});
+
 
 //routing einbinden
 const game = require("./game");
