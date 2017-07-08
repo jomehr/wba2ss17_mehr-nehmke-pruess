@@ -195,9 +195,9 @@ app.post('/users', function(req, res) {
     json: userData
   }
 
-  request.post(url, function(err, response, body){
+  request(options, function(err, response, body){
     console.log(body);
-    res.json(JSON.parse(body));
+    res.json(body);
   });
 });
 
