@@ -1,13 +1,15 @@
 
 var fs = require('fs')
 queryOverpass = require('query-overpass');
-var query = '[out:json];node(57.7,11.9,57.8,12.0)[amenity=bar];out;'
+var bbbottomleft = "51.02084, 7.55946, ";
+var bbtopright = "51.02634, 7.56592";
+var amenity = "=restaurant"; //empty for all amenities
+var query = "[out:json];node(" + bbbottomleft + bbtopright +")[amenity" +amenity + "];out;"
 
 
 
 var overpass = queryOverpass(query, function(err, geojson) {
     if (!err) {
-      console.log(geojson);
       var data = JSON.stringify(geojson, null, 4);
       console.log(data);
 

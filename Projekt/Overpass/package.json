@@ -13,6 +13,7 @@
   "author": "jan mehr",
   "license": "ISC",
   "dependencies": {
-    "mongodb": "^2.2.26"
+    "fs": "0.0.1-security",
+    "query-overpass": "^1.5.1"
   }
 }
