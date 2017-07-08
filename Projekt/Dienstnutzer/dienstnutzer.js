@@ -5,6 +5,10 @@ var express = require('express'),
 var app = express();
 const bodyParser =  require("body-parser");
 
+//bodyparser für json und html einbinden
+app.use(bodyParser.urlencoded({ extended: true }));
+app.use(bodyParser.json());
+
 var dHost = 'http://localhost';    //Ziel-URL vom Dienstgeber
 var dPort = 3000;
 var dURL = dHost + ':' + dPort;
@@ -176,26 +180,17 @@ app.get('/game/:gameid/poi/:poiid', function(req, res) {
 //Datensatz ändert sich nicht dynamisch
 app.post('/users', function(req, res) {
 
-  var userData = {
-        "user_name": "ggseg",
-        "first_name": "Jarsegesged",
-        "last_name": "fesf",
-        "age": 11,
-        "id": "fsefsefe"
-      }
   var url = dURL + '/users/';
-
+  var data = req.body;
   //TODO implement POST method
   var options = {
     uri: url,                                    //bereits mit /user definiert
     method: 'POST',
-    headers: {
-      'Content-Type': 'application/json'        //Typ json wird mitgeschickt
-    },
-    json: userData
+    json: data
   }
 
   request(options, function(err, response, body){
+    //var body = req.body
     console.log(body);
     res.json(body);
   });
