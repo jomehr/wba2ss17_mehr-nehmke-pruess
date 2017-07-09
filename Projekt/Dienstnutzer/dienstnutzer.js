@@ -26,7 +26,6 @@ app.use(function(req, res, next) {
 });
 
 //Requests die der Dienstgeber zur Verfügung stellt
-
 //GET-Requests alle Users
 app.get('/users', function(req, res) {
   var url = dURL+ '/users';
@@ -162,65 +161,104 @@ app.get('/game/:gameid/poi', function(req, res) {
   });
 });
 
-//GET Request auf ein bestimmten POI eines bestimmten Game
-app.get('/game/:gameid/poi/:poiid', function(req, res) {
-  var gameid = req.params.gameid;
-  var gameid = req.params.poiid;
-  var url = dHost + ':' + dPort +  '/game/' + gameid + '/poi/' + poiid;
-
-  //TODO implement GET Request
-  request.get(url, function(err, response, body) {
-    body = JSON.parse(body);
-    res.json(body);
-  });
-});
-
 
 //POST Request
-//Datensatz ändert sich nicht dynamisch
+//dynamisch
 app.post('/users', function(req, res) {
-
   var url = dURL + '/users/';
   var data = req.body;
   //TODO implement POST method
   var options = {
-    uri: url,                                    //bereits mit /user definiert
+    uri: url,                                    //bereits mit /users definiert
     method: 'POST',
     json: data
   }
-
   request(options, function(err, response, body){
-    //var body = req.body
     console.log(body);
     res.json(body);
   });
 });
 
-
-/*
-var options = {
-  hostname: 'localhost',
-  port: 8081,
-  path: '/users',
-  method: 'POST',
-  headers: {
-    'Content-Type': 'application/json'
+app.post('/game', function(req, res) {
+  var url = dURL + '/game/';
+  var data = req.body;
+  //TODO implement POST method
+  var options = {
+    uri: url,
+    method: 'POST',
+    json: data
   }
-};
-
-var req = http.request(options, function(res) {   //request inizialisieren
-  res.setEncoding('utf8');
-  res.on('database', function (body) {
-    Console.log('Body: ' + body);
+  request(options, function(err, response, body){
+    console.log(body);
+    res.json(body);
   });
 });
-req.on('error', function(e) {
-  console.log('problem with request: ' + e.message);
+
+app.post('/game/:gameid/clues', function(req, res) {
+  var gameid = req.params.gameid;
+  var url = dHost + ':' + dPort + '/game/' + gameid + '/clues/';
+  var data = req.body;
+  //TODO implement POST method
+  var options = {
+    uri: url,
+    method: 'POST',
+    json: data
+  }
+  request(options, function(err, response, body){
+    console.log(body);
+    res.json(body);
+  });
 });
-//write data to request body
-req.write(database);                            //write -> Daten übermitteln
-req.end();                                      //end -> request abschließen
-*/
+
+app.post('/game/:gameid/clues/:cluesid/media', function(req, res) {
+  var gameid = req.params.gameid;
+  var clueid = req.params.clueid;
+  var url = dHost + ':' + dPort +  '/game/' + gameid + '/clues/' + clueid + '/media/';
+  var data = req.body;
+  //TODO implement POST method
+  var options = {
+    uri: url,
+    method: 'POST',
+    json: data
+  }
+  request(options, function(err, response, body){
+    console.log(body);
+    res.json(body);
+  });
+});
+
+app.post('/game/:gameid/participants', function(req, res) {
+  var gameid = req.params.gameid;
+  var url = dHost + ':' + dPort +  '/game/' + gameid + '/participants/';
+  var data = req.body;
+  //TODO implement POST method
+  var options = {
+    uri: url,
+    method: 'POST',
+    json: data
+  }
+  request(options, function(err, response, body){
+    console.log(body);
+    res.json(body);
+  });
+});
+
+app.post('/game/:gameid/poi', function(req, res) {
+  var gameid = req.params.gameid;
+  var url = dHost + ':' + dPort +  '/game/' + gameid + '/poi/';
+  var data = req.body;
+  //TODO implement POST method
+  var options = {
+    uri: url,
+    method: 'POST',
+    json: data
+  }
+  request(options, function(err, response, body){
+    console.log(body);
+    res.json(body);
+  });
+});
+
 
 //DELETE request
 app.delete('/users/:userid', function(req, res) {
@@ -288,34 +326,23 @@ app.delete('/game/:gameid/poi/', function(req, res) {
   });
 });
 
-/*
-//PATCH HTTP Modul
-app.patch('/users/:userid', bodyParser.json(), function(req, res){
-  var database = {
-      "user_name":    "Glücksbärchie",
-      "first_name":   "Jared",
-      "last_name":    "Prüß",
-      "age":          22,
-      "id":           "SkPVA6AXb"
-    }
 
+//PATCH HTTP Modul
+app.patch('/users/:userid', bodyParser.json(), function(req, res) {
+  var data = req.body;
   var userid = req.params.userid;
-  var url = dURL + '/users/' + userid;
+  //var url = dHost + ':' + dPort +  '/user/' + userid;
+  resourceURI = helper.pathJoin(config.remoteService.url, 'users', userid);
 
   //TODO implement PATCH method
   var options = {
-    uri: url,
+    uri: resourceURI,
     method: 'PATCH',
     headers: {
       'Content-Type': 'application/json'
     },
     json: database
   };
-  */
-
-
-
-
 /*
 //FAYE-Teil bei PATCH
   client.publish('/news', {text: 'User wurde geändert.'})
@@ -324,11 +351,12 @@ app.patch('/users/:userid', bodyParser.json(), function(req, res){
   }, function(error) {
     console.log('There was an error publishing:' + error.message);
   });
+  */
   request(options, function(err, response, body) {
+    console.log('PATCH /users/' + userid + '=> \n', body);
     res.json(body)
   });
 });
-*/
 
 
 /*

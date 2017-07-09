@@ -71,7 +71,9 @@ router.get('/:userid', function (req, res) {
 
 //Einen neuen User anlegen
 //https://jsonformatter.curiousconcept.com/ zum testen
+/*
 router.post('/', function(req, res){
+  newUser.id=shortid.generate();
 	console.log(req.body);
 	var user = req.body;
 	database.users.push(user);
@@ -81,6 +83,29 @@ router.post('/', function(req, res){
 			res.send(user);
 			}
 	});
+});
+*/
+router.post("/", function(req, res) {
+	var userid = shortid.generate();
+  //fill json with request data
+  users = {
+				"id": userid,
+				"user_name": req.body.user_name,
+				"first_name": req.body.first_name,
+				"last_name": req.body.last_name,
+				"age": req.body.age,
+				"email": req.body.email
+      };
+  //push data into existing json and stringify it for saving
+  database.users.push(users);
+  saveDatabase(database);
+	console.log(userid);
+  //formats responds to json
+  res.format({
+    "application/json": function() {
+      res.json(users);
+      }
+  });
 });
 
 //Einen User löschen
