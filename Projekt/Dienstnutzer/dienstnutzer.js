@@ -328,20 +328,20 @@ app.delete('/game/:gameid/poi/', function(req, res) {
 
 
 //PATCH HTTP Modul
-app.patch('/users/:userid', bodyParser.json(), function(req, res) {
+app.patch('/users/:userid', function(req, res) {
   var data = req.body;
   var userid = req.params.userid;
-  //var url = dHost + ':' + dPort +  '/user/' + userid;
-  resourceURI = helper.pathJoin(config.remoteService.url, 'users', userid);
+  var url = dURL +  '/users/' + userid;
+  //resourceURI = helper.pathJoin(config.remoteService.url, 'users', userid);
 
   //TODO implement PATCH method
   var options = {
-    uri: resourceURI,
+    uri: url,
     method: 'PATCH',
     headers: {
       'Content-Type': 'application/json'
     },
-    json: database
+    json: data
   };
 /*
 //FAYE-Teil bei PATCH
