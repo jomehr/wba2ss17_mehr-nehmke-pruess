@@ -1,11 +1,9 @@
-const fs = require("fs");	//filesystem
-const express = require('express');
-const shortid = require('shortid');
-const bodyParser =  require("body-parser");
+const fs = require("fs")	//filesystem
+const express = require('express')
+const shortid = require('shortid')
+const bodyParser =  require("body-parser")
 
-const router = express.Router();
-
-const ressourceName = "users";
+const router = express.Router()
 
 //bodyparser für json und html einbinden
 router.use(bodyParser.urlencoded({ extended: true }));
@@ -28,7 +26,7 @@ function loadDatabase() {
 }
 
 function saveDatabase (data) {
-	fs.writeFileSync(__dirname + '/database.json', JSON.stringify(data))	//stringify -> wandelt JavaScript in JSON
+	fs.writeFileSync(__dirname + '/database.json', JSON.stringify(data,0,4))	//stringify -> wandelt JavaScript in JSON
 }
 
 //Daten aus Datei laden, wenn der Server startet
@@ -47,13 +45,13 @@ function onExit () {
 function findUserIndexById (userId) {
 	// NOTE: Sicher stellen, dass ALLE IDs Strings sind !!!
 	return database.users.findIndex(
-		user => user.id === userId		//=== -> überprüft ob beide Strings sind und beide den selben Index haben
+		users => users.id === userId		//=== -> überprüft ob beide Strings sind und beide den selben Index haben
 	)
 }
 
 //Alle User ausgeben
 router.get('/', function (req, res) {
-	res.status(200).send(database.users);
+	res.send(database.users);
 });
 
 //Einen User mit einer bestimmten ID ausgeben
@@ -63,34 +61,52 @@ router.get('/:userid', function (req, res) {
 	let user = database.users[userIndex]
 
 	if (userIndex > -1) {
-		res.status(200).send(user);
+		res.send(user);
 	} else {
 		// NOTE: Benutzer mit der geben ID existiert nicht
 		res.status(404)
-		res.send(null);
+		res.send("Der User mit ID " + req.params.userId + " existiert noch nicht!")
 	}
 });
 
 //Einen neuen User anlegen
 //https://jsonformatter.curiousconcept.com/ zum testen
-router.post('/create', function(req, res){
-	console.log(req.body);
-	database.users.push(req.body);
-
-	saveDatabase(database);
-});
-
 /*
-router.post('/', bodyParser.json(), function(req, res) {
-	if (data.isValidUser(req.body)) {
-		req.body.id = data.newUserId();			//generiert User Id (data module)
-		data.users.push(req.body);					//in database speichern
-		res.status(200).json({ uri: req.protocol+"://" + req.params.userid});
-	}else{
-		res.status(400).json(data.errors.badPayload);
-	}
+router.post('/', function(req, res){
+  newUser.id=shortid.generate();
+	console.log(req.body);
+	var user = req.body;
+	database.users.push(user);
+	saveDatabase(database);
+	res.format({
+		"application/json": function() {
+			res.send(user);
+			}
+	});
 });
 */
+router.post("/", function(req, res) {
+	var userid = shortid.generate();
+  //fill json with request data
+  users = {
+				"id": userid,
+				"user_name": req.body.user_name,
+				"first_name": req.body.first_name,
+				"last_name": req.body.last_name,
+				"age": req.body.age,
+				"email": req.body.email
+      };
+  //push data into existing json and stringify it for saving
+  database.users.push(users);
+  saveDatabase(database);
+	console.log(userid);
+  //formats responds to json
+  res.format({
+    "application/json": function() {
+      res.json(users);
+      }
+  });
+});
 
 //Einen User löschen
 //let var1 [= wert1] [, var2 [= wert2]] [, ..., varN [= wertN]];

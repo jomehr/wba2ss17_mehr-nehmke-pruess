@@ -1,4 +1,3 @@
-
 const express =  require ("express");
 const app =  express ();
 const fs = require ("fs");
@@ -10,7 +9,8 @@ const settings = {
   datafile: "./testgame.json"
 };
 
-// global.data = require("./data");
+// global.gamedata = require("./game/games.json");
+// global.userdata = require("./user/users.json")
 // //read data from disk to memory
 // async.waterfall( [
 //   //reads data asynchronous and uses waterfall callback
@@ -34,9 +34,9 @@ const settings = {
 
 //routing einbinden
 const game = require("./game");
-const users =  require("./users");
+const user =  require("./users");
 app.use("/game", game);
-app.use("/users", users);
+app.use("/users", user);
 
 //errorhandler
 app.use(function(err, req, res, next) {
@@ -64,11 +64,7 @@ app.get("/", function(req, res) {
   res.links ( {
     next: "http://localhost:3000/game"
   });
-  res.send("Hi das ist die Startseite der Schnitzeljagd-App.");
-});
-
-app.post("/", function(req, res) {
-  res.send("POST Request");
+  res.send("/game für Spieldaten und /user für Userdaten");
 });
 
 //Server auf localhost 127.0.0.1:3000

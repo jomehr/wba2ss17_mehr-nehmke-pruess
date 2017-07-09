@@ -5,6 +5,10 @@ var express = require('express'),
 var app = express();
 const bodyParser =  require("body-parser");
 
+//bodyparser für json und html einbinden
+app.use(bodyParser.urlencoded({ extended: true }));
+app.use(bodyParser.json());
+
 var dHost = 'http://localhost';    //Ziel-URL vom Dienstgeber
 var dPort = 3000;
 var dURL = dHost + ':' + dPort;
@@ -22,7 +26,6 @@ app.use(function(req, res, next) {
 });
 
 //Requests die der Dienstgeber zur Verfügung stellt
-
 //GET-Requests alle Users
 app.get('/users', function(req, res) {
   var url = dURL+ '/users';
@@ -72,7 +75,7 @@ app.get('/game/:gameid', function(req, res) {
 //GET Request auf Clues eines bestimmten Game
 app.get('/game/:gameid/clues', function(req, res) {
   var gameid = req.params.gameid;
-  var url = dHost + ':' + dPort + '/game/:gameid/clues';
+  var url = dHost + ':' + dPort + '/game/' + gameid + '/clues/';
 
   //TODO implement GET Request
   request.get(url, function(err, response, body) {
@@ -85,7 +88,7 @@ app.get('/game/:gameid/clues', function(req, res) {
 app.get('/game/:gameid/clues/:clueid', function(req, res) {
   var gameid = req.params.gameid;
   var clueid = req.params.clueid;
-  var url = dHost + ':' + dPort + '/game/:gameid/clues' + clueid;
+  var url = dHost + ':' + dPort +  '/game/' + gameid + '/clues/' + clueid;
 
   //TODO implement GET Request
   request.get(url, function(err, response, body) {
@@ -98,7 +101,7 @@ app.get('/game/:gameid/clues/:clueid', function(req, res) {
 app.get('/game/:gameid/clues/:clueid/media', function(req, res) {
   var gameid = req.params.gameid;
   var clueid = req.params.clueid;
-  var url = dHost + ':' + dPort + '/game/:gameid/clues/:clueid/media';
+  var url = dHost + ':' + dPort +  '/game/' + gameid + '/clues/' + clueid + '/media/';
 
   //TODO implement GET Request
   request.get(url, function(err, response, body) {
@@ -108,11 +111,11 @@ app.get('/game/:gameid/clues/:clueid/media', function(req, res) {
 });
 
 //GET Request auf ein bestimmtes Media eines bestimmten Clue
-app.get('/game/:gameid/clues/:clueid/media/mediaid', function(req, res) {
+app.get('/game/:gameid/clues/:clueid/media/:mediaid', function(req, res) {
   var gameid = req.params.gameid;
   var clueid = req.params.clueid;
   var mediaid = req.params.mediaid;
-  var url = dHost + ':' + dPort + '/game/:gameid/clues/:clueid/media' + mediaid;
+  var url = dHost + ':' + dPort +  '/game/' + gameid + '/clues/' + clueid + '/media/' + mediaid;
 
   //TODO implement GET Request
   request.get(url, function(err, response, body) {
@@ -124,7 +127,7 @@ app.get('/game/:gameid/clues/:clueid/media/mediaid', function(req, res) {
 //GET Request auf alle Teilnehmer eines bestimmten Game
 app.get('/game/:gameid/participants', function(req, res) {
   var gameid = req.params.gameid;
-  var url = dHost + ':' + dPort + '/game/:gameid/participants';
+  var url = dHost + ':' + dPort +  '/game/' + gameid + '/participants/';
 
   //TODO implement GET Request
   request.get(url, function(err, response, body) {
@@ -134,10 +137,10 @@ app.get('/game/:gameid/participants', function(req, res) {
 });
 
 //GET Request auf einen bestimmten Teilnehmer eines bestimmten Game
-app.get('/game/:gameid/participants/participantid', function(req, res) {
+app.get('/game/:gameid/participants/:participantid', function(req, res) {
   var gameid = req.params.gameid;
   var participantid = req.params.participantid;
-  var url = dHost + ':' + dPort + '/game/:gameid/participant' + participantid;
+  var url = dHost + ':' + dPort +  '/game/' + gameid + '/participants/' + participantid;
 
   //TODO implement GET Request
   request.get(url, function(err, response, body) {
@@ -149,7 +152,7 @@ app.get('/game/:gameid/participants/participantid', function(req, res) {
 //GET Request auf POI eines bestimmten Game
 app.get('/game/:gameid/poi', function(req, res) {
   var gameid = req.params.gameid;
-  var url = dHost + ':' + dPort + '/game/:gameid/poi';
+  var url = dHost + ':' + dPort +  '/game/' + gameid + '/poi/';
 
   //TODO implement GET Request
   request.get(url, function(err, response, body) {
@@ -157,102 +160,105 @@ app.get('/game/:gameid/poi', function(req, res) {
     res.json(body);
   });
 });
-
-//GET Request auf ein bestimmten POI eines bestimmten Game
-app.get('/game/:gameid/poi/poiid', function(req, res) {
-  var gameid = req.params.gameid;
-  var poiid = req.params.poiid;
-  var url = dHost + ':' + dPort + '/game/:gameid/poi' + poiid;
-
-  //TODO implement GET Request
-  request.get(url, function(err, response, body) {
-    body = JSON.parse(body);
-    res.json(body);
-  });
-});
-
-
-/*
-//3 Methoden möglich
-//1. Simple GET request
-request(url, function(err, res, body) {     //simpelster Aufruf mit URL <- funktioniert nur mit einem GET request!!!
-  console.log(body);
-});
-
-//2. Obvious GET request
-request.get(url, function(err, response, body) {    //Request mit Helper Methode (get, delete, etc.)
-  console.log(body);
-});
-
-//3. Define options
-const options = {
-  url: url,
-  method: 'GET',
-  headers: {
-    'Accept': 'application/json'
-  }
-};
-request(options, function(err, res, body) {
-  console.log(json);
-});
-*/
-
 
 
 //POST Request
-//Datensatz ändert sich nicht dynamisch
+//dynamisch
 app.post('/users', function(req, res) {
-  var database = {
-      "user_name":    "Glücksbärchie",
-      "first_name":   "Jared",
-      "last_name":    "Prüß",
-      "age":          22,
-      "id":           "SkPVA6AXb"
-    };
-
-  var url = dURL + '/users';
-
+  var url = dURL + '/users/';
+  var data = req.body;
   //TODO implement POST method
   var options = {
-    uri: url,                                    //bereits mit /user definiert
+    uri: url,                                    //bereits mit /users definiert
     method: 'POST',
-    headers: {
-      'Content-Type': 'application/json'        //Typ json wird mitgeschickt
-    },
-    json: database                              //fester Datensatz wird übergeben
+    json: data
   }
-
   request(options, function(err, response, body){
     console.log(body);
-
     res.json(body);
   });
 });
 
-/*POST
-var options = {
-  hostname: 'localhost',
-  port: 3000,
-  path: '/users',
-  method: 'POST',
-  headers: {
-    'Content-Type': 'application/json'
+app.post('/game', function(req, res) {
+  var url = dURL + '/game/';
+  var data = req.body;
+  //TODO implement POST method
+  var options = {
+    uri: url,
+    method: 'POST',
+    json: data
   }
-};
-
-var req = http.request(options, function(res) {   //request inizialisieren
-  res.set Encoding('utf8');
-  res.on('data', function (body) {
-    Console.log('Body: ' + body);
+  request(options, function(err, response, body){
+    console.log(body);
+    res.json(body);
   });
 });
-req.on('error', function(e) {
-  console.log('problem with request: ' + e.message);
+
+app.post('/game/:gameid/clues', function(req, res) {
+  var gameid = req.params.gameid;
+  var url = dHost + ':' + dPort + '/game/' + gameid + '/clues/';
+  var data = req.body;
+  //TODO implement POST method
+  var options = {
+    uri: url,
+    method: 'POST',
+    json: data
+  }
+  request(options, function(err, response, body){
+    console.log(body);
+    res.json(body);
+  });
 });
-//write data to request body
-req.write(userData);                            //write -> Daten übermitteln
-req.end();                                      //end -> request abschließen
-*/
+
+app.post('/game/:gameid/clues/:cluesid/media', function(req, res) {
+  var gameid = req.params.gameid;
+  var clueid = req.params.clueid;
+  var url = dHost + ':' + dPort +  '/game/' + gameid + '/clues/' + clueid + '/media/';
+  var data = req.body;
+  //TODO implement POST method
+  var options = {
+    uri: url,
+    method: 'POST',
+    json: data
+  }
+  request(options, function(err, response, body){
+    console.log(body);
+    res.json(body);
+  });
+});
+
+app.post('/game/:gameid/participants', function(req, res) {
+  var gameid = req.params.gameid;
+  var url = dHost + ':' + dPort +  '/game/' + gameid + '/participants/';
+  var data = req.body;
+  //TODO implement POST method
+  var options = {
+    uri: url,
+    method: 'POST',
+    json: data
+  }
+  request(options, function(err, response, body){
+    console.log(body);
+    res.json(body);
+  });
+});
+
+app.post('/game/:gameid/poi', function(req, res) {
+  var gameid = req.params.gameid;
+  var url = dHost + ':' + dPort +  '/game/' + gameid + '/poi/';
+  var data = req.body;
+  //TODO implement POST method
+  var options = {
+    uri: url,
+    method: 'POST',
+    json: data
+  }
+  request(options, function(err, response, body){
+    console.log(body);
+    res.json(body);
+  });
+});
+
 
 //DELETE request
 app.delete('/users/:userid', function(req, res) {
@@ -265,34 +271,72 @@ app.delete('/users/:userid', function(req, res) {
   });
 });
 
-/*
-app.delete('/users/:userid', function(req, res){
-  var userid = req.params.userid,
-      resourceURI = helper.pathJoin(config.remoteService.url, 'users', userid);
+app.delete('/game/:gameid', function(req, res) {
+  var gameid = req.params.gameid;
+  var url = dURL + '/game/' + gameid;
+
   //TODO implement DELETE Method
-  request.delete(resourceURI, function(err, response, body) {
-    console.log('DELETE /users/' + userId + '=> \n, body');
+  request.delete(url, function(err, response, body) {
     res.json(body);
   });
 });
-*/
+
+app.delete('/game/:gameid/clues/:clueid', function(req, res) {
+  var gameid = req.params.gameid;
+  var clueid = req.params.clueid;
+  var url = dURL + '/game/' + gameid + '/clues/' + clueid;
+
+  //TODO implement DELETE Method
+  request.delete(url, function(err, response, body) {
+    res.json(body);
+  });
+});
+
+app.delete('/game/:gameid/clues/:clueid/media/:mediaid', function(req, res) {
+  var gameid = req.params.gameid;
+  var clueid = req.params.clueid;
+  var mediaid = req.params.mediaid;
+  var url = dURL + '/game/' + gameid + '/clues/' + clueid + '/media/' + mediaid;
+
+  //TODO implement DELETE Method
+  request.delete(url, function(err, response, body) {
+    res.json(body);
+  });
+});
+
+app.delete('/game/:gameid/participants/:participantid', function(req, res) {
+  var gameid = req.params.gameid;
+  var participantid = req.params.participantid;
+  var url = dURL + '/game/' + gameid + '/participants/' + participantid;
+
+  //TODO implement DELETE Method
+  request.delete(url, function(err, response, body) {
+    res.json(body);
+  });
+});
+
+app.delete('/game/:gameid/poi/', function(req, res) {
+  var gameid = req.params.gameid;
+  var url = dURL + '/game/' + gameid + '/poi/';
+
+  //TODO implement DELETE Method
+  request.delete(url, function(err, response, body) {
+    body = JSON.parse(body);
+    res.json(body);
+  });
+});
+
 
 //PATCH HTTP Modul
-app.patch('/users/:userid', bodyParser.json(), function(req, res){
-  var database = {
-      "user_name":    "Glücksbärchie",
-      "first_name":   "Jared",
-      "last_name":    "Prüß",
-      "age":          22,
-      "id":           "SkPVA6AXb"
-    }
-
+app.patch('/users/:userid', bodyParser.json(), function(req, res) {
+  var data = req.body;
   var userid = req.params.userid;
-  var url = dURL + '/users/' + userid;
+  //var url = dHost + ':' + dPort +  '/user/' + userid;
+  resourceURI = helper.pathJoin(config.remoteService.url, 'users', userid);
 
   //TODO implement PATCH method
   var options = {
-    uri: url,
+    uri: resourceURI,
     method: 'PATCH',
     headers: {
       'Content-Type': 'application/json'
@@ -307,8 +351,9 @@ app.patch('/users/:userid', bodyParser.json(), function(req, res){
   }, function(error) {
     console.log('There was an error publishing:' + error.message);
   });
-*/
+  */
   request(options, function(err, response, body) {
+    console.log('PATCH /users/' + userid + '=> \n', body);
     res.json(body)
   });
 });
