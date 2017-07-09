@@ -332,7 +332,6 @@ app.patch('/users/:userid', function(req, res) {
   var data = req.body;
   var userid = req.params.userid;
   var url = dURL +  '/users/' + userid;
-  //resourceURI = helper.pathJoin(config.remoteService.url, 'users', userid);
 
   //TODO implement PATCH method
   var options = {
@@ -354,6 +353,126 @@ app.patch('/users/:userid', function(req, res) {
   */
   request(options, function(err, response, body) {
     console.log('PATCH /users/' + userid + '=> \n', body);
+    res.json(body)
+  });
+});
+
+app.patch('/game/:gameid', function(req, res) {
+  var data = req.body;
+  var gameid = req.params.gameid;
+  var url = dURL +  '/game/' + gameid;
+
+  //TODO implement PATCH method
+  var options = {
+    uri: url,
+    method: 'PATCH',
+    headers: {
+      'Content-Type': 'application/json'
+    },
+    json: data
+  };
+/*
+//FAYE-Teil bei PATCH
+  client.publish('/news', {text: 'User wurde geändert.'})
+  .then(function() {
+    console.log('Message received by server!');
+  }, function(error) {
+    console.log('There was an error publishing:' + error.message);
+  });
+  */
+  request(options, function(err, response, body) {
+    console.log('PATCH /game/' + gameid + '=> \n', body);
+    res.json(body)
+  });
+});
+
+app.patch('/game/:gameid/clues/:clueid', function(req, res) {
+  var data = req.body;
+  var gameid = req.params.userid;
+  var clueid = req.params.clueid;
+  var url = dURL + '/game/' + gameid + '/clues/' + clueid;
+
+  //TODO implement PATCH method
+  var options = {
+    uri: url,
+    method: 'PATCH',
+    headers: {
+      'Content-Type': 'application/json'
+    },
+    json: data
+  };
+/*
+//FAYE-Teil bei PATCH
+  client.publish('/news', {text: 'User wurde geändert.'})
+  .then(function() {
+    console.log('Message received by server!');
+  }, function(error) {
+    console.log('There was an error publishing:' + error.message);
+  });
+  */
+  request(options, function(err, response, body) {
+    console.log('PATCH /game/' + gameid + '/clues/' + clueid + '=> \n', body);
+    res.json(body)
+  });
+});
+
+app.patch('/game/:gameid/clues/:clueid/media/:mediaid', function(req, res) {
+  var data = req.body;
+  var gameid = req.params.userid;
+  var clueid = req.params.clueid;
+  var mediaid = req.params.mediaid;
+  var url = dURL + '/game/' + gameid + '/clues/' + clueid + '/media/' + mediaid;
+
+  //TODO implement PATCH method
+  var options = {
+    uri: url,
+    method: 'PATCH',
+    headers: {
+      'Content-Type': 'application/json'
+    },
+    json: data
+  };
+/*
+//FAYE-Teil bei PATCH
+  client.publish('/news', {text: 'User wurde geändert.'})
+  .then(function() {
+    console.log('Message received by server!');
+  }, function(error) {
+    console.log('There was an error publishing:' + error.message);
+  });
+  */
+  request(options, function(err, response, body) {
+    console.log('PATCH /game/' + gameid + '/clues/' + clueid + '/media/' + mediaid + '=> \n', body);
+    res.json(body)
+  });
+});
+
+app.patch('/game/:gameid/participants/:participantid', function(req, res) {
+  var data = req.body;
+  var gameid = req.params.gameid;
+  var participantid = req.params.participantid;
+  var url = dURL +  '/game/' + gameid + '/participants/' + participantid;
+
+  //TODO implement PATCH method
+  var options = {
+    uri: url,
+    method: 'PATCH',
+    headers: {
+      'Content-Type': 'application/json'
+    },
+    json: data
+  };
+/*
+//FAYE-Teil bei PATCH
+  client.publish('/news', {text: 'User wurde geändert.'})
+  .then(function() {
+    console.log('Message received by server!');
+  }, function(error) {
+    console.log('There was an error publishing:' + error.message);
+  });
+  */
+  request(options, function(err, response, body) {
+    console.log('PATCH /game/' + gameid + '/participants/' + participantid + '=> \n', body);
     res.json(body)
   });
 });
