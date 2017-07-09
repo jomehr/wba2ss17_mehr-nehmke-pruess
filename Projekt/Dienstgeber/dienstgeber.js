@@ -2,35 +2,21 @@ const express =  require ("express");
 const app =  express ();
 const fs = require ("fs");
 const bodyParser =  require("body-parser");
-const async = require ("async")
+const async = require ("async");
+const jwt = require('jsonwebtoken');
+const config = require('./config');
+var mongoose = require("mongoose");
+
+mongoose.Promise = global.Promise;
+mongoose.connect(config.database, { useMongoClient: true});
 
 const settings = {
   port: process.env.PORT || 3000,
-  datafile: "./testgame.json"
+  datafile: "./testgame.json",
 };
 
-// global.gamedata = require("./game/games.json");
-// global.userdata = require("./user/users.json")
-// //read data from disk to memory
-// async.waterfall( [
-//   //reads data asynchronous and uses waterfall callback
-//   function(callback) {
-//     fs.readFile(settings.datafile, "utf-8", function(err, filestring) {
-//       callback(null, err, filestring);
-//     });
-//   },
-//   //parse as JSON and modify it to fit data strucuture
-//   function(err, filestring, callback) {
-//     if (err != null) { callback(null, false); }
-//     else {
-//       data.game = JSON.parse(filestring).game;
-//       callback(null, true);
-//     }
-//   }
-// ], function(err, success) {
-//   if (err != null) { success = false }
-//   console.log("Gamedaten wurden " + (success ? "erfolgreich" : "nicht erfolgreich") + "in den Speicher geladen.");
-// });
+
+
 
 //routing einbinden
 const game = require("./game");
@@ -58,6 +44,10 @@ app.use(bodyParser.json());
 
 //statischer Ordner (klappt noch nicht)
 //app.use(express.static("game"));
+
+
+
+
 
 //REST methods
 app.get("/", function(req, res) {

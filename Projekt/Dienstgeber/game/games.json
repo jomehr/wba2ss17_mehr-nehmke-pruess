@@ -2,9 +2,9 @@
     "games": [
         {
             "id": "BJJUFpvVb",
-            "titel": "neuer Titel",
-            "description": "neue Beschreibung",
-            "creator": "jan mehr",
+            "titel": "testtitel",
+            "description": "nodejs stinkt",
+            "creator": "tim nehmke",
             "creationdate": "Fri Jun 30 2017 22:49:44 GMT+0200 (Mitteleuropäische Sommerzeit)",
             "startdate": "1.7.2017",
             "expirationdate": "10.7.2017",
@@ -49,6 +49,195 @@
                     "creator": "templateersteller",
                     "creationdate": "Mon Jul 03 2017 16:21:04 GMT+0200 (Mitteleuropäische Sommerzeit)",
                     "media": []
+                },
+                {
+                    "gameid": "BJJUFpvVb",
+                    "id": "rJIWBrpEZ",
+                    "titel": "templatetitel",
+                    "description": "templatebeschreibung",
+                    "coordinate": "templatekoordinate",
+                    "creator": "templateersteller",
+                    "creationdate": "Fri Jul 07 2017 19:29:34 GMT+0200 (Mitteleuropäische Sommerzeit)"
+                },
+                {
+                    "gameid": "BJJUFpvVb",
+                    "id": "ByZvBHTEb",
+                    "titel": "templatetitel",
+                    "description": "templatebeschreibung",
+                    "coordinate": "templatekoordinate",
+                    "creator": "templateersteller",
+                    "creationdate": "Fri Jul 07 2017 19:31:05 GMT+0200 (Mitteleuropäische Sommerzeit)"
+                },
+                {
+                    "gameid": "BJJUFpvVb",
+                    "id": "rymTnBa4b",
+                    "titel": "templatetitel",
+                    "description": "templatebeschreibung",
+                    "coordinate": "templatekoordinate",
+                    "creator": "templateersteller",
+                    "creationdate": "Fri Jul 07 2017 20:02:34 GMT+0200 (Mitteleuropäische Sommerzeit)"
+                },
+                {
+                    "gameid": "BJJUFpvVb",
+                    "id": "rJM9DtCVb",
+                    "titel": "templatetitel",
+                    "description": "templatebeschreibung",
+                    "coordinate": "templatekoordinate",
+                    "creator": "templateersteller",
+                    "creationdate": "Sat Jul 08 2017 18:25:45 GMT+0200 (Mitteleuropäische Sommerzeit)"
+                },
+                {
+                    "gameid": "BJJUFpvVb",
+                    "id": "SyS-YYCNW",
+                    "titel": "templatetitel",
+                    "description": "templatebeschreibung",
+                    "coordinate": "templatekoordinate",
+                    "creator": "templateersteller",
+                    "creationdate": "Sat Jul 08 2017 18:31:57 GMT+0200 (Mitteleuropäische Sommerzeit)"
+                },
+                {
+                    "gameid": "BJJUFpvVb",
+                    "id": "SJBQYK0EZ",
+                    "titel": "templatetitel",
+                    "description": "templatebeschreibung",
+                    "coordinate": "templatekoordinate",
+                    "creator": "templateersteller",
+                    "creationdate": "Sat Jul 08 2017 18:32:29 GMT+0200 (Mitteleuropäische Sommerzeit)"
+                },
+                {
+                    "gameid": "BJJUFpvVb",
+                    "id": "ByKSKK04-",
+                    "titel": "templatetitel",
+                    "description": "templatebeschreibung",
+                    "coordinate": "templatekoordinate",
+                    "creator": "templateersteller",
+                    "creationdate": "Sat Jul 08 2017 18:33:04 GMT+0200 (Mitteleuropäische Sommerzeit)"
+                },
+                {
+                    "gameid": "BJJUFpvVb",
+                    "id": "r1WpFt04Z",
+                    "titel": "templatetitel",
+                    "description": "templatebeschreibung",
+                    "coordinate": "templatekoordinate",
+                    "creator": "templateersteller",
+                    "creationdate": "Sat Jul 08 2017 18:35:04 GMT+0200 (Mitteleuropäische Sommerzeit)"
+                },
+                {
+                    "gameid": "BJJUFpvVb",
+                    "id": "B1vk5FCN-",
+                    "titel": "templatetitel",
+                    "description": "templatebeschreibung",
+                    "coordinate": "templatekoordinate",
+                    "creator": "templateersteller",
+                    "creationdate": "Sat Jul 08 2017 18:35:42 GMT+0200 (Mitteleuropäische Sommerzeit)"
+                },
+                {
+                    "gameid": "BJJUFpvVb",
+                    "id": "H15EqYCN-",
+                    "titel": "templatetitel",
+                    "description": "templatebeschreibung",
+                    "coordinate": "templatekoordinate",
+                    "creator": "templateersteller",
+                    "creationdate": "Sat Jul 08 2017 18:37:05 GMT+0200 (Mitteleuropäische Sommerzeit)"
+                },
+                {
+                    "gameid": "BJJUFpvVb",
+                    "id": "HyXqhY0Vb",
+                    "titel": "templatetitel",
+                    "description": "templatebeschreibung",
+                    "coordinate": "templatekoordinate",
+                    "creator": "templateersteller",
+                    "creationdate": "Sat Jul 08 2017 18:47:07 GMT+0200 (Mitteleuropäische Sommerzeit)"
+                },
+                {
+                    "gameid": "BJJUFpvVb",
+                    "id": "SJ5d190V-",
+                    "titel": "templatetitel",
+                    "description": "templatebeschreibung",
+                    "coordinate": "templatekoordinate",
+                    "creator": "templateersteller",
+                    "creationdate": "Sat Jul 08 2017 18:59:29 GMT+0200 (Mitteleuropäische Sommerzeit)"
+                },
+                {
+                    "gameid": "BJJUFpvVb",
+                    "id": "BJ-1Z9CEb",
+                    "titel": "templatetitel",
+                    "description": "templatebeschreibung",
+                    "coordinate": "templatekoordinate",
+                    "creator": "templateersteller",
+                    "creationdate": "Sat Jul 08 2017 19:05:29 GMT+0200 (Mitteleuropäische Sommerzeit)"
+                },
+                {
+                    "gameid": "BJJUFpvVb",
+                    "id": "B1I4WcAE-",
+                    "titel": "penis",
+                    "description": "templatebeschreibung",
+                    "coordinate": "templatekoordinate",
+                    "creator": "templateersteller",
+                    "creationdate": "Sat Jul 08 2017 19:06:53 GMT+0200 (Mitteleuropäische Sommerzeit)"
+                },
+                {
+                    "gameid": "BJJUFpvVb",
+                    "id": "Bya179A4b",
+                    "titel": "penis",
+                    "description": "templatebeschreibung",
+                    "coordinate": "templatekoordinate",
+                    "creator": "templateersteller",
+                    "creationdate": "Sat Jul 08 2017 19:14:12 GMT+0200 (Mitteleuropäische Sommerzeit)"
+                },
+                {
+                    "gameid": "BJJUFpvVb",
+                    "id": "r1eumcRV-",
+                    "titel": "penis",
+                    "description": "templatebeschreibung",
+                    "coordinate": "templatekoordinate",
+                    "creator": "templateersteller",
+                    "creationdate": "Sat Jul 08 2017 19:16:23 GMT+0200 (Mitteleuropäische Sommerzeit)"
+                },
+                {
+                    "gameid": "BJJUFpvVb",
+                    "id": "r1qpo5CN-",
+                    "titel": "penis",
+                    "description": "templatebeschreibung",
+                    "coordinate": "templatekoordinate",
+                    "creator": "templateersteller",
+                    "creationdate": "Sat Jul 08 2017 19:52:01 GMT+0200 (Mitteleuropäische Sommerzeit)"
+                },
+                {
+                    "gameid": "BJJUFpvVb",
+                    "id": "rkiDhc0VW",
+                    "titel": "penis",
+                    "description": "templatebeschreibung",
+                    "coordinate": "templatekoordinate",
+                    "creator": "templateersteller",
+                    "creationdate": "Sat Jul 08 2017 19:54:43 GMT+0200 (Mitteleuropäische Sommerzeit)"
+                },
+                {
+                    "creationdate": "Sat Jul 08 2017 20:46:34 GMT+0200 (Mitteleuropäische Sommerzeit)",
+                    "creator": "templateersteller",
+                    "coordinate": "templatekoordinate",
+                    "description": "templatebeschreibung",
+                    "titel": "penis",
+                    "id": "rkXqdjC4W",
+                    "gameid": "BJJUFpvVb"
+                },
+                {
+                    "gameid": "BJJUFpvVb",
+                    "id": "S1FTui0Eb",
+                    "titel": "penis",
+                    "description": "templatebeschreibung",
+                    "coordinate": "templatekoordinate",
+                    "creator": "templateersteller",
+                    "creationdate": "Sat Jul 08 2017 20:47:29 GMT+0200 (Mitteleuropäische Sommerzeit)"
+                },
+                {
+                    "creationdate": "Sat Jul 08 2017 20:50:01 GMT+0200 (Mitteleuropäische Sommerzeit)",
+                    "creator": "templateersteller",
+                    "coordinate": "templatekoordinate",
+                    "description": "templatebeschreibung",
+                    "titel": "penis",
+                    "id": "HkfDYs04b",
+                    "gameid": "BJJUFpvVb"
                 }
             ],
             "participants": [
