@@ -1,0 +1,15 @@
+{
+  "name": "instagram-api-test",
+  "version": "1.0.0",
+  "description": "wba2 team 38 pruess",
+  "main": "index.html",
+  "scripts": {
+    "test": "instagram api echo"
+  },
+  "repository": {
+    "type": "git",
+    "url": "\u0016https://github.com/jomehr/wba2ss17_mehr-nehmke-pruess.git"
+  },
+  "author": "jared pruess",
+  "license": "ISC"
+}
