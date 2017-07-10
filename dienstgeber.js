@@ -5,32 +5,8 @@ const bodyParser =  require("body-parser");
 const async = require ("async")
 
 const settings = {
-  port: process.env.PORT || 3000,
-  datafile: "./testgame.json"
+  port: process.env.PORT || 3000
 };
-
-// global.gamedata = require("./game/games.json");
-// global.userdata = require("./user/users.json")
-// //read data from disk to memory
-// async.waterfall( [
-//   //reads data asynchronous and uses waterfall callback
-//   function(callback) {
-//     fs.readFile(settings.datafile, "utf-8", function(err, filestring) {
-//       callback(null, err, filestring);
-//     });
-//   },
-//   //parse as JSON and modify it to fit data strucuture
-//   function(err, filestring, callback) {
-//     if (err != null) { callback(null, false); }
-//     else {
-//       data.game = JSON.parse(filestring).game;
-//       callback(null, true);
-//     }
-//   }
-// ], function(err, success) {
-//   if (err != null) { success = false }
-//   console.log("Gamedaten wurden " + (success ? "erfolgreich" : "nicht erfolgreich") + "in den Speicher geladen.");
-// });
 
 //routing einbinden
 const game = require("./game");
@@ -56,15 +32,11 @@ app.use(function(req, res, next) {
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
 
-//statischer Ordner (klappt noch nicht)
-//app.use(express.static("game"));
 
 //REST methods
 app.get("/", function(req, res) {
-  res.links ( {
-    next: "http://localhost:3000/game"
-  });
-  res.send("/game für Spieldaten und /user für Userdaten");
+
+  res.send('<a href="https://wba2ss17-team38.herokuapp.com/game">games</a><br><a href="https://wba2ss17-team38.herokuapp.com/users">users</a>');
 });
 
 //Server auf localhost 127.0.0.1:3000
