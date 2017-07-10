@@ -1,0 +1,27 @@
+<!-- html um das ergebnis an zu zeigen -->
+<html>
+	<head>
+		<title>instagram api test</title>
+		  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+			<script>
+			var token = "XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX";
+			$.ajax({
+				url: 'https://api.instagram.com/v1/users/self/media/recent/',							/*users/self/media/recent/ -> um nur die url der bilder von api zu erhalten*/
+				dataType: 'jsonp',																												/* das Dateiformat in der wir die Antwort akzeptieren */
+				type: 'GET',
+				data: {access_token: token, count:10},																		/* wir übergeben var token an api */
+				success: function(data) {
+					for (x in data.data) {
+						$('ul').append('<li><a href="'+data.data[x].link+'"><img src="'+ data.data[x].images.low_resolution.url+'"></a></li>')
+					}
+				},
+				error: function(data) {
+					console.log(data);
+				}
+			});
+		  </script>
+	</head>
+	<body>
+		 <ul></ul>																																		<!-- ergebnis von append kommt als kind-element in dieses ul-html-element -->
+	</body>
+</html>
