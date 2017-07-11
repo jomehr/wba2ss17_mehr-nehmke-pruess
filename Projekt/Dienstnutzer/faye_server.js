@@ -8,7 +8,7 @@ var server = http.createServer();
 
 //Node Adapter über den sich die Clients verbinden und kommunizieren
 var fayeservice = new faye.NodeAdapter({
-  mount: '/',                                     //Pfad wo Faye-Service verfügbar ist
+  mount: '/faye',                                     //Pfad wo Faye-Service verfügbar ist
   timeout: 25                                         //max. Zeit in Sek. bis eine Antwort versendet wird
 });
 

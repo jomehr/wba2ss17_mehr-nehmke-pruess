@@ -14,7 +14,7 @@ var dPort = 3000;
 var dURL = 'https://wba2ss17-team38.herokuapp.com'; //Ziel-URL zum Dienstgeber, falls er deployed ist
 
 const settings = {
-  port: process.env.PORT || 8081,       //<- sollte eigentlich Port 8080!!! wirft jedoch Fehler!
+  port: process.env.PORT || 8080,       //<- sollte eigentlich Port 8080!!! wirft jedoch Fehler!
 };
 
 //log mit Pfad und Zeit
@@ -40,6 +40,13 @@ app.get('/users', function(req, res) {
 //GET-Requests alle Games
 app.get('/game', function(req, res) {
   var url = dURL+ '/game';
+
+  client.publish( "/news", {text: "Game wurde geupdated"})
+ .then(function() {
+    console.log("Message received by server");
+  }, function(error) {
+    console.log("Error while publishing: " + error.message);
+  });
 
   //TODO implement GET Request
   request.get(url, function(err, response, body) {
@@ -173,6 +180,14 @@ app.post('/users', function(req, res) {
     method: 'POST',
     json: data
   }
+
+  client.publish( "/news", {text: "Ein neuer User wurde hinzugefügt!"})
+  .then(function() {
+    console.log("Message received by server");
+  }, function(error) {
+    console.log("Error while publishing: " + error.message);
+  });
+
   request(options, function(err, response, body){
     console.log(body);
     res.json(body);
@@ -196,6 +211,12 @@ app.post('/game', function(req, res) {
   }, function(error) {
     console.log("Error while publishing: " + error.message);
   });
+   client.publish( "/news", {text: "Ein neues Spiel wurde hinzugefügt!"})
+  .then(function() {
+     console.log("Message received by server");
+   }, function(error) {
+     console.log("Error while publishing: " + error.message);
+   });
 
   request(options, function(err, response, body){
     console.log(body);
@@ -213,6 +234,14 @@ app.post('/game/:gameid/clues', function(req, res) {
     method: 'POST',
     json: data
   }
+
+  client.publish( "/news", {text: "Neuer hinweis in game "+gameid+" wurde hinzugefügt!"})
+  .then(function() {
+    console.log("Message received by server");
+  }, function(error) {
+    console.log("Error while publishing: " + error.message);
+  });
+
   request(options, function(err, response, body){
     console.log(body);
     res.json(body);
@@ -230,6 +259,14 @@ app.post('/game/:gameid/clues/:cluesid/media', function(req, res) {
     method: 'POST',
     json: data
   }
+
+  client.publish( "/news", {text: "Beim Spiel "+gameid+" wurde den Hinweisen neue Media hinzugefügt!"})
+  .then(function() {
+    console.log("Message received by server");
+  }, function(error) {
+    console.log("Error while publishing: " + error.message);
+  });
+
   request(options, function(err, response, body){
     console.log(body);
     res.json(body);
@@ -246,6 +283,14 @@ app.post('/game/:gameid/participants', function(req, res) {
     method: 'POST',
     json: data
   }
+
+  client.publish( "/news", {text: "Game "+gameid+" ist ein neuer Spieler beigetreten!"})
+  .then(function() {
+    console.log("Message received by server");
+  }, function(error) {
+    console.log("Error while publishing: " + error.message);
+  });
+
   request(options, function(err, response, body){
     console.log(body);
     res.json(body);
@@ -262,6 +307,14 @@ app.post('/game/:gameid/poi', function(req, res) {
     method: 'POST',
     json: data
   }
+
+  client.publish( "/news", {text: "Poi wurde geupdated"})
+  .then(function() {
+    console.log("Message received by server");
+  }, function(error) {
+    console.log("Error while publishing: " + error.message);
+  });
+
   request(options, function(err, response, body){
     console.log(body);
     res.json(body);
@@ -284,6 +337,13 @@ app.delete('/game/:gameid', function(req, res) {
   var gameid = req.params.gameid;
   var url = dURL + '/game/' + gameid;
 
+  client.publish( "/news", {text: "Game "+gameid+" wurde gelöscht"})
+  .then(function() {
+    console.log("Message received by server");
+  }, function(error) {
+    console.log("Error while publishing: " + error.message);
+  });
+
   //TODO implement DELETE Method
   request.delete(url, function(err, response, body) {
     res.json(body);
@@ -294,6 +354,13 @@ app.delete('/game/:gameid/clues/:clueid', function(req, res) {
   var gameid = req.params.gameid;
   var clueid = req.params.clueid;
   var url = dURL + '/game/' + gameid + '/clues/' + clueid;
+
+  client.publish( "/news", {text: "Hinweise von game "+gameid+" wurde geupdated"})
+  .then(function() {
+    console.log("Message received by server");
+  }, function(error) {
+    console.log("Error while publishing: " + error.message);
+  });
 
   //TODO implement DELETE Method
   request.delete(url, function(err, response, body) {
@@ -307,6 +374,13 @@ app.delete('/game/:gameid/clues/:clueid/media/:mediaid', function(req, res) {
   var mediaid = req.params.mediaid;
   var url = dURL + '/game/' + gameid + '/clues/' + clueid + '/media/' + mediaid;
 
+  client.publish( "/news", {text: "Beim Spiel "+gameid+" wurde in den Hinweisen Media entfernt!"})
+  .then(function() {
+    console.log("Message received by server");
+  }, function(error) {
+    console.log("Error while publishing: " + error.message);
+  });
+
   //TODO implement DELETE Method
   request.delete(url, function(err, response, body) {
     res.json(body);
@@ -318,6 +392,13 @@ app.delete('/game/:gameid/participants/:participantid', function(req, res) {
   var participantid = req.params.participantid;
   var url = dURL + '/game/' + gameid + '/participants/' + participantid;
 
+  client.publish( "/news", {text: "Beim Spiel "+gameid+" nimmt der Spieler "+participantid+" nicht mehr teil!"})
+  .then(function() {
+    console.log("Message received by server");
+  }, function(error) {
+    console.log("Error while publishing: " + error.message);
+  });
+
   //TODO implement DELETE Method
   request.delete(url, function(err, response, body) {
     res.json(body);
@@ -327,6 +408,13 @@ app.delete('/game/:gameid/participants/:participantid', function(req, res) {
 app.delete('/game/:gameid/poi/', function(req, res) {
   var gameid = req.params.gameid;
   var url = dURL + '/game/' + gameid + '/poi/';
+
+  client.publish( "/news", {text: "Beim Spiel "+gameid+" wurden Points of Interest gelöscht!"})
+  .then(function() {
+    console.log("Message received by server");
+  }, function(error) {
+    console.log("Error while publishing: " + error.message);
+  });
 
   //TODO implement DELETE Method
   request.delete(url, function(err, response, body) {
