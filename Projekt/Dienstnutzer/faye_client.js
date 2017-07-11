@@ -4,11 +4,11 @@ var faye = require('faye');
 var client = new faye.Client('http://localhost:8000');
 
 //Subscribe-Methode
-client.subscribe('/messages', function(message){          //client.subscribe(Topic angelegt, Call-Back)
-  console.log('Nachricht erhalten:' + message.text);
+client.subscribe('/games', function(data){          //client.subscribe(Topic angelegt, Call-Back)
+  alert('Nachricht erhalten:' + data.text);
 });
 
-//Publish-Methode
-client.publish('/message', {                              //client.publish(Topic auf das gepublisht werden soll)
+// //Publish-Methode
+client.publish('/games', {                              //client.publish(Topic auf das gepublisht werden soll)
   text: 'Hallo Spieler'
 });

@@ -11,7 +11,7 @@ app.use(bodyParser.json());
 
 var dHost = 'http://localhost';    //Ziel-URL vom Dienstgeber
 var dPort = 3000;
-var dURL = dHost + ':' + dPort;
+var dURL = 'https://wba2ss17-team38.herokuapp.com';
 
 const settings = {
   port: process.env.PORT || 8081,       //<- sollte eigentlich Port 8080!!! wirft jedoch Fehler!
@@ -51,7 +51,7 @@ app.get('/game', function(req, res) {
 //GET Request auf einen bestimmten User
 app.get('/users/:userid', function(req, res) {
   var userid = req.params.userid;
-  var url = dHost + ':' + dPort + '/users/' + userid;
+  var url = dURL + '/users/' + userid;
 
   //TODO implement GET Request
   request.get(url, function(err, response, body) {
@@ -63,7 +63,7 @@ app.get('/users/:userid', function(req, res) {
 //GET Request auf einen bestimmtes Game
 app.get('/game/:gameid', function(req, res) {
   var gameid = req.params.gameid;
-  var url = dHost + ':' + dPort + '/game/' + gameid;
+  var url = dURL + '/game/' + gameid;
 
   //TODO implement GET Request
   request.get(url, function(err, response, body) {
@@ -75,7 +75,7 @@ app.get('/game/:gameid', function(req, res) {
 //GET Request auf Clues eines bestimmten Game
 app.get('/game/:gameid/clues', function(req, res) {
   var gameid = req.params.gameid;
-  var url = dHost + ':' + dPort + '/game/' + gameid + '/clues/';
+  var url = dURL + '/game/' + gameid + '/clues/';
 
   //TODO implement GET Request
   request.get(url, function(err, response, body) {
@@ -88,7 +88,7 @@ app.get('/game/:gameid/clues', function(req, res) {
 app.get('/game/:gameid/clues/:clueid', function(req, res) {
   var gameid = req.params.gameid;
   var clueid = req.params.clueid;
-  var url = dHost + ':' + dPort +  '/game/' + gameid + '/clues/' + clueid;
+  var url = dURL +  '/game/' + gameid + '/clues/' + clueid;
 
   //TODO implement GET Request
   request.get(url, function(err, response, body) {
@@ -101,7 +101,7 @@ app.get('/game/:gameid/clues/:clueid', function(req, res) {
 app.get('/game/:gameid/clues/:clueid/media', function(req, res) {
   var gameid = req.params.gameid;
   var clueid = req.params.clueid;
-  var url = dHost + ':' + dPort +  '/game/' + gameid + '/clues/' + clueid + '/media/';
+  var url = dURL +  '/game/' + gameid + '/clues/' + clueid + '/media/';
 
   //TODO implement GET Request
   request.get(url, function(err, response, body) {
@@ -115,7 +115,7 @@ app.get('/game/:gameid/clues/:clueid/media/:mediaid', function(req, res) {
   var gameid = req.params.gameid;
   var clueid = req.params.clueid;
   var mediaid = req.params.mediaid;
-  var url = dHost + ':' + dPort +  '/game/' + gameid + '/clues/' + clueid + '/media/' + mediaid;
+  var url = dURL +  '/game/' + gameid + '/clues/' + clueid + '/media/' + mediaid;
 
   //TODO implement GET Request
   request.get(url, function(err, response, body) {
@@ -127,7 +127,7 @@ app.get('/game/:gameid/clues/:clueid/media/:mediaid', function(req, res) {
 //GET Request auf alle Teilnehmer eines bestimmten Game
 app.get('/game/:gameid/participants', function(req, res) {
   var gameid = req.params.gameid;
-  var url = dHost + ':' + dPort +  '/game/' + gameid + '/participants/';
+  var url = dURL +  '/game/' + gameid + '/participants/';
 
   //TODO implement GET Request
   request.get(url, function(err, response, body) {
@@ -140,7 +140,7 @@ app.get('/game/:gameid/participants', function(req, res) {
 app.get('/game/:gameid/participants/:participantid', function(req, res) {
   var gameid = req.params.gameid;
   var participantid = req.params.participantid;
-  var url = dHost + ':' + dPort +  '/game/' + gameid + '/participants/' + participantid;
+  var url = dURL +  '/game/' + gameid + '/participants/' + participantid;
 
   //TODO implement GET Request
   request.get(url, function(err, response, body) {
@@ -152,7 +152,7 @@ app.get('/game/:gameid/participants/:participantid', function(req, res) {
 //GET Request auf POI eines bestimmten Game
 app.get('/game/:gameid/poi', function(req, res) {
   var gameid = req.params.gameid;
-  var url = dHost + ':' + dPort +  '/game/' + gameid + '/poi/';
+  var url = dURL +  '/game/' + gameid + '/poi/';
 
   //TODO implement GET Request
   request.get(url, function(err, response, body) {
@@ -181,13 +181,23 @@ app.post('/users', function(req, res) {
 
 app.post('/game', function(req, res) {
   var url = dURL + '/game/';
+  //var ressourceURI = helper.pathJoin(config.remoteService.url, "game");
   var data = req.body;
   //TODO implement POST method
   var options = {
-    uri: url,
+    uri: dURL,
     method: 'POST',
+    headers: { "Content-Type": "application.json"},
     json: data
   }
+
+  // client.publish( "/news", {text: "Game wurde geupdated"})
+  // .then(function() {
+  //   console.log("Message received by server");
+  // }, function(error) {
+  //   console.log("Error while publishing: " + error.message);
+  // });
+
   request(options, function(err, response, body){
     console.log(body);
     res.json(body);
@@ -196,7 +206,7 @@ app.post('/game', function(req, res) {
 
 app.post('/game/:gameid/clues', function(req, res) {
   var gameid = req.params.gameid;
-  var url = dHost + ':' + dPort + '/game/' + gameid + '/clues/';
+  var url = dURL + '/game/' + gameid + '/clues/';
   var data = req.body;
   //TODO implement POST method
   var options = {
@@ -213,7 +223,7 @@ app.post('/game/:gameid/clues', function(req, res) {
 app.post('/game/:gameid/clues/:cluesid/media', function(req, res) {
   var gameid = req.params.gameid;
   var clueid = req.params.clueid;
-  var url = dHost + ':' + dPort +  '/game/' + gameid + '/clues/' + clueid + '/media/';
+  var url = dURL +  '/game/' + gameid + '/clues/' + clueid + '/media/';
   var data = req.body;
   //TODO implement POST method
   var options = {
@@ -229,7 +239,7 @@ app.post('/game/:gameid/clues/:cluesid/media', function(req, res) {
 
 app.post('/game/:gameid/participants', function(req, res) {
   var gameid = req.params.gameid;
-  var url = dHost + ':' + dPort +  '/game/' + gameid + '/participants/';
+  var url = dURL +  '/game/' + gameid + '/participants/';
   var data = req.body;
   //TODO implement POST method
   var options = {
@@ -245,7 +255,7 @@ app.post('/game/:gameid/participants', function(req, res) {
 
 app.post('/game/:gameid/poi', function(req, res) {
   var gameid = req.params.gameid;
-  var url = dHost + ':' + dPort +  '/game/' + gameid + '/poi/';
+  var url = dURL +  '/game/' + gameid + '/poi/';
   var data = req.body;
   //TODO implement POST method
   var options = {
@@ -478,22 +488,23 @@ app.patch('/game/:gameid/participants/:participantid', function(req, res) {
 });
 
 
-/*
-//FAYE
-var fayeserver = new faye.NodeAdapter({ mount: '/faye', timeout: 25});
-fayeserver.attach(http);
 
-//serverseitiger client
-var client = new faye.Client('http://localhost:' + config.listeningPort + '/faye');
-client.subscribe('/news', function(message) {
-  console.log(message.text);
-});
+//FAYE
+// var server = http.createServer();
+// var fayeserver = new faye.NodeAdapter({ mount: '/faye', timeout: 25});
+// fayeserver.attach(app);
+//
+// //serverseitiger client
+// var client = new faye.Client('http://localhost:' + settings.port + '/faye');
+// client.subscribe('/news', function(message) {
+//   console.log(message.text);
+// });
 
 //let the express-App listen on a given Port
-http.listen(config.listeningPort, function(){
-  console.log("Listening on http://localhost:" + config.listeningPort);
-});
-*/
+// server.listen(settings.port, function(){
+//   console.log("Listening on http://localhost:" + settings.port);
+// });
+
 
 
 
