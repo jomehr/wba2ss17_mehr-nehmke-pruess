@@ -9,9 +9,9 @@ const bodyParser =  require("body-parser");
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
 
-var dHost = 'http://localhost';    //Ziel-URL vom Dienstgeber
+var dHost = 'http://localhost';    //Ziel-URL vom Dienstgeber, falls er lokal ist
 var dPort = 3000;
-var dURL = 'https://wba2ss17-team38.herokuapp.com';
+var dURL = 'https://wba2ss17-team38.herokuapp.com'; //Ziel-URL zum Dienstgeber, falls er deployed ist
 
 const settings = {
   port: process.env.PORT || 8081,       //<- sollte eigentlich Port 8080!!! wirft jedoch Fehler!
@@ -381,17 +381,17 @@ app.patch('/game/:gameid', function(req, res) {
     },
     json: data
   };
-/*
+
 //FAYE-Teil bei PATCH
-  client.publish('/news', {text: 'User wurde geändert.'})
+  client.publish('/faye/news', {text: 'User wurde geändert.'})
   .then(function() {
     console.log('Message received by server!');
   }, function(error) {
     console.log('There was an error publishing:' + error.message);
   });
-  */
+
   request(options, function(err, response, body) {
-    console.log('PATCH /game/' + gameid + '=> \n', body);
+    //console.log('PATCH /game/' + gameid + '=> \n', body);
     res.json(body)
   });
 });
@@ -487,28 +487,24 @@ app.patch('/game/:gameid/participants/:participantid', function(req, res) {
   });
 });
 
-
-
-//FAYE
-// var server = http.createServer();
-// var fayeserver = new faye.NodeAdapter({ mount: '/faye', timeout: 25});
-// fayeserver.attach(app);
-//
-// //serverseitiger client
-// var client = new faye.Client('http://localhost:' + settings.port + '/faye');
-// client.subscribe('/news', function(message) {
-//   console.log(message.text);
-// });
-
-//let the express-App listen on a given Port
-// server.listen(settings.port, function(){
+// //let the express-App listen on a given Port
+// var server = http.createServer(app, function(){
 //   console.log("Listening on http://localhost:" + settings.port);
 // });
-
 
 
 
 //Dienstnutzer über Port 8080 mittels express zur Verfügung stellen
 app.listen(settings.port, function(){
   console.log("Dienstnutzer ist nun auf Port "+settings.port+" verfügbar.");
+});
+
+//FAYE
+var fayeserver = new faye.NodeAdapter({ mount: '/faye', timeout: 45});
+fayeserver.attach(app);
+
+//serverseitiger client
+var client = new faye.Client('http://localhost:' + settings.port +"/faye");
+client.subscribe('/news', function(message) {
+  console.log(message.text);
 });
