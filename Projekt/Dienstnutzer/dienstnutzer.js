@@ -185,18 +185,17 @@ app.post('/game', function(req, res) {
   var data = req.body;
   //TODO implement POST method
   var options = {
-    uri: dURL,
+    uri: url,
     method: 'POST',
-    headers: { "Content-Type": "application.json"},
     json: data
   }
 
-  // client.publish( "/news", {text: "Game wurde geupdated"})
-  // .then(function() {
-  //   console.log("Message received by server");
-  // }, function(error) {
-  //   console.log("Error while publishing: " + error.message);
-  // });
+  client.publish( "/game", data)
+  .then(function() {
+    console.log("Message received by server");
+  }, function(error) {
+    console.log("Error while publishing: " + error.message);
+  });
 
   request(options, function(err, response, body){
     console.log(body);
@@ -383,7 +382,7 @@ app.patch('/game/:gameid', function(req, res) {
   };
 
 //FAYE-Teil bei PATCH
-  client.publish('/faye/news', {text: 'User wurde geändert.'})
+  client.publish('/news', data)
   .then(function() {
     console.log('Message received by server!');
   }, function(error) {
@@ -495,16 +494,22 @@ app.patch('/game/:gameid/participants/:participantid', function(req, res) {
 
 
 //Dienstnutzer über Port 8080 mittels express zur Verfügung stellen
-app.listen(settings.port, function(){
-  console.log("Dienstnutzer ist nun auf Port "+settings.port+" verfügbar.");
-});
+// app.listen(settings.port, function(){
+//   console.log("Dienstnutzer ist nun auf Port "+settings.port+" verfügbar.");
+// });
 
 //FAYE
+var server = http.createServer(app).listen(settings.port, function(){
+  console.log("Listening on http://localhost/:" + settings.port);
+});
 var fayeserver = new faye.NodeAdapter({ mount: '/faye', timeout: 45});
-fayeserver.attach(app);
+fayeserver.attach(server);
 
 //serverseitiger client
 var client = new faye.Client('http://localhost:' + settings.port +"/faye");
 client.subscribe('/news', function(message) {
-  console.log(message.text);
+  console.log(message);
+});
+client.subscribe("/game", function(message) {
+  console.log(message);
 });
