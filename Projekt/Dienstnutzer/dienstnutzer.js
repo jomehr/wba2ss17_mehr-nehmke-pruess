@@ -200,7 +200,7 @@ app.post('/game', function(req, res) {
   var data = req.body;
   //TODO implement POST method
   var options = {
-    uri: dURL,
+    uri: url,
     method: 'POST',
     headers: { "Content-Type": "application.json"},
     json: data
