@@ -14,7 +14,7 @@ var dPort = 3000;
 var dURL = 'https://wba2ss17-team38.herokuapp.com';
 
 const settings = {
-  port: process.env.PORT || 8081,       //<- sollte eigentlich Port 8080!!! wirft jedoch Fehler!
+  port: process.env.PORT || 8080,       //<- sollte eigentlich Port 8080!!! wirft jedoch Fehler!
 };
 
 //log mit Pfad und Zeit
@@ -40,6 +40,13 @@ app.get('/users', function(req, res) {
 //GET-Requests alle Games
 app.get('/game', function(req, res) {
   var url = dURL+ '/game';
+
+  client.publish( "/news", {text: "Game wurde geupdated"})
+ .then(function() {
+    console.log("Message received by server");
+  }, function(error) {
+    console.log("Error while publishing: " + error.message);
+  });
 
   //TODO implement GET Request
   request.get(url, function(err, response, body) {
@@ -191,12 +198,12 @@ app.post('/game', function(req, res) {
     json: data
   }
 
-  // client.publish( "/news", {text: "Game wurde geupdated"})
-  // .then(function() {
-  //   console.log("Message received by server");
-  // }, function(error) {
-  //   console.log("Error while publishing: " + error.message);
-  // });
+   client.publish( "/news", {text: "Game wurde geupdated"})
+  .then(function() {
+     console.log("Message received by server");
+   }, function(error) {
+     console.log("Error while publishing: " + error.message);
+   });
 
   request(options, function(err, response, body){
     console.log(body);
@@ -263,6 +270,14 @@ app.post('/game/:gameid/poi', function(req, res) {
     method: 'POST',
     json: data
   }
+
+  client.publish( "/news", {text: "Poi wurde geupdated"})
+  .then(function() {
+    console.log("Message received by server");
+  }, function(error) {
+    console.log("Error while publishing: " + error.message);
+  });
+
   request(options, function(err, response, body){
     console.log(body);
     res.json(body);
@@ -487,28 +502,17 @@ app.patch('/game/:gameid/participants/:participantid', function(req, res) {
   });
 });
 
+//------FAYE------
+var server = http.createServer(app).listen(settings.port, function(){
+  console.log("Listening on http://localhost/:" + settings.port);
+});
 
+var fayeserver = new faye.NodeAdapter({mount:'/faye', timeout: 25});
+fayeserver.attach(server);
 
-//FAYE
-// var server = http.createServer();
-// var fayeserver = new faye.NodeAdapter({ mount: '/faye', timeout: 25});
-// fayeserver.attach(app);
-//
-// //serverseitiger client
-// var client = new faye.Client('http://localhost:' + settings.port + '/faye');
-// client.subscribe('/news', function(message) {
-//   console.log(message.text);
-// });
-
-//let the express-App listen on a given Port
-// server.listen(settings.port, function(){
-//   console.log("Listening on http://localhost:" + settings.port);
-// });
-
-
+//serverseitiger client
+var client = new faye.Client('http://localhost:'+settings.port +'/faye');
+client.subscribe('/news', function(message) {console.log(message.text);});
 
 
 //Dienstnutzer über Port 8080 mittels express zur Verfügung stellen
-app.listen(settings.port, function(){
-  console.log("Dienstnutzer ist nun auf Port "+settings.port+" verfügbar.");
-});

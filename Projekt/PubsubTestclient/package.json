@@ -1,0 +1,16 @@
+{
+  "name": "pubsubtestclient",
+  "version": "0.0.1",
+  "description": "Simple client for testing socket.io and Faye messages from a provided server and topic",
+  "main": "client.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Franz",
+  "license": "ISC",
+  "dependencies": {
+    "faye": "^1.2.4",
+    "prompt": "^1.0.0",
+    "socket.io-client": "^1.7.2"
+  }
+}
