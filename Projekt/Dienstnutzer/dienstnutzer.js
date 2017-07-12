@@ -9,9 +9,9 @@ const bodyParser =  require("body-parser");
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
 
-var dHost = 'http://localhost';    //Ziel-URL vom Dienstgeber
+var dHost = 'http://localhost';    //Ziel-URL vom Dienstgeber, falls er lokal ist
 var dPort = 3000;
-var dURL = 'https://wba2ss17-team38.herokuapp.com';
+var dURL = 'https://wba2ss17-team38.herokuapp.com'; //Ziel-URL zum Dienstgeber, falls er deployed ist
 
 const settings = {
   port: process.env.PORT || 8080,       //<- sollte eigentlich Port 8080!!! wirft jedoch Fehler!
@@ -40,13 +40,6 @@ app.get('/users', function(req, res) {
 //GET-Requests alle Games
 app.get('/game', function(req, res) {
   var url = dURL+ '/game';
-
-  client.publish( "/news", {text: "Game wurde geupdated"})
- .then(function() {
-    console.log("Message received by server");
-  }, function(error) {
-    console.log("Error while publishing: " + error.message);
-  });
 
   //TODO implement GET Request
   request.get(url, function(err, response, body) {
@@ -181,7 +174,7 @@ app.post('/users', function(req, res) {
     json: data
   }
 
-  client.publish( "/news", {text: "Ein neuer User wurde hinzugefügt!"})
+  client.publish( "/user", {text: "Ein neuer User wurde hinzugefügt!"})
   .then(function() {
     console.log("Message received by server");
   }, function(error) {
@@ -202,11 +195,11 @@ app.post('/game', function(req, res) {
   var options = {
     uri: url,
     method: 'POST',
-    headers: { "Content-Type": "application.json"},
     json: data
   }
 
-   client.publish( "/news", {text: "Ein neues Spiel wurde hinzugefügt!"})
+
+   client.publish( "/game", {text: "Ein neues Spiel wurde hinzugefügt!"+JSON.stringify(data)})
   .then(function() {
      console.log("Message received by server");
    }, function(error) {
@@ -230,12 +223,6 @@ app.post('/game/:gameid/clues', function(req, res) {
     json: data
   }
 
-  client.publish( "/news", {text: "Neuer hinweis in game "+gameid+" wurde hinzugefügt!"})
-  .then(function() {
-    console.log("Message received by server");
-  }, function(error) {
-    console.log("Error while publishing: " + error.message);
-  });
 
   request(options, function(err, response, body){
     console.log(body);
@@ -255,13 +242,6 @@ app.post('/game/:gameid/clues/:cluesid/media', function(req, res) {
     json: data
   }
 
-  client.publish( "/news", {text: "Beim Spiel "+gameid+" wurde den Hinweisen neue Media hinzugefügt!"})
-  .then(function() {
-    console.log("Message received by server");
-  }, function(error) {
-    console.log("Error while publishing: " + error.message);
-  });
-
   request(options, function(err, response, body){
     console.log(body);
     res.json(body);
@@ -279,7 +259,7 @@ app.post('/game/:gameid/participants', function(req, res) {
     json: data
   }
 
-  client.publish( "/news", {text: "Game "+gameid+" ist ein neuer Spieler beigetreten!"})
+  client.publish( "/game"+gameid, {text: "Game "+gameid+" ist ein neuer Spieler beigetreten!"})
   .then(function() {
     console.log("Message received by server");
   }, function(error) {
@@ -303,12 +283,6 @@ app.post('/game/:gameid/poi', function(req, res) {
     json: data
   }
 
-  client.publish( "/news", {text: "Poi wurde geupdated"})
-  .then(function() {
-    console.log("Message received by server");
-  }, function(error) {
-    console.log("Error while publishing: " + error.message);
-  });
 
   request(options, function(err, response, body){
     console.log(body);
@@ -332,7 +306,7 @@ app.delete('/game/:gameid', function(req, res) {
   var gameid = req.params.gameid;
   var url = dURL + '/game/' + gameid;
 
-  client.publish( "/news", {text: "Game "+gameid+" wurde gelöscht"})
+  client.publish( "/game"+gameid, {text: "Game "+gameid+" wurde gelöscht"})
   .then(function() {
     console.log("Message received by server");
   }, function(error) {
@@ -350,13 +324,6 @@ app.delete('/game/:gameid/clues/:clueid', function(req, res) {
   var clueid = req.params.clueid;
   var url = dURL + '/game/' + gameid + '/clues/' + clueid;
 
-  client.publish( "/news", {text: "Hinweise von game "+gameid+" wurde geupdated"})
-  .then(function() {
-    console.log("Message received by server");
-  }, function(error) {
-    console.log("Error while publishing: " + error.message);
-  });
-
   //TODO implement DELETE Method
   request.delete(url, function(err, response, body) {
     res.json(body);
@@ -369,12 +336,6 @@ app.delete('/game/:gameid/clues/:clueid/media/:mediaid', function(req, res) {
   var mediaid = req.params.mediaid;
   var url = dURL + '/game/' + gameid + '/clues/' + clueid + '/media/' + mediaid;
 
-  client.publish( "/news", {text: "Beim Spiel "+gameid+" wurde in den Hinweisen Media entfernt!"})
-  .then(function() {
-    console.log("Message received by server");
-  }, function(error) {
-    console.log("Error while publishing: " + error.message);
-  });
 
   //TODO implement DELETE Method
   request.delete(url, function(err, response, body) {
@@ -387,7 +348,7 @@ app.delete('/game/:gameid/participants/:participantid', function(req, res) {
   var participantid = req.params.participantid;
   var url = dURL + '/game/' + gameid + '/participants/' + participantid;
 
-  client.publish( "/news", {text: "Beim Spiel "+gameid+" nimmt der Spieler "+participantid+" nicht mehr teil!"})
+  client.publish( "/game"+gameid, {text: "Beim Spiel "+gameid+" nimmt der Spieler "+participantid+" nicht mehr teil!"})
   .then(function() {
     console.log("Message received by server");
   }, function(error) {
@@ -403,13 +364,6 @@ app.delete('/game/:gameid/participants/:participantid', function(req, res) {
 app.delete('/game/:gameid/poi/', function(req, res) {
   var gameid = req.params.gameid;
   var url = dURL + '/game/' + gameid + '/poi/';
-
-  client.publish( "/news", {text: "Beim Spiel "+gameid+" wurden Points of Interest gelöscht!"})
-  .then(function() {
-    console.log("Message received by server");
-  }, function(error) {
-    console.log("Error while publishing: " + error.message);
-  });
 
   //TODO implement DELETE Method
   request.delete(url, function(err, response, body) {
@@ -463,17 +417,11 @@ app.patch('/game/:gameid', function(req, res) {
     },
     json: data
   };
-/*
+
 //FAYE-Teil bei PATCH
-  client.publish('/news', {text: 'User wurde geändert.'})
-  .then(function() {
-    console.log('Message received by server!');
-  }, function(error) {
-    console.log('There was an error publishing:' + error.message);
-  });
-  */
+
   request(options, function(err, response, body) {
-    console.log('PATCH /game/' + gameid + '=> \n', body);
+    //console.log('PATCH /game/' + gameid + '=> \n', body);
     res.json(body)
   });
 });
@@ -569,17 +517,30 @@ app.patch('/game/:gameid/participants/:participantid', function(req, res) {
   });
 });
 
-//------FAYE------
-var server = http.createServer(app).listen(settings.port, function(){
-  console.log("Listening on http://localhost/:" + settings.port);
-});
+// //let the express-App listen on a given Port
+// var server = http.createServer(app, function(){
+//   console.log("Listening on http://localhost:" + settings.port);
+// });
 
-var fayeserver = new faye.NodeAdapter({mount:'/faye', timeout: 25});
-fayeserver.attach(server);
-
-//serverseitiger client
-var client = new faye.Client('http://localhost:'+settings.port +'/faye');
-client.subscribe('/news', function(message) {console.log(message.text);});
 
 
 //Dienstnutzer über Port 8080 mittels express zur Verfügung stellen
+// app.listen(settings.port, function(){
+//   console.log("Dienstnutzer ist nun auf Port "+settings.port+" verfügbar.");
+// });
+
+//FAYE
+var server = http.createServer(app).listen(settings.port, function(){
+  console.log("Listening on http://localhost/:" + settings.port);
+});
+var fayeserver = new faye.NodeAdapter({ mount: '/faye', timeout: 45});
+fayeserver.attach(server);
+
+//serverseitiger client
+var client = new faye.Client('http://localhost:' + settings.port +"/faye");
+client.subscribe('/news', function(message) {
+  console.log(message);
+});
+client.subscribe("/game", function(message) {
+  console.log(message);
+});
