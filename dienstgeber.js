@@ -9,9 +9,9 @@ const settings = {
 };
 
 //routing einbinden
-const game = require("./game");
+const game = require("./games");
 const user =  require("./users");
-app.use("/game", game);
+app.use("/games", game);
 app.use("/users", user);
 
 //errorhandler

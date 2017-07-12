@@ -4,7 +4,7 @@ const bodyParser =  require("body-parser");
 const fs = require("fs");
 const shortid = require('shortid')
 
-const ressourceName ="game";
+const ressourceName ="games";
 
 //speicher aktuelle zeit ab
 var date = Date();
@@ -98,7 +98,6 @@ router.post("/", function(req, res) {
   //push data into existing json and stringify it for saving
   gamedatabase.games.push(games);
   saveGameData(gamedatabase);
-	console.log(gameid);
   //formats responds to json
   res.format({
     "application/json": function() {
@@ -123,7 +122,9 @@ router.post("/:gameId/clues", function(req, res) {
         "description": req.body.description,
         "coordinate": req.body.coordinate,
         "creator": req.body.creator,
-        "creationdate": Date()
+				"gameurl": "https://wba2ss17-team38.herokuapp.com/games/"+req.params.gameId,
+        "creationdate": Date(),
+				"media": []
       };
   //push data into existing json and stringify it for saving
   gamedatabase.games[i].clues.push(clues);
@@ -151,6 +152,7 @@ router.post("/:gameId/participants", function(req, res) {
         "first_name": req.body.first_name,
         "last_name": req.body.last_name,
 				"username": req.body.username,
+				"gameurl": "https://wba2ss17-team38.herokuapp.com/games/"+req.params.gameId,
         "joindate": Date()
       };
   //push data into existing json and stringify it for saving
@@ -184,10 +186,10 @@ router.post("/:gameId/clues/:clueId/media", function(req, res) {
         "id": mediaid,
         "titel": req.body.titel,
 				"uploader": req.body.uploader,
-        "url": req.body.url,
+        "mediaurl": req.body.url,
+				"gameurl": "https://wba2ss17-team38.herokuapp.com/games/"+req.params.gameId,
         "creationdate": Date()
       };
-	console.log(media);
   //push data into existing json and stringify it for saving
   gamedatabase.games[i].clues[j].media.push(media);
   saveGameData(gamedatabase);
@@ -203,6 +205,7 @@ router.post("/:gameId/poi", function(req, res) {
 	let poibody = req.body.features;
 	poistart = {
 		 "id": req.params.gameId,
+		 "gameurl": "https://wba2ss17-team38.herokuapp.com/games/"+req.params.gameId,
 		 "type": "FeatureCollection",
 		 "features": []
 	}
@@ -227,7 +230,6 @@ router.get("/", function(req, res) {
 
 router.get("/:gameId", function(req, res) {
   let gameIndex = findGameIndexById(req.params.gameId);
-	console.log("Objekt ist an der Stelle: " + gameIndex);
   if (gameIndex< 0) {
     res.status(404);
     res.send("Das Spiel mit ID " + req.params.gameId + " existiert noch nicht!");
@@ -243,7 +245,6 @@ router.get("/:gameId", function(req, res) {
 
 router.get("/:gameId/clues", function(req, res) {
   let gameIndex = findGameIndexById(req.params.gameId);
-	console.log("Objekt ist an der Stelle: " + gameIndex);
   if (gameIndex < 0) {
     res.status(404);
     res.send("Die Hinweise von dem Spiel mit ID " + req.params.gameId + " existiert noch nicht!");
@@ -260,7 +261,6 @@ router.get("/:gameId/clues", function(req, res) {
 router.get("/:gameId/clues/:clueId", function(req, res) {
 	let gameIndex = findGameIndexById(req.params.gameId);
   let clueIndex = findClueIndexById(gameIndex, req.params.clueId);
-	console.log("Objekt ist an der Stelle: " + gameIndex + "|" + clueIndex);
   if (clueIndex < 0) {
     res.status(404);
     res.send("Der Hinweis mit ID " + req.params.clueId + " existiert noch nicht!");
@@ -276,7 +276,6 @@ router.get("/:gameId/clues/:clueId", function(req, res) {
 
 router.get("/:gameId/participants/", function(req, res) {
   let gameIndex = findGameIndexById(req.params.gameId);
-	console.log("Objekt ist an der Stelle: " + gameIndex);
   if (gameIndex < 0) {
     res.status(404);
     res.send("Das Spiel mit ID " + req.params.gameId + " existiert noch nicht!");
@@ -293,7 +292,6 @@ router.get("/:gameId/participants/", function(req, res) {
 router.get("/:gameId/participants/:participantId", function(req, res) {
   let gameIndex = findGameIndexById(req.params.gameId);
 	let participantIndex = findParticipantIndexById(gameIndex, req.params.participantId);
-	console.log("Objekt ist an der Stelle: " + gameIndex + "|" + participantIndex);
   if (participantIndex < 0) {
     res.status(404);
     res.send("Der Teilnehmer mit ID " + req.params.participantId + " existiert noch nicht!");
@@ -310,7 +308,6 @@ router.get("/:gameId/participants/:participantId", function(req, res) {
 router.get("/:gameId/clues/:clueId/media", function(req, res) {
 	let gameIndex = findGameIndexById(req.params.gameId);
   let clueIndex = findClueIndexById(gameIndex, req.params.clueId);
-	console.log("Objekt ist an der Stelle: " + gameIndex + "|" + clueIndex);
   if (clueIndex < 0) {
     res.status(404);
     res.send("Die Medien des Hinweises mit ID " + req.params.clueId + " existieren noch nicht!");
@@ -328,7 +325,6 @@ router.get("/:gameId/clues/:clueId/media/:mediaId", function(req, res) {
 	let gameIndex = findGameIndexById(req.params.gameId);
   let clueIndex = findClueIndexById(gameIndex, req.params.clueId);
 	let mediaIndex = findMediaIndexById(gameIndex, clueIndex, req.params.mediaId);
-	console.log("Objekt ist an der Stelle: " + gameIndex + "|" + clueIndex + "|" + mediaIndex);
   if (mediaIndex < 0) {
     res.status(404);
     res.send("Das Medium  mit ID " + req.params.mediaId + " existiert noch nicht!");
@@ -360,7 +356,6 @@ router.get("/:gameId/poi/", function(req, res) {
 //PATCH Requests
 router.patch("/:gameId", function(req, res) {
     let gameIndex = findGameIndexById(req.params.gameId);
-		console.log("Objekt ist an der Stelle: " + gameIndex);
     if (gameIndex < 0) {
       res.status(404);
       res.send("Das Spiel mit ID " + req.params.gameId + " existiert noch nicht!");
@@ -381,7 +376,6 @@ router.patch("/:gameId", function(req, res) {
 router.patch("/:gameId/clues/:clueId", function(req, res) {
   let gameIndex = findGameIndexById(req.params.gameId);
 	let clueIndex = findClueIndexById(gameIndex, req.params.clueId);
-	console.log("Objekt ist an der Stelle: " + gameIndex + "|" + clueIndex);
   if (clueIndex < 0) {
       res.status(404);
       res.send("Der Hinweis mit ID " + req.params.clueId + " existiert noch nicht!");

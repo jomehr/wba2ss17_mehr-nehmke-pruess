@@ -9,18 +9,6 @@ const router = express.Router()
 router.use(bodyParser.urlencoded({ extended: true }));
 router.use(bodyParser.json());
 
-//https://www.tutorialspoint.com/nodejs/nodejs_process.htm
-//für geringer Serverlast
-/*
-process.stdin.resume()
-process.on('exit', onExit)
-process.on('SIGINT', onExit)						//wenn Prozess abgebrochen wird
-process.on('uncaughtException', onExit)	//uncaughtException=Error
-*/
-
-//parse=aus Json-Objekt ein JavaScript-Objekt
-//https://nodejs.org/api/fs.html#fs_fs_readfilesync_path_options
-//fs.readFileSync(path[, options])
 function loadDatabase() {
 	return JSON.parse(fs.readFileSync(__dirname + '/database.json'))			//parse -> wandelt JSON in JavaScript
 }
@@ -31,15 +19,6 @@ function saveDatabase (data) {
 
 //Daten aus Datei laden, wenn der Server startet
 global.database = loadDatabase()
-
-//Daten in Datei speichern, wenn der Server stoppt
-/*
-function onExit () {
-	saveDatabase(database)
-	console.log("Server gestoppt und Datei gespeichert")
-	process.exit()
-}
-*/
 
 //Helper-Funktion, um den Array-Index eines User-Record, durch seine ID zu finden
 function findUserIndexById (userId) {
@@ -70,21 +49,6 @@ router.get('/:userid', function (req, res) {
 });
 
 //Einen neuen User anlegen
-//https://jsonformatter.curiousconcept.com/ zum testen
-/*
-router.post('/', function(req, res){
-  newUser.id=shortid.generate();
-	console.log(req.body);
-	var user = req.body;
-	database.users.push(user);
-	saveDatabase(database);
-	res.format({
-		"application/json": function() {
-			res.send(user);
-			}
-	});
-});
-*/
 router.post("/", function(req, res) {
 	var userid = shortid.generate();
   //fill json with request data
