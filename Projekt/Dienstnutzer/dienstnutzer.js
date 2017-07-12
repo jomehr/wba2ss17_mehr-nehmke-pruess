@@ -41,13 +41,6 @@ app.get('/users', function(req, res) {
 app.get('/game', function(req, res) {
   var url = dURL+ '/game';
 
-  client.publish( "/news", {text: "Game wurde geupdated"})
- .then(function() {
-    console.log("Message received by server");
-  }, function(error) {
-    console.log("Error while publishing: " + error.message);
-  });
-
   //TODO implement GET Request
   request.get(url, function(err, response, body) {
     body = JSON.parse(body);
@@ -181,7 +174,7 @@ app.post('/users', function(req, res) {
     json: data
   }
 
-  client.publish( "/news", {text: "Ein neuer User wurde hinzugefügt!"})
+  client.publish( "/user", {text: "Ein neuer User wurde hinzugefügt!"})
   .then(function() {
     console.log("Message received by server");
   }, function(error) {
@@ -205,13 +198,8 @@ app.post('/game', function(req, res) {
     json: data
   }
 
-  client.publish( "/game", data)
-  .then(function() {
-    console.log("Message received by server");
-  }, function(error) {
-    console.log("Error while publishing: " + error.message);
-  });
-   client.publish( "/news", {text: "Ein neues Spiel wurde hinzugefügt!"})
+
+   client.publish( "/game", {text: "Ein neues Spiel wurde hinzugefügt!"+JSON.stringify(data)})
   .then(function() {
      console.log("Message received by server");
    }, function(error) {
@@ -235,12 +223,6 @@ app.post('/game/:gameid/clues', function(req, res) {
     json: data
   }
 
-  client.publish( "/news", {text: "Neuer hinweis in game "+gameid+" wurde hinzugefügt!"})
-  .then(function() {
-    console.log("Message received by server");
-  }, function(error) {
-    console.log("Error while publishing: " + error.message);
-  });
 
   request(options, function(err, response, body){
     console.log(body);
@@ -260,13 +242,6 @@ app.post('/game/:gameid/clues/:cluesid/media', function(req, res) {
     json: data
   }
 
-  client.publish( "/news", {text: "Beim Spiel "+gameid+" wurde den Hinweisen neue Media hinzugefügt!"})
-  .then(function() {
-    console.log("Message received by server");
-  }, function(error) {
-    console.log("Error while publishing: " + error.message);
-  });
-
   request(options, function(err, response, body){
     console.log(body);
     res.json(body);
@@ -284,7 +259,7 @@ app.post('/game/:gameid/participants', function(req, res) {
     json: data
   }
 
-  client.publish( "/news", {text: "Game "+gameid+" ist ein neuer Spieler beigetreten!"})
+  client.publish( "/game"+gameid, {text: "Game "+gameid+" ist ein neuer Spieler beigetreten!"})
   .then(function() {
     console.log("Message received by server");
   }, function(error) {
@@ -308,12 +283,6 @@ app.post('/game/:gameid/poi', function(req, res) {
     json: data
   }
 
-  client.publish( "/news", {text: "Poi wurde geupdated"})
-  .then(function() {
-    console.log("Message received by server");
-  }, function(error) {
-    console.log("Error while publishing: " + error.message);
-  });
 
   request(options, function(err, response, body){
     console.log(body);
@@ -337,7 +306,7 @@ app.delete('/game/:gameid', function(req, res) {
   var gameid = req.params.gameid;
   var url = dURL + '/game/' + gameid;
 
-  client.publish( "/news", {text: "Game "+gameid+" wurde gelöscht"})
+  client.publish( "/game"+gameid, {text: "Game "+gameid+" wurde gelöscht"})
   .then(function() {
     console.log("Message received by server");
   }, function(error) {
@@ -355,13 +324,6 @@ app.delete('/game/:gameid/clues/:clueid', function(req, res) {
   var clueid = req.params.clueid;
   var url = dURL + '/game/' + gameid + '/clues/' + clueid;
 
-  client.publish( "/news", {text: "Hinweise von game "+gameid+" wurde geupdated"})
-  .then(function() {
-    console.log("Message received by server");
-  }, function(error) {
-    console.log("Error while publishing: " + error.message);
-  });
-
   //TODO implement DELETE Method
   request.delete(url, function(err, response, body) {
     res.json(body);
@@ -374,12 +336,6 @@ app.delete('/game/:gameid/clues/:clueid/media/:mediaid', function(req, res) {
   var mediaid = req.params.mediaid;
   var url = dURL + '/game/' + gameid + '/clues/' + clueid + '/media/' + mediaid;
 
-  client.publish( "/news", {text: "Beim Spiel "+gameid+" wurde in den Hinweisen Media entfernt!"})
-  .then(function() {
-    console.log("Message received by server");
-  }, function(error) {
-    console.log("Error while publishing: " + error.message);
-  });
 
   //TODO implement DELETE Method
   request.delete(url, function(err, response, body) {
@@ -392,7 +348,7 @@ app.delete('/game/:gameid/participants/:participantid', function(req, res) {
   var participantid = req.params.participantid;
   var url = dURL + '/game/' + gameid + '/participants/' + participantid;
 
-  client.publish( "/news", {text: "Beim Spiel "+gameid+" nimmt der Spieler "+participantid+" nicht mehr teil!"})
+  client.publish( "/game"+gameid, {text: "Beim Spiel "+gameid+" nimmt der Spieler "+participantid+" nicht mehr teil!"})
   .then(function() {
     console.log("Message received by server");
   }, function(error) {
@@ -408,13 +364,6 @@ app.delete('/game/:gameid/participants/:participantid', function(req, res) {
 app.delete('/game/:gameid/poi/', function(req, res) {
   var gameid = req.params.gameid;
   var url = dURL + '/game/' + gameid + '/poi/';
-
-  client.publish( "/news", {text: "Beim Spiel "+gameid+" wurden Points of Interest gelöscht!"})
-  .then(function() {
-    console.log("Message received by server");
-  }, function(error) {
-    console.log("Error while publishing: " + error.message);
-  });
 
   //TODO implement DELETE Method
   request.delete(url, function(err, response, body) {
@@ -470,12 +419,6 @@ app.patch('/game/:gameid', function(req, res) {
   };
 
 //FAYE-Teil bei PATCH
-  client.publish('/news', data)
-  .then(function() {
-    console.log('Message received by server!');
-  }, function(error) {
-    console.log('There was an error publishing:' + error.message);
-  });
 
   request(options, function(err, response, body) {
     //console.log('PATCH /game/' + gameid + '=> \n', body);
