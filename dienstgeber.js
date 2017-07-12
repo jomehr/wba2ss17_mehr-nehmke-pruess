@@ -36,7 +36,7 @@ app.use(bodyParser.json());
 //REST methods
 app.get("/", function(req, res) {
 
-  res.send('<a href="https://wba2ss17-team38.herokuapp.com/game">games</a><br><a href="https://wba2ss17-team38.herokuapp.com/users">users</a>');
+  res.send('<a href="https://wba2ss17-team38.herokuapp.com/games">games</a><br><a href="https://wba2ss17-team38.herokuapp.com/users">users</a>');
 });
 
 //Server auf localhost 127.0.0.1:3000
