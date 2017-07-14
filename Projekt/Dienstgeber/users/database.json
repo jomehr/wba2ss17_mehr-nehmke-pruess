@@ -6,7 +6,8 @@
             "first_name": "Jared",
             "last_name": "Prüß",
             "age": 22,
-            "email": "jared@gmail.de"
+            "email": "jared@gmail.de",
+            "passwort": "passwort123"
         },
         {
             "id": "rJQ10AQWD",
@@ -14,7 +15,8 @@
             "first_name": "Jan",
             "last_name": "Mehr",
             "age": 45,
-            "email": "jan@gmail.de"
+            "email": "jan@gmail.de",
+            "passwort": "passwort123"
         },
         {
             "id": "Bk2v1CA7Z",
@@ -22,7 +24,8 @@
             "first_name": "Tim",
             "last_name": "Nehmke",
             "age": 33,
-            "email": "tim@gmail.de"
+            "email": "tim@gmail.de",
+            "passwort": "passwort123"
         },
         {
             "id": "dadwad11",
@@ -30,13 +33,8 @@
             "first_name": "test",
             "last_name": "123",
             "age": 123,
-            "email": "123@gmail.de"
-        },
-        {
-            "id": "B1jp6OJr-"
-        },
-        {
-            "id": "BJJfAd1B-"
+            "email": "123@gmail.de",
+            "passwort": "passwort123"
         }
     ]
 }
