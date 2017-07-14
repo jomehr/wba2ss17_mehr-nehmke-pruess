@@ -6,6 +6,7 @@ var mongoose = require("mongoose");
 var UserJSON = require("./usermodel.js")
 var idUsers = "59613a68f9b49340fc29859c"
 const router = express.Router()
+var passwordHash = require('password-hash');
 
 //bodyparser für json und html einbinden
 router.use(bodyParser.urlencoded({ extended: true }));
@@ -116,7 +117,8 @@ router.post("/", function(req, res) {
 				"first_name": req.body.first_name,
 				"last_name": req.body.last_name,
 				"age": req.body.age,
-				"email": req.body.email
+				"email": req.body.email,
+				"password": passwordHash.generate(req.body.password)
       };
   //push data into existing json and stringify it for saving
   database.users.push(users);
