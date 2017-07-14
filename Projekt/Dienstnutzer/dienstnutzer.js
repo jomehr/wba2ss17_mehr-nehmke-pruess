@@ -2,6 +2,7 @@ var express = require('express'),
     http = require('http'),
     faye = require('faye'),             //modul zur Realisierung von publish subscribe
     request = require('request');
+    queryOverpass = require('query-overpass');
 var app = express();
 const bodyParser =  require("body-parser");
 
@@ -174,7 +175,7 @@ app.post('/users', function(req, res) {
     json: data
   }
 
-  client.publish( "/user", {text: "Ein neuer User wurde hinzugefügt!"})
+  client.publish( "/users", {text: "Ein neuer User wurde hinzugefügt!"})
   .then(function() {
     console.log("Message received by server");
   }, function(error) {
@@ -273,19 +274,27 @@ app.post('/games/:gameid/participants', function(req, res) {
 app.post('/games/:gameid/poi', function(req, res) {
   var gameid = req.params.gameid;
   var url = dURL +  '/games/' + gameid + '/poi/';
-  var data = req.body;
-  //TODO implement POST method
-  var options = {
-    uri: url,
-    method: 'POST',
-    json: data
-  }
+  var bbbottomleft = "51.02084, 7.55946, ";
+  var bbtopright = "51.02634, 7.56592";
+  var amenity = "=restaurant"; //empty for all amenities
+  var query = "[out:json];node(" + bbbottomleft + bbtopright +")[amenity" +amenity + "];out;"
 
-  request(options, function(err, response, body){
-    console.log(body);
-    res.json(body);
-  });
-});
+  var overpass = queryOverpass(query, function(err, geojson) {
+      if (!err) {
+        var options = {
+          uri: url,
+          method: 'POST',
+          json: geojson
+        }
+        request(options, function(err, response, body){
+          console.log(body);
+          res.json(body);
+        });
+      } else {
+          console.log(err);
+        }
+      });
+    });
 
 
 //DELETE request
