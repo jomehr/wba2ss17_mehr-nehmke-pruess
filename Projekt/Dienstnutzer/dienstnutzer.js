@@ -1,6 +1,6 @@
 var express = require('express'),
     http = require('http'),
-    faye = require('faye'),       //modul zur Realisierung von publish subscribe
+    faye = require('faye'),             //modul zur Realisierung von publish subscribe
     request = require('request');
 var app = express();
 const bodyParser =  require("body-parser");
@@ -9,12 +9,12 @@ const bodyParser =  require("body-parser");
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
 
-var dHost = 'http://localhost';    //Ziel-URL vom Dienstgeber, falls er lokal ist
+var dHost = 'http://localhost';         //Ziel-URL vom Dienstgeber, falls er lokal ist
 var dPort = 3000;
 var dURL = 'https://wba2ss17-team38.herokuapp.com'; //Ziel-URL zum Dienstgeber, falls er deployed ist
 
 const settings = {
-  port: process.env.PORT || 8080,       //<- sollte eigentlich Port 8080!!! wirft jedoch Fehler!
+  port: process.env.PORT || 8081,
 };
 
 //log mit Pfad und Zeit
@@ -38,8 +38,8 @@ app.get('/users', function(req, res) {
 });
 
 //GET-Requests alle Games
-app.get('/game', function(req, res) {
-  var url = dURL+ '/game';
+app.get('/games', function(req, res) {
+  var url = dURL+ '/games';
 
   //TODO implement GET Request
   request.get(url, function(err, response, body) {
@@ -61,9 +61,9 @@ app.get('/users/:userid', function(req, res) {
 });
 
 //GET Request auf einen bestimmtes Game
-app.get('/game/:gameid', function(req, res) {
+app.get('/games/:gameid', function(req, res) {
   var gameid = req.params.gameid;
-  var url = dURL + '/game/' + gameid;
+  var url = dURL + '/games/' + gameid;
 
   //TODO implement GET Request
   request.get(url, function(err, response, body) {
@@ -73,9 +73,9 @@ app.get('/game/:gameid', function(req, res) {
 });
 
 //GET Request auf Clues eines bestimmten Game
-app.get('/game/:gameid/clues', function(req, res) {
+app.get('/games/:gameid/clues', function(req, res) {
   var gameid = req.params.gameid;
-  var url = dURL + '/game/' + gameid + '/clues/';
+  var url = dURL + '/games/' + gameid + '/clues/';
 
   //TODO implement GET Request
   request.get(url, function(err, response, body) {
@@ -85,10 +85,10 @@ app.get('/game/:gameid/clues', function(req, res) {
 });
 
 //GET Request auf einen bestimmten Clue eines bestimmten Game
-app.get('/game/:gameid/clues/:clueid', function(req, res) {
+app.get('/games/:gameid/clues/:clueid', function(req, res) {
   var gameid = req.params.gameid;
   var clueid = req.params.clueid;
-  var url = dURL +  '/game/' + gameid + '/clues/' + clueid;
+  var url = dURL +  '/games/' + gameid + '/clues/' + clueid;
 
   //TODO implement GET Request
   request.get(url, function(err, response, body) {
@@ -98,10 +98,10 @@ app.get('/game/:gameid/clues/:clueid', function(req, res) {
 });
 
 //GET Request auf Media eines bestimmten Clue
-app.get('/game/:gameid/clues/:clueid/media', function(req, res) {
+app.get('/games/:gameid/clues/:clueid/media', function(req, res) {
   var gameid = req.params.gameid;
   var clueid = req.params.clueid;
-  var url = dURL +  '/game/' + gameid + '/clues/' + clueid + '/media/';
+  var url = dURL +  '/games/' + gameid + '/clues/' + clueid + '/media/';
 
   //TODO implement GET Request
   request.get(url, function(err, response, body) {
@@ -111,11 +111,11 @@ app.get('/game/:gameid/clues/:clueid/media', function(req, res) {
 });
 
 //GET Request auf ein bestimmtes Media eines bestimmten Clue
-app.get('/game/:gameid/clues/:clueid/media/:mediaid', function(req, res) {
+app.get('/games/:gameid/clues/:clueid/media/:mediaid', function(req, res) {
   var gameid = req.params.gameid;
   var clueid = req.params.clueid;
   var mediaid = req.params.mediaid;
-  var url = dURL +  '/game/' + gameid + '/clues/' + clueid + '/media/' + mediaid;
+  var url = dURL +  '/games/' + gameid + '/clues/' + clueid + '/media/' + mediaid;
 
   //TODO implement GET Request
   request.get(url, function(err, response, body) {
@@ -125,9 +125,9 @@ app.get('/game/:gameid/clues/:clueid/media/:mediaid', function(req, res) {
 });
 
 //GET Request auf alle Teilnehmer eines bestimmten Game
-app.get('/game/:gameid/participants', function(req, res) {
+app.get('/games/:gameid/participants', function(req, res) {
   var gameid = req.params.gameid;
-  var url = dURL +  '/game/' + gameid + '/participants/';
+  var url = dURL +  '/games/' + gameid + '/participants/';
 
   //TODO implement GET Request
   request.get(url, function(err, response, body) {
@@ -137,10 +137,10 @@ app.get('/game/:gameid/participants', function(req, res) {
 });
 
 //GET Request auf einen bestimmten Teilnehmer eines bestimmten Game
-app.get('/game/:gameid/participants/:participantid', function(req, res) {
+app.get('/games/:gameid/participants/:participantid', function(req, res) {
   var gameid = req.params.gameid;
   var participantid = req.params.participantid;
-  var url = dURL +  '/game/' + gameid + '/participants/' + participantid;
+  var url = dURL +  '/games/' + gameid + '/participants/' + participantid;
 
   //TODO implement GET Request
   request.get(url, function(err, response, body) {
@@ -150,9 +150,9 @@ app.get('/game/:gameid/participants/:participantid', function(req, res) {
 });
 
 //GET Request auf POI eines bestimmten Game
-app.get('/game/:gameid/poi', function(req, res) {
+app.get('/games/:gameid/poi', function(req, res) {
   var gameid = req.params.gameid;
-  var url = dURL +  '/game/' + gameid + '/poi/';
+  var url = dURL +  '/games/' + gameid + '/poi/';
 
   //TODO implement GET Request
   request.get(url, function(err, response, body) {
@@ -187,8 +187,8 @@ app.post('/users', function(req, res) {
   });
 });
 
-app.post('/game', function(req, res) {
-  var url = dURL + '/game/';
+app.post('/games', function(req, res) {
+  var url = dURL + '/games/';
   //var ressourceURI = helper.pathJoin(config.remoteService.url, "game");
   var data = req.body;
   //TODO implement POST method
@@ -198,8 +198,7 @@ app.post('/game', function(req, res) {
     json: data
   }
 
-
-   client.publish( "/game", {text: "Ein neues Spiel wurde hinzugefügt!"+JSON.stringify(data)})
+   client.publish( "/games", {text: "Ein neues Spiel wurde hinzugefügt!"+JSON.stringify(data)})
   .then(function() {
      console.log("Message received by server");
    }, function(error) {
@@ -212,9 +211,9 @@ app.post('/game', function(req, res) {
   });
 });
 
-app.post('/game/:gameid/clues', function(req, res) {
+app.post('/games/:gameid/clues', function(req, res) {
   var gameid = req.params.gameid;
-  var url = dURL + '/game/' + gameid + '/clues/';
+  var url = dURL + '/games/' + gameid + '/clues/';
   var data = req.body;
   //TODO implement POST method
   var options = {
@@ -223,17 +222,16 @@ app.post('/game/:gameid/clues', function(req, res) {
     json: data
   }
 
-
   request(options, function(err, response, body){
     console.log(body);
     res.json(body);
   });
 });
 
-app.post('/game/:gameid/clues/:cluesid/media', function(req, res) {
+app.post('/games/:gameid/clues/:clueid/media', function(req, res) {
   var gameid = req.params.gameid;
   var clueid = req.params.clueid;
-  var url = dURL +  '/game/' + gameid + '/clues/' + clueid + '/media/';
+  var url = dURL +  '/games/' + gameid + '/clues/' + clueid + '/media/';
   var data = req.body;
   //TODO implement POST method
   var options = {
@@ -248,9 +246,9 @@ app.post('/game/:gameid/clues/:cluesid/media', function(req, res) {
   });
 });
 
-app.post('/game/:gameid/participants', function(req, res) {
+app.post('/games/:gameid/participants', function(req, res) {
   var gameid = req.params.gameid;
-  var url = dURL +  '/game/' + gameid + '/participants/';
+  var url = dURL +  '/games/' + gameid + '/participants/';
   var data = req.body;
   //TODO implement POST method
   var options = {
@@ -259,7 +257,7 @@ app.post('/game/:gameid/participants', function(req, res) {
     json: data
   }
 
-  client.publish( "/game"+gameid, {text: "Game "+gameid+" ist ein neuer Spieler beigetreten!"})
+  client.publish( "/games"+gameid, {text: "Game "+gameid+" ist ein neuer Spieler beigetreten!"})
   .then(function() {
     console.log("Message received by server");
   }, function(error) {
@@ -272,9 +270,9 @@ app.post('/game/:gameid/participants', function(req, res) {
   });
 });
 
-app.post('/game/:gameid/poi', function(req, res) {
+app.post('/games/:gameid/poi', function(req, res) {
   var gameid = req.params.gameid;
-  var url = dURL +  '/game/' + gameid + '/poi/';
+  var url = dURL +  '/games/' + gameid + '/poi/';
   var data = req.body;
   //TODO implement POST method
   var options = {
@@ -282,7 +280,6 @@ app.post('/game/:gameid/poi', function(req, res) {
     method: 'POST',
     json: data
   }
-
 
   request(options, function(err, response, body){
     console.log(body);
@@ -298,15 +295,16 @@ app.delete('/users/:userid', function(req, res) {
 
   //TODO implement DELETE Method
   request.delete(url, function(err, response, body) {
-    res.json(body);
+    let json = JSON.parse(body);
+    res.json(json);
   });
 });
 
-app.delete('/game/:gameid', function(req, res) {
+app.delete('/games/:gameid', function(req, res) {
   var gameid = req.params.gameid;
-  var url = dURL + '/game/' + gameid;
+  var url = dURL + '/games/' + gameid;
 
-  client.publish( "/game"+gameid, {text: "Game "+gameid+" wurde gelöscht"})
+  client.publish( "/games"+gameid, {text: "Game "+gameid+" wurde gelöscht"})
   .then(function() {
     console.log("Message received by server");
   }, function(error) {
@@ -315,40 +313,42 @@ app.delete('/game/:gameid', function(req, res) {
 
   //TODO implement DELETE Method
   request.delete(url, function(err, response, body) {
-    res.json(body);
+    let json = JSON.parse(body);
+    res.json(json);
   });
 });
 
-app.delete('/game/:gameid/clues/:clueid', function(req, res) {
+app.delete('/games/:gameid/clues/:clueid', function(req, res) {
   var gameid = req.params.gameid;
   var clueid = req.params.clueid;
-  var url = dURL + '/game/' + gameid + '/clues/' + clueid;
+  var url = dURL + '/games/' + gameid + '/clues/' + clueid;
 
   //TODO implement DELETE Method
   request.delete(url, function(err, response, body) {
-    res.json(body);
+    let json = JSON.parse(body);
+    res.json(json);
   });
 });
 
-app.delete('/game/:gameid/clues/:clueid/media/:mediaid', function(req, res) {
+app.delete('/games/:gameid/clues/:clueid/media/:mediaid', function(req, res) {
   var gameid = req.params.gameid;
   var clueid = req.params.clueid;
   var mediaid = req.params.mediaid;
-  var url = dURL + '/game/' + gameid + '/clues/' + clueid + '/media/' + mediaid;
-
+  var url = dURL + '/games/' + gameid + '/clues/' + clueid + '/media/' + mediaid;
 
   //TODO implement DELETE Method
   request.delete(url, function(err, response, body) {
-    res.json(body);
+    let json = JSON.parse(body);
+    res.json(json);
   });
 });
 
-app.delete('/game/:gameid/participants/:participantid', function(req, res) {
+app.delete('/games/:gameid/participants/:participantid', function(req, res) {
   var gameid = req.params.gameid;
   var participantid = req.params.participantid;
-  var url = dURL + '/game/' + gameid + '/participants/' + participantid;
+  var url = dURL + '/games/' + gameid + '/participants/' + participantid;
 
-  client.publish( "/game"+gameid, {text: "Beim Spiel "+gameid+" nimmt der Spieler "+participantid+" nicht mehr teil!"})
+  client.publish( "/games"+gameid, {text: "Beim Spiel "+gameid+" nimmt der Spieler "+participantid+" nicht mehr teil!"})
   .then(function() {
     console.log("Message received by server");
   }, function(error) {
@@ -357,18 +357,19 @@ app.delete('/game/:gameid/participants/:participantid', function(req, res) {
 
   //TODO implement DELETE Method
   request.delete(url, function(err, response, body) {
-    res.json(body);
+    let json = JSON.parse(body);
+    res.json(json);
   });
 });
 
-app.delete('/game/:gameid/poi/', function(req, res) {
+app.delete('/games/:gameid/poi/', function(req, res) {
   var gameid = req.params.gameid;
-  var url = dURL + '/game/' + gameid + '/poi/';
+  var url = dURL + '/games/' + gameid + '/poi/';
 
   //TODO implement DELETE Method
   request.delete(url, function(err, response, body) {
-    body = JSON.parse(body);
-    res.json(body);
+    let json = JSON.parse(body);
+    res.json(json);
   });
 });
 
@@ -388,25 +389,17 @@ app.patch('/users/:userid', function(req, res) {
     },
     json: data
   };
-/*
-//FAYE-Teil bei PATCH
-  client.publish('/news', {text: 'User wurde geändert.'})
-  .then(function() {
-    console.log('Message received by server!');
-  }, function(error) {
-    console.log('There was an error publishing:' + error.message);
-  });
-  */
+
   request(options, function(err, response, body) {
     console.log('PATCH /users/' + userid + '=> \n', body);
     res.json(body)
   });
 });
 
-app.patch('/game/:gameid', function(req, res) {
+app.patch('/games/:gameid', function(req, res) {
   var data = req.body;
   var gameid = req.params.gameid;
-  var url = dURL +  '/game/' + gameid;
+  var url = dURL +  '/games/' + gameid;
 
   //TODO implement PATCH method
   var options = {
@@ -418,19 +411,17 @@ app.patch('/game/:gameid', function(req, res) {
     json: data
   };
 
-//FAYE-Teil bei PATCH
-
   request(options, function(err, response, body) {
-    //console.log('PATCH /game/' + gameid + '=> \n', body);
+    console.log('PATCH /games/' + gameid + '=> \n', body);
     res.json(body)
   });
 });
 
-app.patch('/game/:gameid/clues/:clueid', function(req, res) {
+app.patch('/games/:gameid/clues/:clueid', function(req, res) {
   var data = req.body;
-  var gameid = req.params.userid;
+  var gameid = req.params.gameid;
   var clueid = req.params.clueid;
-  var url = dURL + '/game/' + gameid + '/clues/' + clueid;
+  var url = dURL + '/games/' + gameid + '/clues/' + clueid;
 
   //TODO implement PATCH method
   var options = {
@@ -441,27 +432,19 @@ app.patch('/game/:gameid/clues/:clueid', function(req, res) {
     },
     json: data
   };
-/*
-//FAYE-Teil bei PATCH
-  client.publish('/news', {text: 'User wurde geändert.'})
-  .then(function() {
-    console.log('Message received by server!');
-  }, function(error) {
-    console.log('There was an error publishing:' + error.message);
-  });
-  */
+
   request(options, function(err, response, body) {
-    console.log('PATCH /game/' + gameid + '/clues/' + clueid + '=> \n', body);
+    console.log('PATCH /games/' + gameid + '/clues/' + clueid + '=> \n', body);
     res.json(body)
   });
 });
 
-app.patch('/game/:gameid/clues/:clueid/media/:mediaid', function(req, res) {
+app.patch('/games/:gameid/clues/:clueid/media/:mediaid', function(req, res) {
   var data = req.body;
-  var gameid = req.params.userid;
+  var gameid = req.params.gameid;
   var clueid = req.params.clueid;
   var mediaid = req.params.mediaid;
-  var url = dURL + '/game/' + gameid + '/clues/' + clueid + '/media/' + mediaid;
+  var url = dURL + '/games/' + gameid + '/clues/' + clueid + '/media/' + mediaid;
 
   //TODO implement PATCH method
   var options = {
@@ -472,26 +455,18 @@ app.patch('/game/:gameid/clues/:clueid/media/:mediaid', function(req, res) {
     },
     json: data
   };
-/*
-//FAYE-Teil bei PATCH
-  client.publish('/news', {text: 'User wurde geändert.'})
-  .then(function() {
-    console.log('Message received by server!');
-  }, function(error) {
-    console.log('There was an error publishing:' + error.message);
-  });
-  */
+
   request(options, function(err, response, body) {
-    console.log('PATCH /game/' + gameid + '/clues/' + clueid + '/media/' + mediaid + '=> \n', body);
+    console.log('PATCH /s/' + gameid + '/clues/' + clueid + '/media/' + mediaid + '=> \n', body);
     res.json(body)
   });
 });
 
-app.patch('/game/:gameid/participants/:participantid', function(req, res) {
+app.patch('/games/:gameid/participants/:participantid', function(req, res) {
   var data = req.body;
   var gameid = req.params.gameid;
   var participantid = req.params.participantid;
-  var url = dURL +  '/game/' + gameid + '/participants/' + participantid;
+  var url = dURL +  '/games/' + gameid + '/participants/' + participantid;
 
   //TODO implement PATCH method
   var options = {
@@ -502,32 +477,13 @@ app.patch('/game/:gameid/participants/:participantid', function(req, res) {
     },
     json: data
   };
-/*
-//FAYE-Teil bei PATCH
-  client.publish('/news', {text: 'User wurde geändert.'})
-  .then(function() {
-    console.log('Message received by server!');
-  }, function(error) {
-    console.log('There was an error publishing:' + error.message);
-  });
-  */
+
   request(options, function(err, response, body) {
-    console.log('PATCH /game/' + gameid + '/participants/' + participantid + '=> \n', body);
+    console.log('PATCH /games/' + gameid + '/participants/' + participantid + '=> \n', body);
     res.json(body)
   });
 });
 
-// //let the express-App listen on a given Port
-// var server = http.createServer(app, function(){
-//   console.log("Listening on http://localhost:" + settings.port);
-// });
-
-
-
-//Dienstnutzer über Port 8080 mittels express zur Verfügung stellen
-// app.listen(settings.port, function(){
-//   console.log("Dienstnutzer ist nun auf Port "+settings.port+" verfügbar.");
-// });
 
 //FAYE
 var server = http.createServer(app).listen(settings.port, function(){
@@ -541,6 +497,6 @@ var client = new faye.Client('http://localhost:' + settings.port +"/faye");
 client.subscribe('/news', function(message) {
   console.log(message);
 });
-client.subscribe("/game", function(message) {
+client.subscribe("/games", function(message) {
   console.log(message);
 });
