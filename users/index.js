@@ -10,39 +10,22 @@ router.use(bodyParser.urlencoded({ extended: true }));
 router.use(bodyParser.json());
 
 //Helper-Funktion zum laden der jsons
-function loadDatabase(id, callback) {
-	 UserJSON.findById(id, function(err, result){
-		 if(err){
-			 callback(err, null);
-		 }
-		 else{
-			 callback(null, result.json);
-		 }
-	 });
+function loadUserData() {
+	return JSON.parse(fs.readFileSync(__dirname + "/users.json"))
 };
 
 //Helper-Funktion zum speichern der json
-function saveDatabase (data) {
-	UserJSON.findByIdAndUpdate(idUsers, { $set: { json: data }}, { new: false }, function (err, tank) {
-	  if (err) return handleError(err);
-	});
-		fs.writeFileSync(__dirname + '/database.json', JSON.stringify(data, 0, 4))
+function saveUserData (data) {
+	fs.writeFileSync(__dirname + '/users.json', JSON.stringify(data, 0, 4))
 };
 
 //Daten aus Datei laden, wenn der Server startet
-global.database
-loadDatabase(idUsers, function(err, result){
-	if(err) {
-		console.log(err);
-	}
-	database = result;
-	console.log("Userdatabase in Speicher geladen.")
-});
+global.userdatabase = loadUserData();
 
 //Helper-Funktion zum finden von User ID
 function findUserIndexById (userId) {
-	return database.users.findIndex(
-		users => users.id === userId														//überprüft ob beide Strings & den selben Index haben
+	return userdatabase.users.findIndex(
+		users => users.id === userId				//überprüft ob beide Strings & den selben Index haben
 	);
 };
 
@@ -64,7 +47,7 @@ router.use(function(req, res, next) {
 router.get('/', function (req, res) {
 	res.format({
 		"application/json": function() {
-			res.send(database.users);
+			res.send(userdatabase.users);
 		}
 	});
 });
@@ -76,10 +59,10 @@ router.get('/:userid', function (req, res) {
 		res.status(404);
 		res.send("Der User mit ID " + req.params.userId + " existiert noch nicht!");
 	} else {
-		let user = database.users[userIndex];
+		let user = userdatabase.users[userIndex];
 		res.format({
 			"application/json": function() {
-				res.json(users);
+				res.json(user);
 			}
 		});
 	}
@@ -99,8 +82,8 @@ router.post("/", function(req, res) {
 				"password": passwordHash.generate(req.body.password)
       };
   //push data into existing json and stringify it for saving
-  database.users.push(users);
-  saveDatabase(database);
+  userdatabase.users.push(users);
+  saveUserData(userdatabase);
 	console.log(userid);
   //formats responds to json
   res.format({
@@ -117,12 +100,12 @@ router.delete('/:userid', function (req, res) {
 		res.status(404);
 		res.send("Der User mit ID " + req.params.userId + " existiert noch nicht!");
 	} else {
-		let user = database.users[userIndex];
-		database.users.splice(userIndex, 1);
-		saveDatabase(database);
+		let user = userdatabase.users[userIndex];
+		userdatabase.users.splice(userIndex, 1);
+		saveUserData(userdatabase);
 		res.format({
 			"application/json": function() {
-				res.json(users);
+				res.json(user);
 			}
 		});
 	}
@@ -137,10 +120,10 @@ router.patch('/:userid', function (req, res) {
 		res.send("Der User mit ID " + req.params.userId + " existiert noch nicht!");
 	} else {
 		let changes = req.body;
-		let userBefore = database.users[userIndex];
+		let userBefore = userdatabase.users[userIndex];
 		let userAfter = Object.assign(userBefore, changes);
-		database.users[userIndex] = userAfter;
-		saveDatabase(database);
+		userdatabase.users[userIndex] = userAfter;
+		saveUserData(userdatabase);
 		res.format({
 			"application/json": function() {
 				res.json(userAfter);
