@@ -4,10 +4,12 @@
             "id": "BJJUFpvVb",
             "titel": "testtitel",
             "description": "nodejs stinkt",
+            "endcoordinates": "templatekoordinate",
             "creator": "tim nehmke",
             "creationdate": "Fri Jun 30 2017 22:49:44 GMT+0200 (Mitteleuropäische Sommerzeit)",
             "startdate": "1.7.2017",
             "expirationdate": "10.7.2017",
+            "finished": true,
             "reward": "kiste bier",
             "clues": [
                 {
@@ -64,10 +66,12 @@
             "id": "SyfeKpDEb",
             "titel": "Titel",
             "description": "neue Beschreibung",
+            "endcoordinates": "templatekoordinate",
             "creator": "templateersteller",
             "creationdate": "Sun Jul 02 2017 18:09:11 GMT+0200 (Mitteleuropäische Sommerzeit)",
             "startdate": "templatedatum",
             "expirationdate": "templatedatum",
+            "finished": false,
             "reward": "templatebelohnung",
             "clues": [
                 {
@@ -96,10 +100,12 @@
             "id": "HkOCdTDNb",
             "titel": "templatetitel",
             "description": "templatebeschreibung",
+            "endcoordinates": "templatekoordinate",
             "creator": "templateersteller",
             "creationdate": "Sun Jul 02 2017 18:14:31 GMT+0200 (Mitteleuropäische Sommerzeit)",
             "startdate": "templatedatum",
             "expirationdate": "templatedatum",
+            "finished": false,
             "reward": "templatebelohnung",
             "clues": [],
             "participants": []
@@ -108,10 +114,12 @@
             "id": "H1GIdTwVW",
             "titel": "templatetitel",
             "description": "templatebeschreibung",
+            "endcoordinates": "templatekoordinate",
             "creator": "templateersteller",
             "creationdate": "Sun Jul 02 2017 18:15:41 GMT+0200 (Mitteleuropäische Sommerzeit)",
             "startdate": "templatedatum",
             "expirationdate": "templatedatum",
+            "finished": false,
             "reward": "templatebelohnung",
             "clues": [],
             "participants": []

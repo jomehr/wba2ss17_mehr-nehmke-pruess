@@ -87,10 +87,12 @@ router.post("/", function(req, res) {
         "id": gameid,
         "titel": req.body.titel,
         "description": req.body.description,
+				"endcoordinates": req.body.endcoordinates,
         "creator": req.body.creator,
         "creationdate": Date(),
         "startdate": req.body.startdate,
         "expirationdate": req.body.expirationdate,
+				"finished": false,
         "reward": req.body.reward,
         "clues": [],
         "participants": []
