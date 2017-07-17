@@ -436,6 +436,23 @@ router.patch("/:gameId/clues/:clueId/media/:mediaId", function(req, res) {
 	}
 });
 
+router.patch("/:gameId/poi", function(req, res) {
+	var poiIndex = findPoiIndexById(req.params.gameId);
+	if (poiIndex < 0) {
+		res.status(404);
+		res.send("Das Spiel mit ID " + req.params.gameId + " und dessen POI existieren noch nicht!");
+    } else {
+      let changes = req.body.poi[0].features;
+			poidatabase.poi[poiIndex].features.push(changes);
+      saveOverpassData(poidatabase);
+      res.format({
+        "application/json": function() {
+          res.json(poidatabase);
+        }
+      });
+    }
+  });
+
 //DELETE Requests
 router.delete("/:gameId", function(req, res) {
   let gameIndex = findGameIndexById(req.params.gameId);
