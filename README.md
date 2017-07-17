@@ -41,7 +41,6 @@ Der Dienstgeber ist auf Heroku deployed. Der Dienstgeber gefindet sich im 'diens
 
 } 
 ```  
-Der Vorgang kann bis zu 8 Sekunden dauern, da eine zufällig generierte ID zugewiesen wird  
 3. Im Pub/Sub Client sollte nun eine Nachricht mit dem angegebenen Body auftauchen.  
   
 ### Beispiel Use Case Teilnehmer zu Schnitzeljagd hinzufügen
