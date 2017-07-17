@@ -199,16 +199,14 @@ app.post('/games', function(req, res) {
     json: data
   }
 
-   client.publish( "/games", {text: "Ein neues Spiel wurde hinzugefügt!"+JSON.stringify(data)})
-  .then(function() {
-     console.log("Message received by server");
-   }, function(error) {
-     console.log("Error while publishing: " + error.message);
-   });
-
   request(options, function(err, response, body){
-    console.log(body);
     res.json(body);
+    client.publish( "/games", {text: "Ein neues Spiel wurde hinzugefügt! "+ url + body.id})
+   .then(function() {
+      console.log("Message received by server");
+    }, function(error) {
+      console.log("Error while publishing: " + error.message);
+    });
   });
 });
 
