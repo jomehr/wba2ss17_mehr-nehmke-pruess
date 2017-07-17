@@ -442,7 +442,7 @@ router.patch("/:gameId/poi", function(req, res) {
 		res.status(404);
 		res.send("Das Spiel mit ID " + req.params.gameId + " und dessen POI existieren noch nicht!");
     } else {
-      let changes = req.body.poi[0].features;
+      let changes = req.body.features;
 			poidatabase.poi[poiIndex].features.push(changes);
       saveOverpassData(poidatabase);
       res.format({
