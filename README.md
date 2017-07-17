@@ -1,15 +1,39 @@
 # wba2ss17_mehr-nehmke-pruess
 Privates Repository für Team 38 mit Jan Mehr, Tim Nehmke und Jared Prüß
+  
+## Setup
 
-## Beispiel Use Case Schnitzeljagd erstellen
+#### Clone
+```
+git clone https://github.com/jomehr/wba2ss17_mehr-nehmke-pruess.git
+```
+#### In Dienstgeber Ordner navigieren
+```
+cd Dienstgeber
+```
+#### Install
+```
+npm install
+```
+#### Run
+```
+node Dienstgeber.js
+```
+  
+### Disclaimer
 
-1. Im Rest Client eine GET Anfrage auf 'http://localhost:8081/games' um eine Liste aller Spiele zu bekommen
-2. Im pub/sub Testclient den Service 'faye' benutzen, 'sub' eingeben, 'http://localhost:8081' als host eingeben und als topic '/games' angeben
-3. Zum Erstellen eines neues Spiels eine POST Anfrage im REST Client auf 'http://localhost:8081/games' mit folgendem Body:
+Der Dienstgeber ist auf Heroku deployed. Der Dienstgeber gefindet sich im 'dienstgeber' branch oder auf https://wba2ss17-team38.herokuapp.com
+
+
+### Beispiel Use Case Schnitzeljagd erstellen
+
+1. Pub/sub Testclient Service 'faye' benutzen, method: 'sub',host: 'http://localhost:8081', topic: '/games'
+2. POST Anfrage im REST Client auf 'http://localhost:8081/games' mit Body:
 ```
 {
 	"titel": "titel hier",
 	"description": "neue Beschreibung",
+	"endcoordinates": "templatekoordinate",
 	"creator": "name",
 	"startdate": "18.7.2017",
 	"expirationdate": "22.7.2017",
@@ -18,14 +42,15 @@ Privates Repository für Team 38 mit Jan Mehr, Tim Nehmke und Jared Prüß
 } 
 ```  
 Der Vorgang kann bis zu 8 Sekunden dauern, da eine zufällig generierte ID zugewiesen wird  
-4. Im Pub/Sub Client sollte nun eine Nachricht mit dem angegebenen Body auftauchen.  
+3. Im Pub/Sub Client sollte nun eine Nachricht mit dem angegebenen Body auftauchen.  
   
-## Beispiel Use Case Teilnehmer zu Schnitzeljagd hinzufügen
+### Beispiel Use Case Teilnehmer zu Schnitzeljagd hinzufügen
 
-1. Im Rest Client eine GET Anfrage auf 'http://localhost:8081/games' um eine Liste aller Spiele zu bekommen
-2. Aus dem Response-body eine SpielID kopieren, z.B 'BJJUFpvVb'
-3. Im pub/sub Testclient den Service 'faye' benutzen, 'sub' eingeben, 'http://localhost:8081' als host eingeben und als topic '/gamesBJJUFpvVb' oder '/games' mit einer anderen ID angeben.
-4. Zum Erstellen eines neuen Participants eine POST Anfrage im REST Client auf '' mit folgendem Body:
+1. GET Anfrage auf 'http://localhost:8081/games' 
+2. Aus dem Response-body eine SpielID kopieren z.B 'BJJUFpvVb'
+3. Pub/sub Testclient Service 'faye' benutzen, method: 'sub',host: 'http://localhost:8081', beim topic: '/games' die ID dranschreiben.
+z.B. '/gameBJJUFpvVb'
+4.POST Anfrage im REST Client auf 'http://localhost:8081/games/{gameid}/participants' (bei {gameid} kopierte ID einfügen) mit folgendem Body:
 ```
 {
 
@@ -35,20 +60,14 @@ Der Vorgang kann bis zu 8 Sekunden dauern, da eine zufällig generierte ID zugew
  
  }
  ````
- 5. Im Pub/Sub Client sollte nun eine Nachricht erscheinen die besagt dass dem angegebenem Spiel ein neuer Spiel beigetreten ist.
+ 5. Im Pub/Sub Client sollte nun eine Nachricht erscheinen.
   
-## Beispiel Use Case Schnitzeljagd bearbeiten
+### Beispiel Point of Interest Post und delete
 
-1. Im pub/sub Testclient den Service 'faye' benutzen, 'sub' eingeben, 'http://localhost:8081' als host eingeben und als topic '/games' angeben
-3. Zum Erstellen eines neues Spiels eine PATCH Anfrage im REST Client auf 'http://localhost:8081/games/BJJUFpvVb' mit folgendem Body:
-```
-{
-	"titel": "titel update",
-	"description": "Beschreibung update",
-	"creator": "name",
-	"startdate": "19.7.2017",
-	"expirationdate": "28.7.2017",
 
-} 
-```  
-4. Im Pub/Sub Client sollte nun eine Nachricht mit dem angegebenen Body auftauchen.
+1. PATCH Anfrage im REST Client auf 'http://localhost:8081/games/{gameid}/poi' mit KEINEM Body!  
+Es muss noch eine Möglichkeit Koordinaten zu einer Bounding Box und die Art der Points of Interest anzugeben implementiert werden.  
+Im Moment werden in der Nähe der Th Koeln alle Restaurants angezeigt.
+2. Dienstnutzer holt sich mit Hilfe von Overpass die nötigen Daten und gibt diese an den Dienstgeber weiter. 
+3. DELETE Anfrage im REST Client auf 'http://localhost:8081/games/{gameid}/poi' mit KEINEM Body!
+4. Auch hier gibt der Dienstnutzer dem Dienstgeber den Request zum Löschen der Poi weiter.
