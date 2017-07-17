@@ -22,7 +22,8 @@ node Dienstnutzer.js
   
 ### Disclaimer
 
-Der Dienstgeber ist auf Heroku deployed. Der Dienstgeber gefindet sich im 'dienstgeber' branch oder auf https://wba2ss17-team38.herokuapp.com
+Der Dienstgeber ist auf Heroku deployed. Der Dienstgeber gefindet sich im 'dienstgeber' branch oder auf https://wba2ss17-team38.herokuapp.com  
+Der gegebene Testclient kann keine Sonderzeichen wie " - " benutzen. Deshalb bitte nur IDs ohne Sonderzeichen nehmen!
 
 
 ### Beispiel Use Case Schnitzeljagd erstellen
