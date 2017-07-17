@@ -293,6 +293,30 @@ app.post('/games/:gameid/poi', function(req, res) {
       });
     });
 
+app.patch('/games/:gameid/poi', function(req, res) {
+  var data = req.body;
+  var gameid = req.params.gameid;
+  var url = dURL +  '/games/' + gameid + '/poi/';
+  var bbbottomleft = "51.02084, 7.55946, ";
+  var bbtopright = "51.02634, 7.56592";
+  var amenity = req.body.amenity; //empty for all amenities
+  var query = "[out:json];node(" + bbbottomleft + bbtopright +")[amenity" +amenity + "];out;"
+
+  var overpass = queryOverpass(query, function(err, geojson) {
+    if (!err) {
+      var options = {
+        uri: url,
+        method: 'PATCH',
+        json: geojson
+      }
+        request(options, function(err, response, body){
+          res.json(body);
+        });
+      } else {
+        console.log(err);
+      }
+    });
+  });
 
 //DELETE request
 app.delete('/users/:userid', function(req, res) {
