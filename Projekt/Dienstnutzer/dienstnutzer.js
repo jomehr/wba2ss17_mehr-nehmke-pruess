@@ -175,16 +175,15 @@ app.post('/users', function(req, res) {
     json: data
   }
 
-  client.publish( "/users", {text: "Ein neuer User wurde hinzugefügt!"})
-  .then(function() {
-    console.log("Message received by server");
-  }, function(error) {
-    console.log("Error while publishing: " + error.message);
-  });
-
   request(options, function(err, response, body){
     console.log(body);
     res.json(body);
+    client.publish( "/users", {text: "Ein neuer User wurde hinzugefügt! "+ url + body.id})
+    .then(function() {
+      console.log("Message received by server");
+    }, function(error) {
+      console.log("Error while publishing: " + error.message);
+    });
   });
 });
 
@@ -256,16 +255,16 @@ app.post('/games/:gameid/participants', function(req, res) {
     json: data
   }
 
-  client.publish( "/games"+gameid, {text: "Game "+gameid+" ist ein neuer Spieler beigetreten!"})
-  .then(function() {
-    console.log("Message received by server");
-  }, function(error) {
-    console.log("Error while publishing: " + error.message);
-  });
 
   request(options, function(err, response, body){
     console.log(body);
     res.json(body);
+    client.publish( "/games"+gameid, {text:  "Game "+gameid+" ist ein neuer Spieler beigetreten! "+ url + body.id})
+    .then(function() {
+      console.log("Message received by server");
+    }, function(error) {
+      console.log("Error while publishing: " + error.message);
+    });
   });
 });
 
@@ -366,6 +365,7 @@ app.delete('/games/:gameid/participants/:participantid', function(req, res) {
   request.delete(url, function(err, response, body) {
     let json = JSON.parse(body);
     res.json(json);
+
   });
 });
 
@@ -400,6 +400,7 @@ app.patch('/users/:userid', function(req, res) {
   request(options, function(err, response, body) {
     console.log('PATCH /users/' + userid + '=> \n', body);
     res.json(body)
+
   });
 });
 
@@ -421,6 +422,7 @@ app.patch('/games/:gameid', function(req, res) {
   request(options, function(err, response, body) {
     console.log('PATCH /games/' + gameid + '=> \n', body);
     res.json(body)
+
   });
 });
 
