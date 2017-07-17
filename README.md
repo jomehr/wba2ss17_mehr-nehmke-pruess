@@ -7,9 +7,9 @@ Privates Repository für Team 38 mit Jan Mehr, Tim Nehmke und Jared Prüß
 ```
 git clone https://github.com/jomehr/wba2ss17_mehr-nehmke-pruess.git
 ```
-#### In Dienstgeber Ordner navigieren
+#### In dienstnutzer Ordner navigieren
 ```
-cd Dienstgeber
+cd Dienstnutzer
 ```
 #### Install
 ```
@@ -17,7 +17,7 @@ npm install
 ```
 #### Run
 ```
-node Dienstgeber.js
+node Dienstnutzer.js
 ```
   
 ### Disclaimer
