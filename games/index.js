@@ -94,6 +94,7 @@ router.post("/", function(req, res) {
         "expirationdate": req.body.expirationdate,
 				"finished": false,
         "reward": req.body.reward,
+				"url": "https://wba2ss17-team38.herokuapp.com/games/" + gameId,
         "clues": [],
         "participants": []
       };
@@ -223,11 +224,16 @@ router.post("/:gameId/poi", function(req, res) {
 
 //GET Requests
 router.get("/", function(req, res) {
-  res.format({
-    "application/json": function() {
-      res.send(gamedatabase);
-    }
-  });
+	var gameurls = new Array();
+	for (i = 0;  i < gamedatabase.games.length; i++){
+		gameurls.push(gamedatabase.games[i].url);
+  };
+	console.log(gameurls);
+	res.format({
+	  "application/json": function() {
+			res.send(gameurls)
+			}
+	  });
 });
 
 router.get("/:gameId", function(req, res) {
