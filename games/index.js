@@ -228,7 +228,6 @@ router.get("/", function(req, res) {
 	for (i = 0;  i < gamedatabase.games.length; i++){
 		gameurls.push(gamedatabase.games[i].url);
   };
-	console.log(gameurls);
 	res.format({
 	  "application/json": function() {
 			res.send(gameurls)

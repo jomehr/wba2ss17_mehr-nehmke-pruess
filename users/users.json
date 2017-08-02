@@ -2,6 +2,7 @@
     "users": [
         {
             "id": "Byh3Q7dSZ",
+            "url": "https://wba2ss17-team38.herokuapp.com/users/Byh3Q7dSZ",
             "user_name": "Glücksbärchie",
             "first_name": "Jared",
             "last_name": "Prüß",
@@ -11,6 +12,7 @@
         },
         {
             "id": "SJDLN7uHb",
+            "url": "https://wba2ss17-team38.herokuapp.com/users/SJDLN7uHb",
             "user_name": "TheMachine",
             "first_name": "Jan",
             "last_name": "Mehr",
@@ -20,6 +22,7 @@
         },
         {
             "id": "Hye9E7ur-",
+            "url": "https://wba2ss17-team38.herokuapp.com/users/Hye9E7ur-",
             "user_name": "Einhorn",
             "first_name": "Tim",
             "last_name": "Nehmke",

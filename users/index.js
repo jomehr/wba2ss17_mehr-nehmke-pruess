@@ -45,9 +45,13 @@ router.use(function(req, res, next) {
 
 //GET Request auf alle User
 router.get('/', function (req, res) {
+	var userurls = new Array();
+	for (i = 0;  i < userdatabase.users.length; i++){
+		userurls.push(userdatabase.users[i].user_name + ": " + userdatabase.users[i].url);
+	};
 	res.format({
 		"application/json": function() {
-			res.send(userdatabase.users);
+			res.send(userurls);
 		}
 	});
 });
