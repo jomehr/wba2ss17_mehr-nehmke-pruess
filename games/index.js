@@ -82,19 +82,30 @@ router.get("/game.html", function(req, res) {
 //POST Requests
 router.post("/", function(req, res) {
 	var gameid = shortid.generate();
-  //fill json with request data
+	if (req.body.startdate != undefined) {
+	var startdatepart = req.body.startdate.split(".");
+	var starttimepart = req.body.starttime.split(":")
+	var expirationdatepart = req.body.expirationdate.split(".");
+	var expirationtimepart = req.body.expirationtime.split(":")
+	var tmps= new Date(startdatepart[2], (startdatepart[1]-1), startdatepart[0], starttimepart[0], starttimepart[1]);
+	var startdate = tmps.toString();
+	console.log(startdate);
+	var tmpd = new Date(expirationdatepart[2], (expirationdatepart[1]-1), expirationdatepart[0], expirationtimepart[0], expirationtimepart[1]);
+	var expirationdate = tmpd.toString();
+}
+	//fill json with request data
   games = {
         "id": gameid,
-        "titel": req.body.titel,
-        "description": req.body.description,
-				"endcoordinates": req.body.endcoordinates,
-        "creator": req.body.creator,
+        "titel": req.body.titel || "templatetitel",
+        "description": req.body.description || "templatedescription",
+				"endcoordinates": req.body.endcoordinates || "templatecoordinates",
+        "creator": req.body.creator || "templatecreator",
         "creationdate": Date(),
-        "startdate": req.body.startdate,
-        "expirationdate": req.body.expirationdate,
+        "startdate": startdate || "Startdatum fehlt",
+        "expirationdate": expirationdate || "Enddatum fehlt",
 				"finished": false,
         "reward": req.body.reward,
-				"url": "https://wba2ss17-team38.herokuapp.com/games/" + gameId,
+				"url": "https://wba2ss17-team38.herokuapp.com/games/" + gameid,
         "clues": [],
         "participants": []
       };
@@ -121,10 +132,10 @@ router.post("/:gameId/clues", function(req, res) {
   clues = {
         "gameid": req.params.gameId,
         "id": clueid,
-        "titel": req.body.titel,
-        "description": req.body.description,
-        "coordinate": req.body.coordinate,
-        "creator": req.body.creator,
+        "titel": req.body.titel || "templatetitel",
+        "description": req.body.description || "templatedescription",
+        "coordinate": req.body.coordinate || "templatecoordinates",
+        "creator": req.body.creator || "templatecreator",
 				"gameurl": "https://wba2ss17-team38.herokuapp.com/games/"+req.params.gameId,
         "creationdate": Date(),
 				"media": []
@@ -152,9 +163,9 @@ router.post("/:gameId/participants", function(req, res) {
   participants = {
         "gameid": req.params.gameId,
         "id": participantid,
-        "first_name": req.body.first_name,
-        "last_name": req.body.last_name,
-				"username": req.body.username,
+        "first_name": req.body.first_name || "templatefirstname",
+        "last_name": req.body.last_name || "templatelastname",
+				"username": req.body.username || "templateusername",
 				"gameurl": "https://wba2ss17-team38.herokuapp.com/games/"+req.params.gameId,
         "joindate": Date()
       };
@@ -187,9 +198,9 @@ router.post("/:gameId/clues/:clueId/media", function(req, res) {
         "gameid": req.params.gameId,
 				"clueid": req.params.clueId,
         "id": mediaid,
-        "titel": req.body.titel,
-				"uploader": req.body.uploader,
-        "mediaurl": req.body.url,
+        "titel": req.body.titel || "templatetitel",
+				"uploader": req.body.uploader || "templateuploader",
+        "mediaurl": req.body.url || "templateurl",
 				"gameurl": "https://wba2ss17-team38.herokuapp.com/games/"+req.params.gameId,
         "creationdate": Date()
       };
