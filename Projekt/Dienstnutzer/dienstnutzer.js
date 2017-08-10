@@ -1,8 +1,9 @@
 var express = require('express'),
     http = require('http'),
     faye = require('faye'),             //modul zur Realisierung von publish subscribe
-    request = require('request');
-    queryOverpass = require('query-overpass');
+    request = require('request'),
+    queryOverpass = require('query-overpass'),
+    gamelogic = require('./gamelogic.js');
 var app = express();
 const bodyParser =  require("body-parser");
 
@@ -15,7 +16,7 @@ var dPort = 3000;
 var dURL = 'https://wba2ss17-team38.herokuapp.com'; //Ziel-URL zum Dienstgeber, falls er deployed ist
 
 const settings = {
-  port: process.env.PORT || 8081,
+  port: process.env.PORT || 8080,
 };
 
 //log mit Pfad und Zeit
@@ -26,11 +27,15 @@ app.use(function(req, res, next) {
   next();
 });
 
+
+//SPIELLOGIK
+setInterval(gamelogic.getgamedata, 60000);  //timer alle 60sec
+
+gamelogic.getgamedata();
+
 //Requests die der Dienstgeber zur Verfügung stellt
-//GET-Requests alle Users
 app.get('/users', function(req, res) {
   var url = dURL+ '/users';
-
   //TODO implement GET Request
   request.get(url, function(err, response, body) {
     body = JSON.parse(body);
@@ -38,7 +43,6 @@ app.get('/users', function(req, res) {
   });
 });
 
-//GET-Requests alle Games
 app.get('/games', function(req, res) {
   var url = dURL+ '/games';
 
@@ -49,7 +53,6 @@ app.get('/games', function(req, res) {
   });
 });
 
-//GET Request auf einen bestimmten User
 app.get('/users/:userid', function(req, res) {
   var userid = req.params.userid;
   var url = dURL + '/users/' + userid;
@@ -61,7 +64,6 @@ app.get('/users/:userid', function(req, res) {
   });
 });
 
-//GET Request auf einen bestimmtes Game
 app.get('/games/:gameid', function(req, res) {
   var gameid = req.params.gameid;
   var url = dURL + '/games/' + gameid;
@@ -73,10 +75,10 @@ app.get('/games/:gameid', function(req, res) {
   });
 });
 
-//GET Request auf Clues eines bestimmten Game
 app.get('/games/:gameid/clues', function(req, res) {
   var gameid = req.params.gameid;
-  var url = dURL + '/games/' + gameid + '/clues/';
+  console.log(query);
+  var url = dURL + '/games/' + gameid + '/clues';
 
   //TODO implement GET Request
   request.get(url, function(err, response, body) {
@@ -85,7 +87,6 @@ app.get('/games/:gameid/clues', function(req, res) {
   });
 });
 
-//GET Request auf einen bestimmten Clue eines bestimmten Game
 app.get('/games/:gameid/clues/:clueid', function(req, res) {
   var gameid = req.params.gameid;
   var clueid = req.params.clueid;
@@ -98,7 +99,6 @@ app.get('/games/:gameid/clues/:clueid', function(req, res) {
   });
 });
 
-//GET Request auf Media eines bestimmten Clue
 app.get('/games/:gameid/clues/:clueid/media', function(req, res) {
   var gameid = req.params.gameid;
   var clueid = req.params.clueid;
@@ -111,7 +111,6 @@ app.get('/games/:gameid/clues/:clueid/media', function(req, res) {
   });
 });
 
-//GET Request auf ein bestimmtes Media eines bestimmten Clue
 app.get('/games/:gameid/clues/:clueid/media/:mediaid', function(req, res) {
   var gameid = req.params.gameid;
   var clueid = req.params.clueid;
@@ -125,7 +124,6 @@ app.get('/games/:gameid/clues/:clueid/media/:mediaid', function(req, res) {
   });
 });
 
-//GET Request auf alle Teilnehmer eines bestimmten Game
 app.get('/games/:gameid/participants', function(req, res) {
   var gameid = req.params.gameid;
   var url = dURL +  '/games/' + gameid + '/participants/';
@@ -137,7 +135,6 @@ app.get('/games/:gameid/participants', function(req, res) {
   });
 });
 
-//GET Request auf einen bestimmten Teilnehmer eines bestimmten Game
 app.get('/games/:gameid/participants/:participantid', function(req, res) {
   var gameid = req.params.gameid;
   var participantid = req.params.participantid;
@@ -150,7 +147,6 @@ app.get('/games/:gameid/participants/:participantid', function(req, res) {
   });
 });
 
-//GET Request auf POI eines bestimmten Game
 app.get('/games/:gameid/poi', function(req, res) {
   var gameid = req.params.gameid;
   var url = dURL +  '/games/' + gameid + '/poi/';
@@ -293,30 +289,6 @@ app.post('/games/:gameid/poi', function(req, res) {
       });
     });
 
-app.patch('/games/:gameid/poi', function(req, res) {
-  var data = req.body;
-  var gameid = req.params.gameid;
-  var url = dURL +  '/games/' + gameid + '/poi/';
-  var bbbottomleft = "51.02084, 7.55946, ";
-  var bbtopright = "51.02634, 7.56592";
-  var amenity = req.body.amenity; //empty for all amenities
-  var query = "[out:json];node(" + bbbottomleft + bbtopright +")[amenity" +amenity + "];out;"
-
-  var overpass = queryOverpass(query, function(err, geojson) {
-    if (!err) {
-      var options = {
-        uri: url,
-        method: 'PATCH',
-        json: geojson
-      }
-        request(options, function(err, response, body){
-          res.json(body);
-        });
-      } else {
-        console.log(err);
-      }
-    });
-  });
 
 //DELETE request
 app.delete('/users/:userid', function(req, res) {
@@ -516,6 +488,31 @@ app.patch('/games/:gameid/participants/:participantid', function(req, res) {
     res.json(body)
   });
 });
+
+app.patch('/games/:gameid/poi', function(req, res) {
+  var data = req.body;
+  var gameid = req.params.gameid;
+  var url = dURL +  '/games/' + gameid + '/poi/';
+  var bbbottomleft = "51.02084, 7.55946, ";
+  var bbtopright = "51.02634, 7.56592";
+  var amenity = req.body.amenity; //empty for all amenities
+  var query = "[out:json];node(" + bbbottomleft + bbtopright +")[amenity" +amenity + "];out;"
+
+  var overpass = queryOverpass(query, function(err, geojson) {
+    if (!err) {
+      var options = {
+        uri: url,
+        method: 'PATCH',
+        json: geojson
+      }
+        request(options, function(err, response, body){
+          res.json(body);
+        });
+      } else {
+        console.log(err);
+      }
+    });
+  });
 
 
 //FAYE
