@@ -235,13 +235,20 @@ router.post("/:gameId/poi", function(req, res) {
 
 //GET Requests
 router.get("/", function(req, res) {
-	var gameurls = new Array();
+	gamedata = {
+		"games": []
+	};
 	for (i = 0;  i < gamedatabase.games.length; i++){
-		gameurls.push(gamedatabase.games[i].url);
+		id = new Array;
+		id.push(gamedatabase.games[i].url);
+		id.push (gamedatabase.games[i].id);
+		id.push(gamedatabase.games[i].startdate);
+		id.push(gamedatabase.games[i].finished);
+		gamedata.games.push(id);
   };
 	res.format({
 	  "application/json": function() {
-			res.send(gameurls)
+			res.send(gamedata)
 			}
 	  });
 });
