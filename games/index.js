@@ -83,16 +83,15 @@ router.get("/game.html", function(req, res) {
 router.post("/", function(req, res) {
 	var gameid = shortid.generate();
 	if (req.body.startdate != undefined) {
-	var startdatepart = req.body.startdate.split(".");
-	var starttimepart = req.body.starttime.split(":")
-	var expirationdatepart = req.body.expirationdate.split(".");
-	var expirationtimepart = req.body.expirationtime.split(":")
-	var tmps= new Date(startdatepart[2], (startdatepart[1]-1), startdatepart[0], starttimepart[0], starttimepart[1]);
-	var startdate = tmps.toString();
-	console.log(startdate);
-	var tmpd = new Date(expirationdatepart[2], (expirationdatepart[1]-1), expirationdatepart[0], expirationtimepart[0], expirationtimepart[1]);
-	var expirationdate = tmpd.toString();
-}
+		var startdatepart = req.body.startdate.split(".");
+		var starttimepart = req.body.starttime.split(":");
+		var expirationdatepart = req.body.expirationdate.split(".");
+		var expirationtimepart = req.body.expirationtime.split(":")
+		var tmps= new Date(startdatepart[2], (startdatepart[1]-1), startdatepart[0], starttimepart[0], starttimepart[1]);
+		var startdate = Date.parse(tmps);
+		var tmpd = new Date(expirationdatepart[2], (expirationdatepart[1]-1), expirationdatepart[0], expirationtimepart[0], expirationtimepart[1]);
+		var expirationdate = Date.parse(tmpd);
+	}
 	//fill json with request data
   games = {
         "id": gameid,
