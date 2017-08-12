@@ -2,7 +2,7 @@ var express = require('express'),
     http = require('http'),
     faye = require('faye'),             //modul zur Realisierung von publish subscribe
     request = require('request'),
-    queryOverpass = require('query-overpass'),
+    queryOverpass = require('query-overpass')
     gamelogic = require('./gamelogic.js');
 var app = express();
 const bodyParser =  require("body-parser");
@@ -29,9 +29,36 @@ app.use(function(req, res, next) {
 
 
 //SPIELLOGIK
-setInterval(gamelogic.getgamedata, 60000);  //timer alle 60sec
+setInterval(gamelogic.getgamedata, 6000);  //timer 60000 = 60sec
+
+var startid;
 
 gamelogic.getgamedata();
+
+// function getgamedata () {
+//   var url = dURL+ '/games';
+//   var date = new Date();
+//   date.setSeconds(0) && date.setMilliseconds(0);
+//   var datems = Date.parse(date);
+//   request.get(url, function(err, res, body) {
+//     if(err) {
+//       console.log("ERROR");
+//     }
+//     logicdata = JSON.parse(body);
+//     for (var i = 0; i < logicdata.games.length; i++) {
+//       if (logicdata.games[i][2] == datems) {
+//         console.log("Game mit ID " + logicdata.games[i][1] +" startet jetzt!");
+//         startid = logicdata.games[i][1];
+//         startgame (startid)
+//       } else {
+//         console.log("Game mit ID " + logicdata.games[i][1] +" startet nicht!");
+//       }
+//     }
+//   });
+// }
+
+
+
 
 //Requests die der Dienstgeber zur Verfügung stellt
 app.get('/users', function(req, res) {
