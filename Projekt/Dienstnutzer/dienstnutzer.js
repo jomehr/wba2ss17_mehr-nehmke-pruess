@@ -2,8 +2,12 @@ var express = require('express'),
     http = require('http'),
     faye = require('faye'),             //modul zur Realisierung von publish subscribe
     request = require('request');
+    queryOverpass = require('query-overpass');
 var app = express();
+
 const bodyParser =  require("body-parser");
+const bayeux = new faye.NodeAdapter({mount: '/faye', timeout: 45});  //client Variable existierte nicht
+const client = bayeux.getClient();    //eigene Verbindung
 
 //bodyparser für json und html einbinden
 app.use(bodyParser.urlencoded({ extended: true }));
@@ -161,7 +165,6 @@ app.get('/games/:gameid/poi', function(req, res) {
   });
 });
 
-
 //POST Request
 //dynamisch
 app.post('/users', function(req, res) {
@@ -174,18 +177,20 @@ app.post('/users', function(req, res) {
     json: data
   }
 
-  client.publish( "/user", {text: "Ein neuer User wurde hinzugefügt!"})
-  .then(function() {
-    console.log("Message received by server");
-  }, function(error) {
-    console.log("Error while publishing: " + error.message);
-  });
-
   request(options, function(err, response, body){
     console.log(body);
     res.json(body);
+    client.publish( "/users", {text: "Ein neuer User wurde hinzugefügt! "+ url + body.id})
+    .then(function() {
+      console.log("Message received by server");
+    }, function(error) {
+      console.log("Error while publishing: " + error.message);
+    });
   });
 });
+
+// blabla.com/api/games POST
+// -> herokuapp.com/blala/games POST
 
 app.post('/games', function(req, res) {
   var url = dURL + '/games/';
@@ -198,16 +203,23 @@ app.post('/games', function(req, res) {
     json: data
   }
 
-   client.publish( "/games", {text: "Ein neues Spiel wurde hinzugefügt!"+JSON.stringify(data)})
-  .then(function() {
-     console.log("Message received by server");
-   }, function(error) {
-     console.log("Error while publishing: " + error.message);
-   });
-
   request(options, function(err, response, body){
-    console.log(body);
     res.json(body);
+    client.publish( "/games", {text: "Ein neues Spiel wurde hinzugefügt! "+ url + body.id})
+   .then(function() {
+      console.log("Message received by server");
+    }, function(error) {
+      console.log("Error while publishing: " + error.message);
+    });
+
+    //zu jedem tag des neuen Spiels den entsprechenden Feed (Nachricht) bedienen
+    const tagFeedMessage = "Am "+ body.startdate +" wird ein neues Spiel "+ body.titel +" stattfinden!"
+    //const tags = body.tags || []
+    if (body.tags !== undefined) {
+      body.tags.forEach(function (tag) {
+        client.publish("tags/" + tag, { text: tagFeedMessage })
+      })
+    }
   });
 });
 
@@ -257,36 +269,76 @@ app.post('/games/:gameid/participants', function(req, res) {
     json: data
   }
 
-  client.publish( "/games"+gameid, {text: "Game "+gameid+" ist ein neuer Spieler beigetreten!"})
-  .then(function() {
-    console.log("Message received by server");
-  }, function(error) {
-    console.log("Error while publishing: " + error.message);
-  });
-
   request(options, function(err, response, body){
     console.log(body);
     res.json(body);
+    client.publish( "/games"+gameid, {text:  "Game "+gameid+" ist ein neuer Spieler beigetreten! "+ url + body.id})
+    .then(function() {
+      console.log("Message received by server");
+    }, function(error) {
+      console.log("Error while publishing: " + error.message);
+    });
+
+    //zu teilnehmenden User entsprechenden Feed (Nachricht) bedienen
+    const userFeedMessage = body.first_name +" "+ body.last_name +" wird am Spiel "+ gameid +" teilnehmen!"
+    //const followers = body.userAbos || []
+    if (body.followers !== undefined) {
+      body.followers.forEach(function (follower) {
+        client.publish("userabos/"+ follower.id, { text: userFeedMessage })
+      })
+    }
   });
 });
 
 app.post('/games/:gameid/poi', function(req, res) {
   var gameid = req.params.gameid;
   var url = dURL +  '/games/' + gameid + '/poi/';
+  var bbbottomleft = "51.02084, 7.55946, ";
+  var bbtopright = "51.02634, 7.56592";
+  var amenity = "=restaurant"; //empty for all amenities
+  var query = "[out:json];node(" + bbbottomleft + bbtopright +")[amenity" +amenity + "];out;"
+
+  var overpass = queryOverpass(query, function(err, geojson) {
+      if (!err) {
+        var options = {
+          uri: url,
+          method: 'POST',
+          json: geojson
+        }
+        request(options, function(err, response, body){
+          console.log(body);
+          res.json(body);
+        });
+      } else {
+          console.log(err);
+        }
+      });
+    });
+
+app.patch('/games/:gameid/poi', function(req, res) {
   var data = req.body;
-  //TODO implement POST method
-  var options = {
-    uri: url,
-    method: 'POST',
-    json: data
-  }
+  var gameid = req.params.gameid;
+  var url = dURL +  '/games/' + gameid + '/poi/';
+  var bbbottomleft = "51.02084, 7.55946, ";
+  var bbtopright = "51.02634, 7.56592";
+  var amenity = req.body.amenity; //empty for all amenities
+  var query = "[out:json];node(" + bbbottomleft + bbtopright +")[amenity" +amenity + "];out;"
 
-  request(options, function(err, response, body){
-    console.log(body);
-    res.json(body);
+  var overpass = queryOverpass(query, function(err, geojson) {
+    if (!err) {
+      var options = {
+        uri: url,
+        method: 'PATCH',
+        json: geojson
+      }
+        request(options, function(err, response, body){
+          res.json(body);
+        });
+      } else {
+        console.log(err);
+      }
+    });
   });
-});
-
 
 //DELETE request
 app.delete('/users/:userid', function(req, res) {
@@ -359,6 +411,7 @@ app.delete('/games/:gameid/participants/:participantid', function(req, res) {
   request.delete(url, function(err, response, body) {
     let json = JSON.parse(body);
     res.json(json);
+
   });
 });
 
@@ -393,6 +446,7 @@ app.patch('/users/:userid', function(req, res) {
   request(options, function(err, response, body) {
     console.log('PATCH /users/' + userid + '=> \n', body);
     res.json(body)
+
   });
 });
 
@@ -486,17 +540,8 @@ app.patch('/games/:gameid/participants/:participantid', function(req, res) {
 
 
 //FAYE
-var server = http.createServer(app).listen(settings.port, function(){
+const server = http.createServer(app);
+bayeux.attach(server);
+server.listen(settings.port, function () {
   console.log("Listening on http://localhost/:" + settings.port);
-});
-var fayeserver = new faye.NodeAdapter({ mount: '/faye', timeout: 45});
-fayeserver.attach(server);
-
-//serverseitiger client
-var client = new faye.Client('http://localhost:' + settings.port +"/faye");
-client.subscribe('/news', function(message) {
-  console.log(message);
-});
-client.subscribe("/games", function(message) {
-  console.log(message);
 });
