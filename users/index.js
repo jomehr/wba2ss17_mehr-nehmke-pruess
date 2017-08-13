@@ -3,6 +3,8 @@ const express = require('express');
 const shortid = require('shortid');
 const bodyParser =  require("body-parser");
 const router = express.Router();
+const mongoose = require("mongoose");
+var User = require("./usermodel.js");
 var passwordHash = require('password-hash');
 
 //bodyparser für json und html einbinden
@@ -46,35 +48,36 @@ router.use(function(req, res, next) {
 //GET Request auf alle User
 router.get('/', function (req, res) {
 	var userurls = new Array();
-	for (i = 0;  i < userdatabase.users.length; i++){
-		userurls.push(userdatabase.users[i].user_name + ": " + userdatabase.users[i].url);
-	};
-	res.format({
-		"application/json": function() {
-			res.send(userurls);
-		}
+	User.find({}, function(err, users){
+		if(!err) userurls = users;
+		//console.log(userurls);
+
+		res.format({
+			"application/json": function() {
+				res.send(userurls);
+			}
+		});
 	});
+
 });
 
 //GET Request auf User ID
 router.get('/:userid', function (req, res) {
-	let userIndex = findUserIndexById(req.params.userid);
-	if (userIndex < 0) {
-		res.status(404);
-		res.send("Der User mit ID " + req.params.userId + " existiert noch nicht!");
-	} else {
-		let user = userdatabase.users[userIndex];
+	User.findOne({ "id": req.params.userid}, function(err,user){
+		if(user!=null)
 		res.format({
 			"application/json": function() {
 				res.json(user);
 			}
 		});
-	}
+		else{res.status(404); res.send("Nutzer konnte nicht gefunden werden!")}
+	});
 });
 
 //POST Request
 router.post("/", function(req, res) {
 	var userid = shortid.generate();
+
   //fill json with request data
   users = {
 				"id": userid,
@@ -85,9 +88,12 @@ router.post("/", function(req, res) {
 				"email": req.body.email,
 				"password": passwordHash.generate(req.body.password)
       };
+		var newUser = new User(users);
+		newUser.save(function(err){
+			if(err)
+				throw err;
+		});
   //push data into existing json and stringify it for saving
-  userdatabase.users.push(users);
-  saveUserData(userdatabase);
 	console.log(userid);
   //formats responds to json
   res.format({
@@ -99,41 +105,26 @@ router.post("/", function(req, res) {
 
 //DELETE Request
 router.delete('/:userid', function (req, res) {
-	let userIndex = findUserIndexById(req.params.userid);
-	if (userIndex < 0) {
-		res.status(404);
-		res.send("Der User mit ID " + req.params.userId + " existiert noch nicht!");
-	} else {
-		let user = userdatabase.users[userIndex];
-		userdatabase.users.splice(userIndex, 1);
-		saveUserData(userdatabase);
-		res.format({
-			"application/json": function() {
-				res.json(user);
-			}
-		});
-	}
+	User.findOneAndRemove({"id": req.params.userid }, function(err, user){
+		if(err) {res.status(404); res.send("User mit ID "+req.params.userid+" existier nicht!");}
+		else { res.status(200); res.send("User mit ID "+req.params.userid+" wurde gelöscht!");}
+	});
 });
 
 //PATCH Request
 router.patch('/:userid', function (req, res) {
-	let userIndex = findUserIndexById(req.params.userid);
-	console.log(req.body);
-	if (userIndex < 0) {
-		res.status(404);
-		res.send("Der User mit ID " + req.params.userId + " existiert noch nicht!");
-	} else {
-		let changes = req.body;
-		let userBefore = userdatabase.users[userIndex];
-		let userAfter = Object.assign(userBefore, changes);
-		userdatabase.users[userIndex] = userAfter;
-		saveUserData(userdatabase);
-		res.format({
+	var update = req.body;
+	User.findOneAndUpdate({"id" : req.params.userid }, update, function(err, update){
+
+		if(!err){ res.status(200);
+			res.format({
 			"application/json": function() {
-				res.json(userAfter);
-			}
-		});
-	}
+				res.json(update);
+				}
+			});
+		}
+		else {res.status(404); res.send("User mit ID "+req.params.userid+" existier nicht!");}
+	});
 });
 
 
