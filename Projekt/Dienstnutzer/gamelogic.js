@@ -51,21 +51,25 @@ module.exports = {
       console.log(gamedata.participants);
       for (var i = 0; i < gamedata.participants.length; i++) {
         var participantid = gamedata.participants[i].id;
-        //gamelogic.getuserdata(participantid);
+        gamelogic.getuserdata(participantid);
+        var distance = geolib.getDistance(coords,cluedata[cluenumber].coordinates);
       }
-      // if (coords == cluedata[cluenumber+1]) {
-      //   cluenumber ++;
-      //   console.log(cluedata[cluenumber]);
-      // }
+      if (distance <= 10) {
+        cluenumber ++;
+        console.log(cluedata[cluenumber]);
+      }
     });
-  }//,getuserdata: function(userid) {
-    // url = dURL+ '/users/' + userid;
-    // request.get(url, function(err, res, body) {
-    //   if(err) {
-    //     console.log("ERROR: " + body);
-    //   }
-    //   var userdata = JSON.parse(body);
-    //   var coords = userdata.coordinates;
-    //   console.log(coords);
-    //   return coords;
+  },
+  getuserdata: function(userid) {
+    url = dURL+ '/users/' + userid;
+    request.get(url, function(err, res, body) {
+      if(err) {
+        console.log("ERROR: " + body);
+      }
+      var userdata = JSON.parse(body);
+      var coords = userdata.coordinates;
+      console.log(coords);
+      return coords;
+    }
+  }
 }
