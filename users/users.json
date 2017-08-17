@@ -1,34 +1,60 @@
 {
     "users": [
         {
-            "id": "Byh3Q7dSZ",
-            "url": "https://wba2ss17-team38.herokuapp.com/users/Byh3Q7dSZ",
-            "user_name": "Glücksbärchie",
-            "first_name": "Jared",
-            "last_name": "Prüß",
-            "age": 22,
-            "email": "jared@gmail.de",
-            "password": "sha1$1e56cc36$1$bfc3525d895b0d36de8855468100b78518f03a41"
+            "id": "B1_HPdGd-",
+            "user_name": "bananaman",
+            "first_name": "jan",
+            "last_name": "mehr",
+            "age": 24,
+            "coordinates": {
+                "latitude": 52.518611,
+                "longitude": 13.408056
+            },
+            "email": "jan@mail.de",
+            "url": "https://wba2ss17-team38.herokuapp.com/users/B1_HPdGd-",
+            "password": "sha1$cea86597$1$ed4b1446e26ad472d7d098ca4054a00aef23f67a"
         },
         {
-            "id": "SJDLN7uHb",
-            "url": "https://wba2ss17-team38.herokuapp.com/users/SJDLN7uHb",
-            "user_name": "TheMachine",
-            "first_name": "Jan",
-            "last_name": "Mehr",
-            "age": 45,
-            "email": "jan@gmail.de",
-            "password": "sha1$95c26e3d$1$611fcf3924b49499baa6cc40a772fbe535953abd"
+            "id": "S1ELddM_Z",
+            "user_name": "kimjongun",
+            "first_name": "jan",
+            "last_name": "mehr",
+            "age": 24,
+            "coordinates": {
+                "latitude": 52.518611,
+                "longitude": 13.408056
+            },
+            "email": "jan@mail.de",
+            "url": "https://wba2ss17-team38.herokuapp.com/users/S1ELddM_Z",
+            "password": "sha1$f3edd906$1$f12b9e3264de829f6fe95f665a36e8235267dccf"
         },
         {
-            "id": "Hye9E7ur-",
-            "url": "https://wba2ss17-team38.herokuapp.com/users/Hye9E7ur-",
-            "user_name": "Einhorn",
-            "first_name": "Tim",
-            "last_name": "Nehmke",
-            "age": 33,
-            "email": "tim@gmail.de",
-            "password": "sha1$05c9ac9a$1$b0a8ab66cb6a9a3526a8db6b76a5a9dbcb3485e7"
+            "id": "HkNduOzu-",
+            "user_name": "kimjongdos",
+            "first_name": "tim",
+            "last_name": "nehmke",
+            "age": 24,
+            "coordinates": {
+                "latitude": 52.518611,
+                "longitude": 13.408056
+            },
+            "email": "tim@mail.de",
+            "url": "https://wba2ss17-team38.herokuapp.com/users/HkNduOzu-",
+            "password": "sha1$98114b69$1$24fb77348ab3ba0dfb699f84dfad7d7b266aef18"
+        },
+        {
+            "id": "ryBoO_zOb",
+            "user_name": "kimjongtres",
+            "first_name": "jared",
+            "last_name": "prüß",
+            "age": 24,
+            "coordinates": {
+                "latitude": 52.518611,
+                "longitude": 13.408056
+            },
+            "email": "jared@mail.de",
+            "url": "https://wba2ss17-team38.herokuapp.com/users/ryBoO_zOb",
+            "password": "sha1$771094aa$1$bed061551b6604429bd62b7a01fecfb1bc2444cb"
         }
     ]
 }

@@ -47,7 +47,7 @@ router.use(function(req, res, next) {
 router.get('/', function (req, res) {
 	var userurls = new Array();
 	for (i = 0;  i < userdatabase.users.length; i++){
-		userurls.push(userdatabase.users[i].user_name + ": " + userdatabase.users[i].url);
+		userurls.push(userdatabase.users[i].id + ": " + userdatabase.users[i].url);
 	};
 	res.format({
 		"application/json": function() {
@@ -75,6 +75,7 @@ router.get('/:userid', function (req, res) {
 //POST Request
 router.post("/", function(req, res) {
 	var userid = shortid.generate();
+	var url = "https://wba2ss17-team38.herokuapp.com/users/"
   //fill json with request data
   users = {
 				"id": userid,
@@ -82,7 +83,12 @@ router.post("/", function(req, res) {
 				"first_name": req.body.first_name,
 				"last_name": req.body.last_name,
 				"age": req.body.age,
+				"coordinates": {
+					"latitude": req.body.latitude,
+					"longitude": req.body.longitude
+				},
 				"email": req.body.email,
+				"url": url + userid,
 				"password": passwordHash.generate(req.body.password)
       };
   //push data into existing json and stringify it for saving

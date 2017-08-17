@@ -1,186 +1,270 @@
 {
     "games": [
         {
-            "id": "HJDexZ3wW",
+            "id": "rJ403dMdZ",
             "titel": "templatetitel",
             "description": "templatedescription",
-            "endcoordinates": "templatecoordinates",
+            "endcoordinates": {
+                "latitude": 52.518611,
+                "longitude": 13.408056
+            },
             "creator": "templatecreator",
-            "creationdate": "Sat Aug 12 2017 06:11:27 GMT+0200 (Mitteleuropäische Sommerzeit)",
-            "startdate": 1502511300000,
-            "expirationdate": 1502535600000,
+            "creationdate": "Thu Aug 17 2017 04:17:48 GMT+0200 (Mitteleuropäische Sommerzeit)",
+            "startdate": 1502929200000,
+            "expirationdate": 1503054000000,
             "finished": false,
-            "url": "https://wba2ss17-team38.herokuapp.com/games/HJDexZ3wW",
+            "reward": "templatereward",
+            "url": "https://wba2ss17-team38.herokuapp.com/games/rJ403dMdZ",
+            "clues": [],
+            "participants": []
+        },
+        {
+            "id": "S1F1CdzdZ",
+            "titel": "templatetitel",
+            "description": "templatedescription",
+            "endcoordinates": {
+                "latitude": 52.518611,
+                "longitude": 13.408056
+            },
+            "creator": "templatecreator",
+            "creationdate": "Thu Aug 17 2017 04:22:24 GMT+0200 (Mitteleuropäische Sommerzeit)",
+            "startdate": 1502929800000,
+            "expirationdate": 1503054000000,
+            "finished": false,
+            "reward": "templatereward",
+            "url": "https://wba2ss17-team38.herokuapp.com/games/S1F1CdzdZ",
+            "clues": [],
+            "participants": []
+        },
+        {
+            "id": "SJp1AufuW",
+            "titel": "templatetitel",
+            "description": "templatedescription",
+            "endcoordinates": {
+                "latitude": 52.518611,
+                "longitude": 13.408056
+            },
+            "creator": "templatecreator",
+            "creationdate": "Thu Aug 17 2017 04:22:28 GMT+0200 (Mitteleuropäische Sommerzeit)",
+            "startdate": 1502930100000,
+            "expirationdate": 1503054000000,
+            "finished": false,
+            "reward": "templatereward",
+            "url": "https://wba2ss17-team38.herokuapp.com/games/SJp1AufuW",
             "clues": [
                 {
-                    "gameid": "HJDexZ3wW",
-                    "id": "BkIig-3wb",
+                    "gameid": "SJp1AufuW",
+                    "id": "BkjBCOMuZ",
                     "titel": "templatetitel",
                     "description": "templatedescription",
-                    "coordinate": "templatecoordinates",
+                    "coordinates": {
+                        "latitude": 52.518611,
+                        "longitude": 13.408056
+                    },
                     "creator": "templatecreator",
-                    "gameurl": "https://wba2ss17-team38.herokuapp.com/games/HJDexZ3wW",
-                    "creationdate": "Sat Aug 12 2017 06:14:21 GMT+0200 (Mitteleuropäische Sommerzeit)",
+                    "gameurl": "https://wba2ss17-team38.herokuapp.com/games/SJp1AufuW",
+                    "creationdate": "Thu Aug 17 2017 04:24:02 GMT+0200 (Mitteleuropäische Sommerzeit)",
                     "media": []
                 },
                 {
-                    "gameid": "HJDexZ3wW",
-                    "id": "Skene-2wW",
+                    "gameid": "SJp1AufuW",
+                    "id": "BJGIR_GOW",
                     "titel": "templatetitel",
                     "description": "templatedescription",
-                    "coordinate": "templatecoordinates",
+                    "coordinates": {
+                        "latitude": 52.518611,
+                        "longitude": 13.408056
+                    },
                     "creator": "templatecreator",
-                    "gameurl": "https://wba2ss17-team38.herokuapp.com/games/HJDexZ3wW",
-                    "creationdate": "Sat Aug 12 2017 06:14:31 GMT+0200 (Mitteleuropäische Sommerzeit)",
+                    "gameurl": "https://wba2ss17-team38.herokuapp.com/games/SJp1AufuW",
+                    "creationdate": "Thu Aug 17 2017 04:24:10 GMT+0200 (Mitteleuropäische Sommerzeit)",
                     "media": []
                 },
                 {
-                    "gameid": "HJDexZ3wW",
-                    "id": "Hkxx3lbhPZ",
+                    "gameid": "SJp1AufuW",
+                    "id": "By78ROzdW",
                     "titel": "templatetitel",
                     "description": "templatedescription",
-                    "coordinate": "templatecoordinates",
+                    "coordinates": {
+                        "latitude": 52.518611,
+                        "longitude": 13.408056
+                    },
                     "creator": "templatecreator",
-                    "gameurl": "https://wba2ss17-team38.herokuapp.com/games/HJDexZ3wW",
-                    "creationdate": "Sat Aug 12 2017 06:14:32 GMT+0200 (Mitteleuropäische Sommerzeit)",
+                    "gameurl": "https://wba2ss17-team38.herokuapp.com/games/SJp1AufuW",
+                    "creationdate": "Thu Aug 17 2017 04:24:11 GMT+0200 (Mitteleuropäische Sommerzeit)",
                     "media": []
                 },
                 {
-                    "gameid": "HJDexZ3wW",
-                    "id": "HJW2g-2vW",
+                    "gameid": "SJp1AufuW",
+                    "id": "SJHI0_z_Z",
                     "titel": "templatetitel",
                     "description": "templatedescription",
-                    "coordinate": "templatecoordinates",
+                    "coordinates": {
+                        "latitude": 52.518611,
+                        "longitude": 13.408056
+                    },
                     "creator": "templatecreator",
-                    "gameurl": "https://wba2ss17-team38.herokuapp.com/games/HJDexZ3wW",
-                    "creationdate": "Sat Aug 12 2017 06:14:33 GMT+0200 (Mitteleuropäische Sommerzeit)",
+                    "gameurl": "https://wba2ss17-team38.herokuapp.com/games/SJp1AufuW",
+                    "creationdate": "Thu Aug 17 2017 04:24:12 GMT+0200 (Mitteleuropäische Sommerzeit)",
                     "media": []
                 }
             ],
             "participants": [
                 {
-                    "gameid": "HJDexZ3wW",
-                    "id": "S1eAgZ2DZ",
+                    "gameid": "SJp1AufuW",
+                    "userid": "ryBoO_zOb",
+                    "id": "ryap0dMO-",
                     "first_name": "templatefirstname",
                     "last_name": "templatelastname",
                     "username": "templateusername",
-                    "gameurl": "https://wba2ss17-team38.herokuapp.com/games/HJDexZ3wW",
-                    "joindate": "Sat Aug 12 2017 06:15:04 GMT+0200 (Mitteleuropäische Sommerzeit)"
+                    "userurl": "https://wba2ss17-team38.herokuapp.com/users/ryBoO_zOb",
+                    "gameurl": "https://wba2ss17-team38.herokuapp.com/games/SJp1AufuW",
+                    "joindate": "Thu Aug 17 2017 04:26:12 GMT+0200 (Mitteleuropäische Sommerzeit)"
                 },
                 {
-                    "gameid": "HJDexZ3wW",
-                    "id": "BkMCebhDb",
+                    "gameid": "SJp1AufuW",
+                    "userid": "ryBoO_zOb",
+                    "id": "ByVA0_GuZ",
                     "first_name": "templatefirstname",
                     "last_name": "templatelastname",
                     "username": "templateusername",
-                    "gameurl": "https://wba2ss17-team38.herokuapp.com/games/HJDexZ3wW",
-                    "joindate": "Sat Aug 12 2017 06:15:05 GMT+0200 (Mitteleuropäische Sommerzeit)"
+                    "userurl": "https://wba2ss17-team38.herokuapp.com/users/ryBoO_zOb",
+                    "gameurl": "https://wba2ss17-team38.herokuapp.com/games/SJp1AufuW",
+                    "joindate": "Thu Aug 17 2017 04:26:20 GMT+0200 (Mitteleuropäische Sommerzeit)"
                 },
                 {
-                    "gameid": "HJDexZ3wW",
-                    "id": "B1QReW2P-",
+                    "gameid": "SJp1AufuW",
+                    "userid": "ryBoO_zOb",
+                    "id": "Byr0R_Gdb",
                     "first_name": "templatefirstname",
                     "last_name": "templatelastname",
                     "username": "templateusername",
-                    "gameurl": "https://wba2ss17-team38.herokuapp.com/games/HJDexZ3wW",
-                    "joindate": "Sat Aug 12 2017 06:15:06 GMT+0200 (Mitteleuropäische Sommerzeit)"
+                    "userurl": "https://wba2ss17-team38.herokuapp.com/users/ryBoO_zOb",
+                    "gameurl": "https://wba2ss17-team38.herokuapp.com/games/SJp1AufuW",
+                    "joindate": "Thu Aug 17 2017 04:26:21 GMT+0200 (Mitteleuropäische Sommerzeit)"
                 },
                 {
-                    "gameid": "HJDexZ3wW",
-                    "id": "SkeQRxZhvb",
+                    "gameid": "SJp1AufuW",
+                    "userid": "ryBoO_zOb",
+                    "id": "HJ8CROfu-",
                     "first_name": "templatefirstname",
                     "last_name": "templatelastname",
                     "username": "templateusername",
-                    "gameurl": "https://wba2ss17-team38.herokuapp.com/games/HJDexZ3wW",
-                    "joindate": "Sat Aug 12 2017 06:15:07 GMT+0200 (Mitteleuropäische Sommerzeit)"
+                    "userurl": "https://wba2ss17-team38.herokuapp.com/users/ryBoO_zOb",
+                    "gameurl": "https://wba2ss17-team38.herokuapp.com/games/SJp1AufuW",
+                    "joindate": "Thu Aug 17 2017 04:26:21 GMT+0200 (Mitteleuropäische Sommerzeit)"
                 },
                 {
-                    "gameid": "HJDexZ3wW",
-                    "id": "Sk4RxW2v-",
+                    "gameid": "SJp1AufuW",
+                    "userid": "ryBoO_zOb",
+                    "id": "rkw00_GuW",
                     "first_name": "templatefirstname",
                     "last_name": "templatelastname",
                     "username": "templateusername",
-                    "gameurl": "https://wba2ss17-team38.herokuapp.com/games/HJDexZ3wW",
-                    "joindate": "Sat Aug 12 2017 06:15:07 GMT+0200 (Mitteleuropäische Sommerzeit)"
+                    "userurl": "https://wba2ss17-team38.herokuapp.com/users/ryBoO_zOb",
+                    "gameurl": "https://wba2ss17-team38.herokuapp.com/games/SJp1AufuW",
+                    "joindate": "Thu Aug 17 2017 04:26:22 GMT+0200 (Mitteleuropäische Sommerzeit)"
                 },
                 {
-                    "gameid": "HJDexZ3wW",
-                    "id": "SyeNAlWnP-",
+                    "gameid": "SJp1AufuW",
+                    "userid": "ryBoO_zOb",
+                    "id": "SkYRR_MuW",
                     "first_name": "templatefirstname",
                     "last_name": "templatelastname",
                     "username": "templateusername",
-                    "gameurl": "https://wba2ss17-team38.herokuapp.com/games/HJDexZ3wW",
-                    "joindate": "Sat Aug 12 2017 06:15:07 GMT+0200 (Mitteleuropäische Sommerzeit)"
+                    "userurl": "https://wba2ss17-team38.herokuapp.com/users/ryBoO_zOb",
+                    "gameurl": "https://wba2ss17-team38.herokuapp.com/games/SJp1AufuW",
+                    "joindate": "Thu Aug 17 2017 04:26:25 GMT+0200 (Mitteleuropäische Sommerzeit)"
                 }
             ]
         },
         {
-            "id": "r1HbxZ3PW",
+            "id": "BJfxA_GdZ",
             "titel": "templatetitel",
             "description": "templatedescription",
-            "endcoordinates": "templatecoordinates",
+            "endcoordinates": {
+                "latitude": 52.518611,
+                "longitude": 13.408056
+            },
             "creator": "templatecreator",
-            "creationdate": "Sat Aug 12 2017 06:11:40 GMT+0200 (Mitteleuropäische Sommerzeit)",
-            "startdate": 1502511600000,
-            "expirationdate": 1502535600000,
+            "creationdate": "Thu Aug 17 2017 04:22:33 GMT+0200 (Mitteleuropäische Sommerzeit)",
+            "startdate": 1502930400000,
+            "expirationdate": 1503054000000,
             "finished": false,
-            "url": "https://wba2ss17-team38.herokuapp.com/games/r1HbxZ3PW",
+            "reward": "templatereward",
+            "url": "https://wba2ss17-team38.herokuapp.com/games/BJfxA_GdZ",
             "clues": [],
             "participants": []
         },
         {
-            "id": "r1iZgb2wW",
+            "id": "HkFlA_f_Z",
             "titel": "templatetitel",
             "description": "templatedescription",
-            "endcoordinates": "templatecoordinates",
+            "endcoordinates": {
+                "latitude": 52.518611,
+                "longitude": 13.408056
+            },
             "creator": "templatecreator",
-            "creationdate": "Sat Aug 12 2017 06:11:46 GMT+0200 (Mitteleuropäische Sommerzeit)",
-            "startdate": 1502528400000,
-            "expirationdate": 1502535600000,
+            "creationdate": "Thu Aug 17 2017 04:22:40 GMT+0200 (Mitteleuropäische Sommerzeit)",
+            "startdate": 1502930700000,
+            "expirationdate": 1503054000000,
             "finished": false,
-            "url": "https://wba2ss17-team38.herokuapp.com/games/r1iZgb2wW",
+            "reward": "templatereward",
+            "url": "https://wba2ss17-team38.herokuapp.com/games/HkFlA_f_Z",
             "clues": [],
             "participants": []
         },
         {
-            "id": "ByqQeZ2wW",
+            "id": "rkAxAOG_W",
             "titel": "templatetitel",
             "description": "templatedescription",
-            "endcoordinates": "templatecoordinates",
+            "endcoordinates": {
+                "latitude": 52.518611,
+                "longitude": 13.408056
+            },
             "creator": "templatecreator",
-            "creationdate": "Sat Aug 12 2017 06:12:17 GMT+0200 (Mitteleuropäische Sommerzeit)",
-            "startdate": 1502512800000,
-            "expirationdate": 1502535600000,
+            "creationdate": "Thu Aug 17 2017 04:22:46 GMT+0200 (Mitteleuropäische Sommerzeit)",
+            "startdate": 1502931000000,
+            "expirationdate": 1503054000000,
             "finished": false,
-            "url": "https://wba2ss17-team38.herokuapp.com/games/ByqQeZ2wW",
+            "reward": "templatereward",
+            "url": "https://wba2ss17-team38.herokuapp.com/games/rkAxAOG_W",
             "clues": [],
             "participants": []
         },
         {
-            "id": "Hy7NeZ2D-",
+            "id": "S1Hb0_MdZ",
             "titel": "templatetitel",
             "description": "templatedescription",
-            "endcoordinates": "templatecoordinates",
+            "endcoordinates": {
+                "latitude": 52.518611,
+                "longitude": 13.408056
+            },
             "creator": "templatecreator",
-            "creationdate": "Sat Aug 12 2017 06:12:26 GMT+0200 (Mitteleuropäische Sommerzeit)",
-            "startdate": 1502599200000,
-            "expirationdate": 1502535600000,
+            "creationdate": "Thu Aug 17 2017 04:22:52 GMT+0200 (Mitteleuropäische Sommerzeit)",
+            "startdate": 1502931300000,
+            "expirationdate": 1503054000000,
             "finished": false,
-            "url": "https://wba2ss17-team38.herokuapp.com/games/Hy7NeZ2D-",
+            "reward": "templatereward",
+            "url": "https://wba2ss17-team38.herokuapp.com/games/S1Hb0_MdZ",
             "clues": [],
             "participants": []
         },
         {
-            "id": "B1grgW3vZ",
+            "id": "rJ2-AufuZ",
             "titel": "templatetitel",
             "description": "templatedescription",
-            "endcoordinates": "templatecoordinates",
+            "endcoordinates": {
+                "latitude": 52.518611,
+                "longitude": 13.408056
+            },
             "creator": "templatecreator",
-            "creationdate": "Sat Aug 12 2017 06:12:39 GMT+0200 (Mitteleuropäische Sommerzeit)",
-            "startdate": 1502599200000,
-            "expirationdate": 1502622000000,
+            "creationdate": "Thu Aug 17 2017 04:23:00 GMT+0200 (Mitteleuropäische Sommerzeit)",
+            "startdate": 1502931600000,
+            "expirationdate": 1503054000000,
             "finished": false,
-            "url": "https://wba2ss17-team38.herokuapp.com/games/B1grgW3vZ",
+            "reward": "templatereward",
+            "url": "https://wba2ss17-team38.herokuapp.com/games/rJ2-AufuZ",
             "clues": [],
             "participants": []
         }
