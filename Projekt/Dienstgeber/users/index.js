@@ -142,19 +142,19 @@ router.post("/", function(req, res) {
 router.post("/:userid/tagabos", function(req, res) {
 	//create latest userid according to array lenght in json
   for (var i = 0; i < userdatabase.users.length; i++) {
-		if (userdatabase.games[i].id == req.params.userid) {
+		if (userdatabase.users[i].id == req.params.userid) {
 			break;
 		}
   }
   //fill json with request data
-  tagabos = [];
+	var newTag = req.body.newTag;
   //push data into existing json and stringify it for saving
-  userdatabase.users[i].tagabos.push(tagabos);
+  userdatabase.users[i].tagabos.push(newTag);
   saveUserData(userdatabase);
   //formats responds to json
   res.format({
     "application/json": function() {
-			res.status(200).json(tagabos);
+			res.json(userdatabase.users[i].tagabos);
     }
   });
 });
@@ -162,19 +162,19 @@ router.post("/:userid/tagabos", function(req, res) {
 router.post("/:userid/followers", function(req, res) {
 	//create latest userid according to array lenght in json
   for (var i = 0; i < userdatabase.users.length; i++) {
-		if (userdatabase.games[i].id == req.params.userid) {
+		if (userdatabase.users[i].id == req.params.userid) {
 			break;
 		}
   }
   //fill json with request data
-  tagabos = [];
+	var newFollower = req.body.followers;
   //push data into existing json and stringify it for saving
-  userdatabase.users[i].followers.push(followers);
+  userdatabase.users[i].followers.push(newFollower);
   saveUserData(userdatabase);
   //formats responds to json
   res.format({
     "application/json": function() {
-			res.status(200).json(followers);
+			res.json(userdatabase.users[i].followers);
     }
   });
 });
@@ -197,17 +197,17 @@ router.delete("/:userid", function (req, res) {
 	}
 });
 
-router.delete("/:userid/tagabos/:tag", function(req, res) {
-	let userIndex = findUserIndexById(req.params.userid);
-	let tagsOfUser = userdatabase.users[userIndex].tags											//alle Tags vom User
-	let tagIndex = tagsOfUser.findIndex(tag => tag === req.params.tag)			//Index des zu löschenden Tag finden
-
-	//gesuchter String Vergleich mit Strings im Array
-	//true = wenn tag gleich req.params.tag --> Index gefunden
-	function searchTag (tag) {
-			return tag === req.params.tag
-	}
-
+router.delete("/:userid/tagabos", function(req, res) {
+	//create latest userid according to array lenght in json
+  for (var i = 0; i < userdatabase.users.length; i++) {
+		if (userdatabase.users[i].id == req.params.userid) {
+			for (var j = 0; j < userdatabase.users.tagabos.length; j++) {
+				if (userdatabase.users[i].id.tagabos[j] == req.params.userid.tagabos[j]) {
+					break;
+				}
+			}
+		}
+  }
 	if (tagIndex < 0) {
 			res.status(404);
 			res.send("Der User mit der ID " + req.params.userId + " besitzt noch keine Tag Abos!");
@@ -219,7 +219,6 @@ router.delete("/:userid/tagabos/:tag", function(req, res) {
 			res.send(deletedTag) 						//gelöschten Tag anzeigen
 		}
 });
-
 
 router.delete("/:userid/followers/:follower", function(req, res) {
 	let userIndex = findUserIndexById(req.params.userid);

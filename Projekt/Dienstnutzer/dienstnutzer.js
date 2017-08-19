@@ -15,7 +15,8 @@ app.use(bodyParser.json());
 
 var dHost = 'http://localhost';         //Ziel-URL vom Dienstgeber, falls er lokal ist
 var dPort = 3000;
-var dURL = 'https://wba2ss17-team38.herokuapp.com'; //Ziel-URL zum Dienstgeber, falls er deployed ist
+var dURL = dHost + ":" + dPort;
+//var dURL = 'https://wba2ss17-team38.herokuapp.com'; //Ziel-URL zum Dienstgeber, falls er deployed ist
 
 const settings = {
   port: process.env.PORT || 8081,
@@ -225,9 +226,10 @@ app.post('/users/:userid/tagabos', function(req, res) {
   }
 
   request(options, function(err, response, body){
+    console.log(options.uri);
     res.json(body);
-    console.log(response.body);
-    client.publish( "/users", {text: "Ein neuer Tag wurde abonniert! "+ url + body.id})
+    console.log("dienstnutzer.js wird aufgerufen " + body);
+    client.publish( "/users", {text: "Ein neuer Tag wurde abonniert! "})
    .then(function() {
       console.log("Message received by server");
     }, function(error) {
@@ -427,7 +429,7 @@ app.delete('/users/:userid/tagabos', function(req, res) {
   var userid = req.params.userid;
   var url = dURL + '/users/' + userid + '/tagabos/';
 
-  client.publish( "/users"+userid+"/tagabos", {text: "Der Tag "+deletedTag+" ist nicht mehr abonniert!"})
+  client.publish( "/users"+userid+"/tagabos", {text: "Der Tag ist nicht mehr abonniert!"})
   .then(function() {
     console.log("Message received by server");
   }, function(error) {
