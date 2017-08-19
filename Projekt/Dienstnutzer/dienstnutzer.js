@@ -29,9 +29,9 @@ app.use(function(req, res, next) {
 
 
 //SPIELLOGIK
-setInterval(gamelogic.getgamedata, 6000);  //timer 60000 = 60sec
+setInterval(gamelogic.getgamedata, 60000);  //timer 60000 = 60sec
+var coords = {};
 
-//gamelogic.getuserdata();
 gamelogic.getgamedata();
 
 
@@ -79,7 +79,6 @@ app.get('/games/:gameid', function(req, res) {
 
 app.get('/games/:gameid/clues', function(req, res) {
   var gameid = req.params.gameid;
-  console.log(query);
   var url = dURL + '/games/' + gameid + '/clues';
 
   //TODO implement GET Request
