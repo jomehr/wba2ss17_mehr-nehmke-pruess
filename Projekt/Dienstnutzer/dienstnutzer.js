@@ -41,9 +41,10 @@ app.get('/users', function(req, res) {
   });
 });
 
-//GET-Requests alle Games
-app.get('/games', function(req, res) {
-  var url = dURL+ '/games';
+//GET Request auf einen bestimmten User
+app.get('/users/:userid', function(req, res) {
+  var userid = req.params.userid;
+  var url = dURL + '/users/' + userid;
 
   //TODO implement GET Request
   request.get(url, function(err, response, body) {
@@ -52,10 +53,33 @@ app.get('/games', function(req, res) {
   });
 });
 
-//GET Request auf einen bestimmten User
-app.get('/users/:userid', function(req, res) {
+//GET Request auf tagabos eines bestimmten Users
+app.get('/users/:userid/tagabos', function(req, res) {
   var userid = req.params.userid;
-  var url = dURL + '/users/' + userid;
+  var url = dURL + '/users/' + userid + '/tagabos/';
+
+  //TODO implement GET Request
+  request.get(url, function(err, response, body) {
+    body = JSON.parse(body);
+    res.json(body);
+  });
+});
+
+//GET Request auf tagabos eines bestimmten Users
+app.get('/users/:userid/followers', function(req, res) {
+  var userid = req.params.userid;
+  var url = dURL + '/users/' + userid + '/followers/';
+
+  //TODO implement GET Request
+  request.get(url, function(err, response, body) {
+    body = JSON.parse(body);
+    res.json(body);
+  });
+});
+
+//GET-Requests alle Games
+app.get('/games', function(req, res) {
+  var url = dURL+ '/games';
 
   //TODO implement GET Request
   request.get(url, function(err, response, body) {
@@ -189,6 +213,52 @@ app.post('/users', function(req, res) {
   });
 });
 
+app.post('/users/:userid/tagabos', function(req, res) {
+  var userid = req.params.userid;
+  var url = dURL + '/users/' + userid + '/tagabos/';
+  var data = req.body;
+  //TODO implement POST method
+  var options = {
+    uri: url,
+    method: 'POST',
+    json: data
+  }
+
+  request(options, function(err, response, body){
+    res.json(body);
+    console.log(response.body);
+    client.publish( "/users", {text: "Ein neuer Tag wurde abonniert! "+ url + body.id})
+   .then(function() {
+      console.log("Message received by server");
+    }, function(error) {
+      console.log("Error while publishing: " + error.message);
+    });
+  });
+});
+
+app.post('/users/:userid/followers', function(req, res) {
+  var userid = req.params.userid;
+  var url = dURL + '/users/' + userid + '/followers/';
+  var data = req.body;
+  //TODO implement POST method
+  var options = {
+    uri: url,
+    method: 'POST',
+    json: data
+  }
+
+  request(options, function(err, response, body){
+    res.json(body);
+    console.log(response.body);
+    client.publish( "/users", {text: "Du hast einen neuen Follower! "+ url + body.id})
+   .then(function() {
+      console.log("Message received by server");
+    }, function(error) {
+      console.log("Error while publishing: " + error.message);
+    });
+  });
+});
+
 // blabla.com/api/games POST
 // -> herokuapp.com/blala/games POST
 
@@ -205,6 +275,7 @@ app.post('/games', function(req, res) {
 
   request(options, function(err, response, body){
     res.json(body);
+    console.log(response.body);
     client.publish( "/games", {text: "Ein neues Spiel wurde hinzugefügt! "+ url + body.id})
    .then(function() {
       console.log("Message received by server");
@@ -217,7 +288,7 @@ app.post('/games', function(req, res) {
     //const tags = body.tags || []
     if (body.tags !== undefined) {
       body.tags.forEach(function (tag) {
-        client.publish("tags/" + tag, { text: tagFeedMessage })
+        client.publish("tags:" + tag, { text: tagFeedMessage })
       })
     }
   });
@@ -280,11 +351,11 @@ app.post('/games/:gameid/participants', function(req, res) {
     });
 
     //zu teilnehmenden User entsprechenden Feed (Nachricht) bedienen
-    const userFeedMessage = body.first_name +" "+ body.last_name +" wird am Spiel "+ gameid +" teilnehmen!"
+    const userFeedMessage = body.first_name + " " + body.last_name + " wird am Spiel " + gameid + " teilnehmen!"
     //const followers = body.userAbos || []
     if (body.followers !== undefined) {
       body.followers.forEach(function (follower) {
-        client.publish("userabos/"+ follower.id, { text: userFeedMessage })
+        client.publish("userabos:" + follower.id, { text: userFeedMessage })
       })
     }
   });
@@ -296,7 +367,7 @@ app.post('/games/:gameid/poi', function(req, res) {
   var bbbottomleft = "51.02084, 7.55946, ";
   var bbtopright = "51.02634, 7.56592";
   var amenity = "=restaurant"; //empty for all amenities
-  var query = "[out:json];node(" + bbbottomleft + bbtopright +")[amenity" +amenity + "];out;"
+  var query = "[out:json];node(" + bbbottomleft + bbtopright + ")[amenity" +amenity + "];out;"
 
   var overpass = queryOverpass(query, function(err, geojson) {
       if (!err) {
@@ -352,6 +423,42 @@ app.delete('/users/:userid', function(req, res) {
   });
 });
 
+app.delete('/users/:userid/tagabos', function(req, res) {
+  var userid = req.params.userid;
+  var url = dURL + '/users/' + userid + '/tagabos/';
+
+  client.publish( "/users"+userid+"/tagabos", {text: "Der Tag "+deletedTag+" ist nicht mehr abonniert!"})
+  .then(function() {
+    console.log("Message received by server");
+  }, function(error) {
+    console.log("Error while publishing: " + error.message);
+  });
+
+  //TODO implement DELETE Method
+  request.delete(url, function(err, response, body) {
+    let json = JSON.parse(body);
+    res.json(json);
+  });
+});
+
+app.delete('/users/:userid/followers', function(req, res) {
+  var userid = req.params.userid;
+  var url = dURL + '/users/' + userid + '/followers/';
+
+  client.publish( "/users"+userid+"/followers", {text: "Der User "+deletedFollower+" folgt dir nicht mehr!"})
+  .then(function() {
+    console.log("Message received by server");
+  }, function(error) {
+    console.log("Error while publishing: " + error.message);
+  });
+
+  //TODO implement DELETE Method
+  request.delete(url, function(err, response, body) {
+    let json = JSON.parse(body);
+    res.json(json);
+  });
+});
+
 app.delete('/games/:gameid', function(req, res) {
   var gameid = req.params.gameid;
   var url = dURL + '/games/' + gameid;
@@ -374,6 +481,13 @@ app.delete('/games/:gameid/clues/:clueid', function(req, res) {
   var gameid = req.params.gameid;
   var clueid = req.params.clueid;
   var url = dURL + '/games/' + gameid + '/clues/' + clueid;
+
+  client.publish( "/games/"+gameid, {text: "Vom Spiel "+gameid+" wurder der Hinweis "+clueid+" geändert!"})
+  .then(function() {
+    console.log("Message received by server");
+  }, function(error) {
+    console.log("Error while publishing: " + error.message);
+  });
 
   //TODO implement DELETE Method
   request.delete(url, function(err, response, body) {
@@ -419,6 +533,13 @@ app.delete('/games/:gameid/poi/', function(req, res) {
   var gameid = req.params.gameid;
   var url = dURL + '/games/' + gameid + '/poi/';
 
+  client.publish( "/games/"+gameid, {text: "Vom Spiel "+gameid+" wurde das Ziel geändert!"})
+  .then(function() {
+    console.log("Message received by server");
+  }, function(error) {
+    console.log("Error while publishing: " + error.message);
+  });
+
   //TODO implement DELETE Method
   request.delete(url, function(err, response, body) {
     let json = JSON.parse(body);
@@ -446,7 +567,6 @@ app.patch('/users/:userid', function(req, res) {
   request(options, function(err, response, body) {
     console.log('PATCH /users/' + userid + '=> \n', body);
     res.json(body)
-
   });
 });
 
