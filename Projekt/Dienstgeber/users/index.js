@@ -67,6 +67,7 @@ router.get('/', function (req, res) {
 //GET Request auf User ID
 router.get('/:userid', function (req, res) {
 	let userIndex = findUserIndexById(req.params.userid);
+		console.log(userIndex);
 	if (userIndex < 0) {
 		res.status(404);
 		res.send("Der User mit ID " + req.params.userId + " existiert noch nicht!");
@@ -198,26 +199,38 @@ router.delete("/:userid", function (req, res) {
 });
 
 router.delete("/:userid/tagabos", function(req, res) {
-	//create latest userid according to array lenght in json
-  for (var i = 0; i < userdatabase.users.length; i++) {
-		if (userdatabase.users[i].id == req.params.userid) {
-			for (var j = 0; j < userdatabase.users.tagabos.length; j++) {
-				if (userdatabase.users[i].id.tagabos[j] == req.params.userid.tagabos[j]) {
-					break;
-				}
+	var deltag = req.body.tagabos;
+	var check = true;
+	console.log(deltag);
+  //let userIndex = findUserIndexById(req.params.userId);
+	for(var c = 0; c < userdatabase.users.length; c++) {
+		if(userdatabase.users[c].id === req.params.userid) {
+			var userIndex = c;
+		}
+	}
+	console.log(userIndex);
+  if (userdatabase.users[userIndex].tagabos.length === 0) {
+    res.status(404);
+		res.send("Der User mit der ID " + req.params.userId + " besitzt noch keine Tag Abos!");
+  } else {
+		for(var i = 0; i < userdatabase.users[userIndex].tagabos.length; i++) {
+			if(userdatabase.users[userIndex].tagabos[i] == deltag) {
+				check = false;
+				userdatabase.users[userIndex].tagabos.splice(i, 1);
+				saveUserData(userdatabase);
 			}
 		}
+			res.format({
+				"application/json": function() {
+					if(!check) {
+						res.json(userdatabase.users[userIndex].tagabos);
+					} else {
+						res.status(404);
+						res.send("Der User mit der ID " + req.params.userId + " hat den Tag " + deltag+ "!");
+					}
+				}
+			});
   }
-	if (tagIndex < 0) {
-			res.status(404);
-			res.send("Der User mit der ID " + req.params.userId + " besitzt noch keine Tag Abos!");
-		} else {
-			let deletedTag = tagsOfUser[tagIndex]
-
-			tagsOfUser.splice(tagIndex, 1) 	//splice löscht genau EIN Element
-
-			res.send(deletedTag) 						//gelöschten Tag anzeigen
-		}
 });
 
 router.delete("/:userid/followers/:follower", function(req, res) {

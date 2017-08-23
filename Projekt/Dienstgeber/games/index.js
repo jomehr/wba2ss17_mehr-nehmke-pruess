@@ -2,88 +2,32 @@ const express = require("express");
 const router = express.Router();
 const bodyParser =  require("body-parser");
 const fs = require("fs");
-const shortid = require('shortid');
-var mongoose = require("mongoose");
-var GameJSON = require("./gamemodel.js")
-var idGames = '595fc5595c79ed306c6e663e';
-var idPoi = '595fccba535daf3064b71b9c';
+const shortid = require('shortid')
+
+const ressourceName ="games";
+
 //speicher aktuelle zeit ab
 var date = Date();
 
-
-
 //Helper-Funktion zum laden der jsons
-function loadGameData(id, callback) {
-	GameJSON.findById(id, function(err, result){
-
-		if(err) {
-			callback(err, null);
-		}
-
-		else{
-			callback(null, result.json);
-		}
-	});
+function loadGameData() {
+	return JSON.parse(fs.readFileSync(__dirname + "/games.json"))
 };
-
-function loadOverpassData(id, callback) {
-	GameJSON.findById(id, function(err, result){
-
-		if(err) {
-			callback(err, null);
-		}
-
-		else{
-			callback(null, result.json);
-		}
-	});
-
-
+function loadOverpassData() {
+	return JSON.parse(fs.readFileSync(__dirname + "/poi.json"))
 };
-
 
 //Helper-Funktion zum speichern der json
 function saveGameData (data) {
-	//Auf Mongodb wird bei ID 0 die game JSON gespeichert
-	//console.log(JSON.stringify(data));
-	GameJSON.findByIdAndUpdate(idGames, { $set: { json: data }}, { new: false }, function (err, tank) {
-	  if (err) return handleError(err);
-
-	});
-
 	fs.writeFileSync(__dirname + "/games.json", JSON.stringify(data, 0, 4))
-
 };
-
 function saveOverpassData(data) {
-	//Auf Mongodb wird bei ID 1 die poi JSON gespeichert
-
-	GameJSON.findByIdAndUpdate(idPoi, { $set: { json: data }}, { new: false }, function (err, tank) {
-	  if (err) return handleError(err);
-
-	});
-
 	fs.writeFileSync(__dirname + "/poi.json", JSON.stringify(data, 0, 4))
 };
 
 //läd jsons in Speicher
-global.gamedatabase;
-loadGameData(idGames, function(err, result){
-	if(err) {
-		console.log(err);
-	}
-	gamedatabase = result;
-	console.log("Gamedatabase in Speicher geladen.")
-});
-
-global.poidatabase;
-loadGameData(idPoi, function(err, result){
-	if(err) {
-		console.log(err);
-	}
-	poidatabase = result;
-	console.log("Poidatabase in Speicher geladen.")
-});
+global.gamedatabase = loadGameData();
+global.poidatabase = loadOverpassData();
 
 //bodyparser für json und html einbinden
 router.use(bodyParser.urlencoded({ extended: true }));
@@ -131,7 +75,6 @@ router.use(function(req, res, next) {
 });
 
 //nur zum testen, nicht in finaler version benötigt
-
 router.get("/game.html", function(req, res) {
   res.sendFile(__dirname + "/" + "game.html");
 });
@@ -139,28 +82,40 @@ router.get("/game.html", function(req, res) {
 //POST Requests
 router.post("/", function(req, res) {
 	var gameid = shortid.generate();
-  //fill json with request data
+	if (req.body.startdate != undefined) {
+		var startdatepart = req.body.startdate.split(".");
+		var starttimepart = req.body.starttime.split(":");
+		var expirationdatepart = req.body.expirationdate.split(".");
+		var expirationtimepart = req.body.expirationtime.split(":")
+		var tmps= new Date(startdatepart[2], (startdatepart[1]-1), startdatepart[0], starttimepart[0], starttimepart[1]);
+		var startdate = Date.parse(tmps);
+		var tmpd = new Date(expirationdatepart[2], (expirationdatepart[1]-1), expirationdatepart[0], expirationtimepart[0], expirationtimepart[1]);
+		var expirationdate = Date.parse(tmpd);
+	}
+	//fill json with request data
   games = {
         "id": gameid,
-        "titel": req.body.titel,
-        "description": req.body.description,
-        "creator": req.body.creator,
+        "titel": req.body.titel || "templatetitel",
+        "tag": req.body.tag || "templatetag",
+        "description": req.body.description || "templatedescription",
+				"endcoordinates": req.body.endcoordinates || "templatecoordinates",
+        "creator": req.body.creator || "templatecreator",
         "creationdate": Date(),
-        "startdate": req.body.startdate,
-        "expirationdate": req.body.expirationdate,
+        "startdate": startdate || "Startdatum fehlt",
+        "expirationdate": expirationdate || "Enddatum fehlt",
+				"finished": false,
         "reward": req.body.reward,
+				"url": "https://wba2ss17-team38.herokuapp.com/games/" + gameid,
         "clues": [],
         "participants": []
       };
   //push data into existing json and stringify it for saving
   gamedatabase.games.push(games);
   saveGameData(gamedatabase);
-
-	console.log(gameid);
   //formats responds to json
   res.format({
     "application/json": function() {
-      res.json(games);
+      res.status(200).json(games);
       }
   });
 });
@@ -177,11 +132,13 @@ router.post("/:gameId/clues", function(req, res) {
   clues = {
         "gameid": req.params.gameId,
         "id": clueid,
-        "titel": req.body.titel,
-        "description": req.body.description,
-        "coordinate": req.body.coordinate,
-        "creator": req.body.creator,
-        "creationdate": Date()
+        "titel": req.body.titel || "templatetitel",
+        "description": req.body.description || "templatedescription",
+        "coordinate": req.body.coordinate || "templatecoordinates",
+        "creator": req.body.creator || "templatecreator",
+				"gameurl": "https://wba2ss17-team38.herokuapp.com/games/"+req.params.gameId,
+        "creationdate": Date(),
+				"media": []
       };
   //push data into existing json and stringify it for saving
   gamedatabase.games[i].clues.push(clues);
@@ -189,7 +146,7 @@ router.post("/:gameId/clues", function(req, res) {
   //formats responds to json
   res.format({
     "application/json": function() {
-      res.json(clues);
+			res.status(200).json(clues);
     }
   });
 });
@@ -206,18 +163,20 @@ router.post("/:gameId/participants", function(req, res) {
   participants = {
         "gameid": req.params.gameId,
         "id": participantid,
-        "first_name": req.body.first_name,
-        "last_name": req.body.last_name,
-				"username": req.body.username,
+        "first_name": req.body.first_name || "templatefirstname",
+        "last_name": req.body.last_name || "templatelastname",
+				"username": req.body.username || "templateusername",
+				"gameurl": "https://wba2ss17-team38.herokuapp.com/games/"+req.params.gameId,
         "joindate": Date()
       };
   //push data into existing json and stringify it for saving
   gamedatabase.games[i].participants.push(participants);
+	console.log("TEST");
   saveGameData(gamedatabase);
   //formats responds to json
   res.format({
     "application/json": function() {
-      res.send(participants);
+      res.status(200).json(participants);
     }
   });
 });
@@ -240,19 +199,19 @@ router.post("/:gameId/clues/:clueId/media", function(req, res) {
         "gameid": req.params.gameId,
 				"clueid": req.params.clueId,
         "id": mediaid,
-        "titel": req.body.titel,
-				"uploader": req.body.uploader,
-        "url": req.body.url,
+        "titel": req.body.titel || "templatetitel",
+				"uploader": req.body.uploader || "templateuploader",
+        "mediaurl": req.body.url || "templateurl",
+				"gameurl": "https://wba2ss17-team38.herokuapp.com/games/"+req.params.gameId,
         "creationdate": Date()
       };
-	console.log(media);
   //push data into existing json and stringify it for saving
   gamedatabase.games[i].clues[j].media.push(media);
   saveGameData(gamedatabase);
   //formats responds to json
   res.format({
     "application/json": function() {
-      res.json(media);
+      res.status(200).json(media);
     }
   });
 });
@@ -261,6 +220,7 @@ router.post("/:gameId/poi", function(req, res) {
 	let poibody = req.body.features;
 	poistart = {
 		 "id": req.params.gameId,
+		 "gameurl": "https://wba2ss17-team38.herokuapp.com/games/"+req.params.gameId,
 		 "type": "FeatureCollection",
 		 "features": []
 	}
@@ -269,23 +229,33 @@ router.post("/:gameId/poi", function(req, res) {
 	saveOverpassData(poidatabase);
 	res.format({
 		"application/json": function() {
-			res.json(poistart);
+			res.status(200).send(poistart);
 		}
 	});
 })
 
 //GET Requests
 router.get("/", function(req, res) {
-  res.format({
-    "application/json": function() {
-      res.send(gamedatabase);
-    }
-  });
+	gamedata = {
+		"games": []
+	};
+	for (i = 0;  i < gamedatabase.games.length; i++){
+		id = new Array;
+		id.push(gamedatabase.games[i].url);
+		id.push (gamedatabase.games[i].id);
+		id.push(gamedatabase.games[i].startdate);
+		id.push(gamedatabase.games[i].finished);
+		gamedata.games.push(id);
+  };
+	res.format({
+	  "application/json": function() {
+			res.send(gamedata)
+			}
+	  });
 });
 
 router.get("/:gameId", function(req, res) {
   let gameIndex = findGameIndexById(req.params.gameId);
-	console.log("Objekt ist an der Stelle: " + gameIndex);
   if (gameIndex< 0) {
     res.status(404);
     res.send("Das Spiel mit ID " + req.params.gameId + " existiert noch nicht!");
@@ -293,7 +263,7 @@ router.get("/:gameId", function(req, res) {
 		let game = gamedatabase.games[gameIndex];
     res.format({
       "application/json": function() {
-        res.json(game);
+        res.status(200).json(game);
       }
     });
   }
@@ -301,7 +271,6 @@ router.get("/:gameId", function(req, res) {
 
 router.get("/:gameId/clues", function(req, res) {
   let gameIndex = findGameIndexById(req.params.gameId);
-	console.log("Objekt ist an der Stelle: " + gameIndex);
   if (gameIndex < 0) {
     res.status(404);
     res.send("Die Hinweise von dem Spiel mit ID " + req.params.gameId + " existiert noch nicht!");
@@ -318,7 +287,6 @@ router.get("/:gameId/clues", function(req, res) {
 router.get("/:gameId/clues/:clueId", function(req, res) {
 	let gameIndex = findGameIndexById(req.params.gameId);
   let clueIndex = findClueIndexById(gameIndex, req.params.clueId);
-	console.log("Objekt ist an der Stelle: " + gameIndex + "|" + clueIndex);
   if (clueIndex < 0) {
     res.status(404);
     res.send("Der Hinweis mit ID " + req.params.clueId + " existiert noch nicht!");
@@ -334,7 +302,6 @@ router.get("/:gameId/clues/:clueId", function(req, res) {
 
 router.get("/:gameId/participants/", function(req, res) {
   let gameIndex = findGameIndexById(req.params.gameId);
-	console.log("Objekt ist an der Stelle: " + gameIndex);
   if (gameIndex < 0) {
     res.status(404);
     res.send("Das Spiel mit ID " + req.params.gameId + " existiert noch nicht!");
@@ -351,7 +318,6 @@ router.get("/:gameId/participants/", function(req, res) {
 router.get("/:gameId/participants/:participantId", function(req, res) {
   let gameIndex = findGameIndexById(req.params.gameId);
 	let participantIndex = findParticipantIndexById(gameIndex, req.params.participantId);
-	console.log("Objekt ist an der Stelle: " + gameIndex + "|" + participantIndex);
   if (participantIndex < 0) {
     res.status(404);
     res.send("Der Teilnehmer mit ID " + req.params.participantId + " existiert noch nicht!");
@@ -368,7 +334,6 @@ router.get("/:gameId/participants/:participantId", function(req, res) {
 router.get("/:gameId/clues/:clueId/media", function(req, res) {
 	let gameIndex = findGameIndexById(req.params.gameId);
   let clueIndex = findClueIndexById(gameIndex, req.params.clueId);
-	console.log("Objekt ist an der Stelle: " + gameIndex + "|" + clueIndex);
   if (clueIndex < 0) {
     res.status(404);
     res.send("Die Medien des Hinweises mit ID " + req.params.clueId + " existieren noch nicht!");
@@ -386,7 +351,6 @@ router.get("/:gameId/clues/:clueId/media/:mediaId", function(req, res) {
 	let gameIndex = findGameIndexById(req.params.gameId);
   let clueIndex = findClueIndexById(gameIndex, req.params.clueId);
 	let mediaIndex = findMediaIndexById(gameIndex, clueIndex, req.params.mediaId);
-	console.log("Objekt ist an der Stelle: " + gameIndex + "|" + clueIndex + "|" + mediaIndex);
   if (mediaIndex < 0) {
     res.status(404);
     res.send("Das Medium  mit ID " + req.params.mediaId + " existiert noch nicht!");
@@ -418,7 +382,6 @@ router.get("/:gameId/poi/", function(req, res) {
 //PATCH Requests
 router.patch("/:gameId", function(req, res) {
     let gameIndex = findGameIndexById(req.params.gameId);
-		console.log("Objekt ist an der Stelle: " + gameIndex);
     if (gameIndex < 0) {
       res.status(404);
       res.send("Das Spiel mit ID " + req.params.gameId + " existiert noch nicht!");
@@ -439,7 +402,6 @@ router.patch("/:gameId", function(req, res) {
 router.patch("/:gameId/clues/:clueId", function(req, res) {
   let gameIndex = findGameIndexById(req.params.gameId);
 	let clueIndex = findClueIndexById(gameIndex, req.params.clueId);
-	console.log("Objekt ist an der Stelle: " + gameIndex + "|" + clueIndex);
   if (clueIndex < 0) {
       res.status(404);
       res.send("Der Hinweis mit ID " + req.params.clueId + " existiert noch nicht!");
@@ -497,6 +459,23 @@ router.patch("/:gameId/clues/:clueId/media/:mediaId", function(req, res) {
 		});
 	}
 });
+
+router.patch("/:gameId/poi", function(req, res) {
+	var poiIndex = findPoiIndexById(req.params.gameId);
+	if (poiIndex < 0) {
+		res.status(404);
+		res.send("Das Spiel mit ID " + req.params.gameId + " und dessen POI existieren noch nicht!");
+    } else {
+      let changes = req.body.features;
+			poidatabase.poi[poiIndex].features.push(changes);
+      saveOverpassData(poidatabase);
+      res.format({
+        "application/json": function() {
+          res.json(poidatabase);
+        }
+      });
+    }
+  });
 
 //DELETE Requests
 router.delete("/:gameId", function(req, res) {

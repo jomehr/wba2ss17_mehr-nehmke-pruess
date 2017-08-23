@@ -13,7 +13,7 @@ var users = {
     };
 
     ep_update: function() {
-      for (i = 0; i > poi.length; i++){
+      for (i = 0; i > clue.length; i++){
         experience_points =+ 10;
       }
       return;

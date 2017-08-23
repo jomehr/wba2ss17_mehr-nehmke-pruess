@@ -1,131 +1,11 @@
 {
     "games": [
         {
-            "id": "HJDexZ3wW",
-            "titel": "templatetitel",
-            "tags": ["horror", "leuchtturm", "nordsee"],
-            "description": "templatedescription",
-            "endcoordinates": "templatecoordinates",
-            "creator": "Glücksbärchie",
-            "creationdate": "Sat Aug 12 2017 06:11:27 GMT+0200 (Mitteleuropäische Sommerzeit)",
-            "startdate": 1502511300000,
-            "expirationdate": 1502535600000,
-            "finished": false,
-            "url": "https://wba2ss17-team38.herokuapp.com/games/HJDexZ3wW",
-            "clues": [
-                {
-                    "gameid": "HJDexZ3wW",
-                    "id": "BkIig-3wb",
-                    "titel": "templatetitel",
-                    "description": "templatedescription",
-                    "coordinate": "templatecoordinates",
-                    "creator": "templatecreator",
-                    "gameurl": "https://wba2ss17-team38.herokuapp.com/games/HJDexZ3wW",
-                    "creationdate": "Sat Aug 12 2017 06:14:21 GMT+0200 (Mitteleuropäische Sommerzeit)",
-                    "media": []
-                },
-                {
-                    "gameid": "HJDexZ3wW",
-                    "id": "Skene-2wW",
-                    "titel": "templatetitel",
-                    "description": "templatedescription",
-                    "coordinate": "templatecoordinates",
-                    "creator": "templatecreator",
-                    "gameurl": "https://wba2ss17-team38.herokuapp.com/games/HJDexZ3wW",
-                    "creationdate": "Sat Aug 12 2017 06:14:31 GMT+0200 (Mitteleuropäische Sommerzeit)",
-                    "media": []
-                },
-                {
-                    "gameid": "HJDexZ3wW",
-                    "id": "Hkxx3lbhPZ",
-                    "titel": "templatetitel",
-                    "description": "templatedescription",
-                    "coordinate": "templatecoordinates",
-                    "creator": "templatecreator",
-                    "gameurl": "https://wba2ss17-team38.herokuapp.com/games/HJDexZ3wW",
-                    "creationdate": "Sat Aug 12 2017 06:14:32 GMT+0200 (Mitteleuropäische Sommerzeit)",
-                    "media": []
-                },
-                {
-                    "gameid": "HJDexZ3wW",
-                    "id": "HJW2g-2vW",
-                    "titel": "templatetitel",
-                    "description": "templatedescription",
-                    "coordinate": "templatecoordinates",
-                    "creator": "templatecreator",
-                    "gameurl": "https://wba2ss17-team38.herokuapp.com/games/HJDexZ3wW",
-                    "creationdate": "Sat Aug 12 2017 06:14:33 GMT+0200 (Mitteleuropäische Sommerzeit)",
-                    "media": []
-                }
-            ],
-            "participants": [
-                {
-                    "gameid": "HJDexZ3wW",
-                    "id": "S1eAgZ2DZ",
-                    "first_name": "templatefirstname",
-                    "last_name": "templatelastname",
-                    "username": "templateusername",
-                    "coordinate": "templatecoordinates",
-                    "gameurl": "https://wba2ss17-team38.herokuapp.com/games/HJDexZ3wW",
-                    "joindate": "Sat Aug 12 2017 06:15:04 GMT+0200 (Mitteleuropäische Sommerzeit)",
-                    "last_clue": "Hkxx3lbhPZ"
-                },
-                {
-                    "gameid": "BkIig-3wb",
-                    "id": "BkMCebhDb",
-                    "first_name": "templatefirstname",
-                    "last_name": "templatelastname",
-                    "username": "templateusername",
-                    "gameurl": "https://wba2ss17-team38.herokuapp.com/games/HJDexZ3wW",
-                    "joindate": "Sat Aug 12 2017 06:15:05 GMT+0200 (Mitteleuropäische Sommerzeit)",
-                    "last_clue": "Skene-2wW"
-                },
-                {
-                    "gameid": "HJDexZ3wW",
-                    "id": "B1QReW2P-",
-                    "first_name": "templatefirstname",
-                    "last_name": "templatelastname",
-                    "username": "templateusername",
-                    "gameurl": "https://wba2ss17-team38.herokuapp.com/games/HJDexZ3wW",
-                    "joindate": "Sat Aug 12 2017 06:15:06 GMT+0200 (Mitteleuropäische Sommerzeit)",
-                    "last_clue": "HJW2g-2vW"
-                },
-                {
-                    "gameid": "HJDexZ3wW",
-                    "id": "SkeQRxZhvb",
-                    "first_name": "templatefirstname",
-                    "last_name": "templatelastname",
-                    "username": "templateusername",
-                    "gameurl": "https://wba2ss17-team38.herokuapp.com/games/HJDexZ3wW",
-                    "joindate": "Sat Aug 12 2017 06:15:07 GMT+0200 (Mitteleuropäische Sommerzeit)",
-                    "last_clue": "Skene-2wW"
-                },
-                {
-                    "gameid": "BkIig-3wb",
-                    "id": "Sk4RxW2v-",
-                    "first_name": "templatefirstname",
-                    "last_name": "templatelastname",
-                    "username": "templateusername",
-                    "gameurl": "https://wba2ss17-team38.herokuapp.com/games/HJDexZ3wW",
-                    "joindate": "Sat Aug 12 2017 06:15:07 GMT+0200 (Mitteleuropäische Sommerzeit)",
-                    "last_clue": "HJW2g-2vW"
-                },
-                {
-                    "gameid": "HJDexZ3wW",
-                    "id": "SyeNAlWnP-",
-                    "first_name": "templatefirstname",
-                    "last_name": "templatelastname",
-                    "username": "templateusername",
-                    "gameurl": "https://wba2ss17-team38.herokuapp.com/games/HJDexZ3wW",
-                    "joindate": "Sat Aug 12 2017 06:15:07 GMT+0200 (Mitteleuropäische Sommerzeit)",
-                    "last_clue": "Hkxx3lbhPZ"
-                }
-            ]
-        },
-        {
             "id": "r1HbxZ3PW",
             "titel": "templatetitel",
-            "tags": ["stadion"],
+            "tags": [
+                "stadion"
+            ],
             "description": "templatedescription",
             "endcoordinates": "templatecoordinates",
             "creator": "TheMachine",
@@ -135,12 +15,25 @@
             "finished": false,
             "url": "https://wba2ss17-team38.herokuapp.com/games/r1HbxZ3PW",
             "clues": [],
-            "participants": []
+            "participants": [
+                {
+                    "gameid": "r1HbxZ3PW",
+                    "id": "SJVVUNv_-",
+                    "first_name": "TestUser",
+                    "last_name": "TestUserNachname",
+                    "username": "UserName",
+                    "gameurl": "https://wba2ss17-team38.herokuapp.com/games/r1HbxZ3PW",
+                    "joindate": "Sun Aug 20 2017 18:17:48 GMT+0200 (Mitteleuropäische Sommerzeit)"
+                }
+            ]
         },
         {
             "id": "r1iZgb2wW",
             "titel": "templatetitel",
-            "tags": ["opernhaus", "serien"],
+            "tags": [
+                "opernhaus",
+                "serien"
+            ],
             "description": "templatedescription",
             "endcoordinates": "templatecoordinates",
             "creator": "Einhorn",
@@ -155,7 +48,10 @@
         {
             "id": "ByqQeZ2wW",
             "titel": "templatetitel",
-            "tags": ["geschichte", "erdkunde"],
+            "tags": [
+                "geschichte",
+                "erdkunde"
+            ],
             "description": "templatedescription",
             "endcoordinates": "templatecoordinates",
             "creator": "Glücksbärchie",
@@ -170,7 +66,10 @@
         {
             "id": "Hy7NeZ2D-",
             "titel": "templatetitel",
-            "tags": ["liebe", "drama"],
+            "tags": [
+                "liebe",
+                "drama"
+            ],
             "description": "templatedescription",
             "endcoordinates": "templatecoordinates",
             "creator": "Glücksbärchie",
@@ -185,7 +84,9 @@
         {
             "id": "B1grgW3vZ",
             "titel": "templatetitel",
-            "tags": ["urlaub"],
+            "tags": [
+                "urlaub"
+            ],
             "description": "templatedescription",
             "endcoordinates": "templatecoordinates",
             "creator": "Glücksbärchie",
@@ -194,6 +95,38 @@
             "expirationdate": 1502622000000,
             "finished": false,
             "url": "https://wba2ss17-team38.herokuapp.com/games/B1grgW3vZ",
+            "clues": [],
+            "participants": []
+        },
+        {
+            "id": "r1TrJW8O-",
+            "titel": "testtitel",
+            "tag": "templatetag",
+            "description": "nodejs stinkt",
+            "endcoordinates": "templatecoordinates",
+            "creator": "tim nehmke",
+            "creationdate": "Sat Aug 19 2017 20:11:17 GMT+0200 (Mitteleuropäische Sommerzeit)",
+            "startdate": 1502512440000,
+            "expirationdate": 1502622000000,
+            "finished": false,
+            "reward": "kiste bier",
+            "url": "https://wba2ss17-team38.herokuapp.com/games/r1TrJW8O-",
+            "clues": [],
+            "participants": []
+        },
+        {
+            "id": "HJa2d7vu-",
+            "titel": "testtitel",
+            "tag": "templatetag",
+            "description": "nodejs stinkt",
+            "endcoordinates": "templatecoordinates",
+            "creator": "tim nehmke",
+            "creationdate": "Sun Aug 20 2017 17:20:20 GMT+0200 (Mitteleuropäische Sommerzeit)",
+            "startdate": 1502512440000,
+            "expirationdate": 1502622000000,
+            "finished": false,
+            "reward": "kiste bier",
+            "url": "https://wba2ss17-team38.herokuapp.com/games/HJa2d7vu-",
             "clues": [],
             "participants": []
         }
