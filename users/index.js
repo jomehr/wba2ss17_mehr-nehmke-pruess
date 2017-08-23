@@ -109,17 +109,20 @@ router.post("/", function(req, res) {
   //fill json with request data
 	users = {
 				"id": userid,
-				"url": "https://wba2ss17-team38.herokuapp.com/users/" + userid,
-				"user_name": req.body.user_name || "template username",
-				"first_name": req.body.first_name || "template firstname",
-				"last_name": req.body.last_name || "template lastname",
-				"age": req.body.age || "template age",
-				"email": req.body.email || "template email",
-				"password": passwordHash.generate(req.body.password),
-				"experience_points": 0,
+				"user_name": req.body.user_name,
+				"first_name": req.body.first_name,
+				"last_name": req.body.last_name,
+				"age": req.body.age,
++				"coordinates": {
++					"latitude": req.body.latitude,
++					"longitude": req.body.longitude
++				},
+				"email": req.body.email,
++				"url": url + userid,
+				"password": passwordHash.generate(req.body.password)
 				"tagabos": [],
 				"followers": []
-      };
+			};
   //push data into existing json and stringify it for saving
   userdatabase.users.push(users);
   saveUserData(userdatabase);
