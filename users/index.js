@@ -113,12 +113,12 @@ router.post("/", function(req, res) {
 				"first_name": req.body.first_name,
 				"last_name": req.body.last_name,
 				"age": req.body.age,
-+				"coordinates": {
-+					"latitude": req.body.latitude,
-+					"longitude": req.body.longitude
-+				},
+				"coordinates": {
+					"latitude": req.body.latitude,
+					"longitude": req.body.longitude
+				},
 				"email": req.body.email,
-+				"url": url + userid,
+				"url": url + userid,
 				"password": passwordHash.generate(req.body.password)
 				"tagabos": [],
 				"followers": []
