@@ -61,7 +61,7 @@ router.get('/:userid', function (req, res) {
 	let userIndex = findUserIndexById(req.params.userid);
 	if (userIndex < 0) {
 		res.status(404);
-		res.send("Der User mit ID " + req.params.userId + " existiert noch nicht!");
+		res.send("Der User mit ID " + req.params.userid + " existiert noch nicht!");
 	} else {
 		let user = userdatabase.users[userIndex];
 		res.format({
@@ -72,24 +72,53 @@ router.get('/:userid', function (req, res) {
 	}
 });
 
+router.get("/:userid/tagabos", function(req, res) {
+	let userIndex = findUserIndexById(req.params.userid);
+  if (userIndex < 0) {
+    res.status(404);
+		res.send("Der User mit der ID " + req.params.userid + " besitzt noch keine Tag Abos!");
+  } else {
+		let tagabos = userdatabase.users[userIndex].tagabos;
+    res.format({
+      "application/json": function() {
+        res.json(tagabos);
+      }
+    });
+  }
+});
+
+router.get("/:userid/followers", function(req, res) {
+	let userIndex = findUserIndexById(req.params.userid);
+  if (userIndex < 0) {
+    res.status(404);
+		res.send("Der User mit der ID " + req.params.userid + " besitzt noch keine Followers!");
+  } else {
+		let followers = userdatabase.users[userIndex].followers;
+    res.format({
+      "application/json": function() {
+        res.json(followers);
+      }
+    });
+  }
+});
+
 //POST Request
 router.post("/", function(req, res) {
 	var userid = shortid.generate();
 	var url = "https://wba2ss17-team38.herokuapp.com/users/"
   //fill json with request data
-  users = {
+	users = {
 				"id": userid,
-				"user_name": req.body.user_name,
-				"first_name": req.body.first_name,
-				"last_name": req.body.last_name,
-				"age": req.body.age,
-				"coordinates": {
-					"latitude": req.body.latitude,
-					"longitude": req.body.longitude
-				},
-				"email": req.body.email,
-				"url": url + userid,
-				"password": passwordHash.generate(req.body.password)
+				"url": "https://wba2ss17-team38.herokuapp.com/users/" + userid,
+				"user_name": req.body.user_name || "template username",
+				"first_name": req.body.first_name || "template firstname",
+				"last_name": req.body.last_name || "template lastname",
+				"age": req.body.age || "template age",
+				"email": req.body.email || "template email",
+				"password": passwordHash.generate(req.body.password),
+				"experience_points": 0,
+				"tagabos": [],
+				"followers": []
       };
   //push data into existing json and stringify it for saving
   userdatabase.users.push(users);
@@ -99,7 +128,47 @@ router.post("/", function(req, res) {
   res.format({
     "application/json": function() {
       res.json(users);
-      }
+    }
+  });
+});
+
+router.post("/:userid/tagabos", function(req, res) {
+	//create latest userid according to array lenght in json
+  for (var i = 0; i < userdatabase.users.length; i++) {
+		if (userdatabase.users[i].id == req.params.userid) {
+			break;
+		}
+  }
+  //fill json with request data
+	var newTag = req.body.newTag;
+  //push data into existing json and stringify it for saving
+  userdatabase.users[i].tagabos.push(newTag);
+  saveUserData(userdatabase);
+  //formats responds to json
+  res.format({
+    "application/json": function() {
+			res.json(userdatabase.users[i].tagabos);
+    }
+  });
+});
+
+router.post("/:userid/followers", function(req, res) {
+	//create latest userid according to array lenght in json
+  for (var i = 0; i < userdatabase.users.length; i++) {
+		if (userdatabase.users[i].id == req.params.userid) {
+			break;
+		}
+  }
+  //fill json with request data
+	var newFollower = req.body.followers;
+  //push data into existing json and stringify it for saving
+  userdatabase.users[i].followers.push(newFollower);
+  saveUserData(userdatabase);
+  //formats responds to json
+  res.format({
+    "application/json": function() {
+			res.json(userdatabase.users[i].followers);
+    }
   });
 });
 
@@ -108,7 +177,7 @@ router.delete('/:userid', function (req, res) {
 	let userIndex = findUserIndexById(req.params.userid);
 	if (userIndex < 0) {
 		res.status(404);
-		res.send("Der User mit ID " + req.params.userId + " existiert noch nicht!");
+		res.send("Der User mit ID " + req.params.userid + " existiert noch nicht!");
 	} else {
 		let user = userdatabase.users[userIndex];
 		userdatabase.users.splice(userIndex, 1);
@@ -121,13 +190,81 @@ router.delete('/:userid', function (req, res) {
 	}
 });
 
+router.delete("/:userid/tagabos", function(req, res) {
+	var deltag = req.body.tagabos;
+	var check = true;
+	console.log(deltag);
+	for(var c = 0; c < userdatabase.users.length; c++) {
+		if(userdatabase.users[c].id === req.params.userid) {
+			var userIndex = c;
+		}
+	}
+	console.log(userIndex);
+  if (userdatabase.users[userIndex].tagabos.length === 0) {
+    res.status(404);
+		res.send("Der User mit der ID " + req.params.userid + " besitzt noch keine Tag Abos!");
+  } else {
+		for(var i = 0; i < userdatabase.users[userIndex].tagabos.length; i++) {
+			if(userdatabase.users[userIndex].tagabos[i] == deltag) {
+				check = false;
+				userdatabase.users[userIndex].tagabos.splice(i, 1);
+				saveUserData(userdatabase);
+			}
+		}
+			res.format({
+				"application/json": function() {
+					if(!check) {
+						res.json(userdatabase.users[userIndex].tagabos);
+					} else {
+						res.status(200);
+						res.send("Der User mit der ID " + req.params.userid + " hat den Tag " + deltag+ "!");
+					}
+				}
+			});
+  }
+});
+
+router.delete("/:userid/followers", function(req, res) {
+	var delfollower = req.body.followers;
+	var check = true;
+	console.log(delfollower);
+	for(var d = 0; d < userdatabase.users.length; d++) {
+		if(userdatabase.users[d].id === req.params.userid) {
+			var userIndex = d;
+		}
+	}
+	console.log(userIndex);
+  if (userdatabase.users[userIndex].followers.length === 0) {
+    res.status(404);
+		res.send("Der User mit der ID " + req.params.userid + " hat noch keine Followers!");
+  } else {
+		for(var i = 0; i < userdatabase.users[userIndex].tagabos.length; i++) {
+			if(userdatabase.users[userIndex].followers[i] == delfollower) {
+				check = false;
+				userdatabase.users[userIndex].followers.splice(i, 1);
+				saveUserData(userdatabase);
+			}
+		}
+			res.format({
+				"application/json": function() {
+					if(!check) {
+						res.json(userdatabase.users[userIndex].followers);
+					} else {
+						res.status(200);
+						res.send("Der Follower " + delfollower + " wurde für den user User mit der ID " + req.params.userId + " gelöscht!");
+					}
+				}
+			});
+  }
+});
+
 //PATCH Request
 router.patch('/:userid', function (req, res) {
 	let userIndex = findUserIndexById(req.params.userid);
 	console.log(req.body);
 	if (userIndex < 0) {
 		res.status(404);
-		res.send("Der User mit ID " + req.params.userId + " existiert noch nicht!");
+		res.send("Der User mit ID " + req.params.userid + " existiert noch nicht!");
 	} else {
 		let changes = req.body;
 		let userBefore = userdatabase.users[userIndex];
