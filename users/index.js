@@ -74,20 +74,54 @@ router.get('/:userid', function (req, res) {
 	});
 });
 
+
+router.get("/:userid/tagabos", function(req, res) {
+	User.findOne({ "id": req.params.userid}, function(err,user){
+		if(user!=null)
+		res.format({
+			"application/json": function() {
+				res.json(user.tagabos);
+			}
+		});
+		else{res.status(404); res.send("Nutzer konnte nicht gefunden werden!")}
+	});
+});
+
+router.get("/:userid/followers", function(req, res) {
+	User.findOne({ "id": req.params.userid}, function(err,user){
+		if(user!=null)
+		res.format({
+			"application/json": function() {
+				res.json(user.followers);
+			}
+		});
+		else{res.status(404); res.send("Nutzer konnte nicht gefunden werden!")}
+	});
+});
+
+
+
 //POST Request
 router.post("/", function(req, res) {
 	var userid = shortid.generate();
 
   //fill json with request data
   users = {
-				"id": userid,
-				"user_name": req.body.user_name,
-				"first_name": req.body.first_name,
-				"last_name": req.body.last_name,
-				"age": req.body.age,
-				"email": req.body.email,
-				"password": passwordHash.generate(req.body.password)
-      };
+		"id": userid,
+		"user_name": req.body.user_name,
+		"first_name": req.body.first_name,
+		"last_name": req.body.last_name,
+		"age": req.body.age,
+		"coordinates": {
+			"latitude": req.body.latitude,
+			"longitude": req.body.longitude
+		},
+		"email": req.body.email,
+		"url": url + userid,
+		"password": passwordHash.generate(req.body.password),
+		"tagabos": [],
+		"followers": []
+		};
 		var newUser = new User(users);
 		newUser.save(function(err){
 			if(err)
@@ -103,11 +137,67 @@ router.post("/", function(req, res) {
   });
 });
 
+router.post("/:userid/tagabos", function(req, res) {
+	User.findOneAndUpdate({"id" : req.params.userid }, {"tagabos": req.body}, function(err, update){
+
+		if(!err){ res.status(200);
+			res.format({
+			"application/json": function() {
+				res.json(update);
+				}
+			});
+		}
+		else {res.status(404); res.send("User mit ID "+req.params.userid+" existier nicht!");}
+	});
+});
+
+router.post("/:userid/followers", function(req, res) {
+	User.findOneAndUpdate({"id" : req.params.userid }, {"followers": req.body}, function(err, update){
+
+		if(!err){ res.status(200);
+			res.format({
+			"application/json": function() {
+				res.json(update);
+				}
+			});
+		}
+		else {res.status(404); res.send("User mit ID "+req.params.userid+" existier nicht!");}
+	});
+});
+
 //DELETE Request
 router.delete('/:userid', function (req, res) {
 	User.findOneAndRemove({"id": req.params.userid }, function(err, user){
 		if(err) {res.status(404); res.send("User mit ID "+req.params.userid+" existier nicht!");}
 		else { res.status(200); res.send("User mit ID "+req.params.userid+" wurde gelöscht!");}
+	});
+});
+
+router.delete("/:userid/tagabos", function(req, res) {
+	User.findOneAndUpdate({"id" : req.params.userid }, {"tagabos": []}, function(err, update){
+
+		if(!err){ res.status(200);
+			res.format({
+			"application/json": function() {
+				res.json(update);
+				}
+			});
+		}
+		else {res.status(404); res.send("User mit ID "+req.params.userid+" existier nicht!");}
+	});
+});
+
+router.delete("/:userid/followers", function(req, res) {
+	User.findOneAndUpdate({"id" : req.params.userid }, {"followers": []}, function(err, update){
+
+		if(!err){ res.status(200);
+			res.format({
+			"application/json": function() {
+				res.json(update);
+				}
+			});
+		}
+		else {res.status(404); res.send("User mit ID "+req.params.userid+" existier nicht!");}
 	});
 });
 

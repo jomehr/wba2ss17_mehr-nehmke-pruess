@@ -9,7 +9,10 @@ var userSchema = mongoose.Schema({
 		first_name: String,
 		last_name: String,
 		age: Number,
+		coordinates: [{}],
 		email: String,
-		password: String
+		password: String,
+		tagabos: [{}],
+		followers: [{}]
 });
 module.exports = mongoose.model('User',userSchema);
