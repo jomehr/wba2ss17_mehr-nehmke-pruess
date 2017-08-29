@@ -3,7 +3,8 @@ const router = express.Router();
 const bodyParser =  require("body-parser");
 const fs = require("fs");
 const shortid = require('shortid')
-
+const mongoose = require("mongoose");
+var Game = require("./gamemodel.js");
 const ressourceName ="games";
 
 //speicher aktuelle zeit ab
@@ -76,7 +77,16 @@ router.use(function(req, res, next) {
 
 //nur zum testen, nicht in finaler version benötigt
 router.get("/game.html", function(req, res) {
-  res.sendFile(__dirname + "/" + "game.html");
+	Game.find({}, function(err, games){
+		if(!err) {
+			res.format({
+				"application/json": function() {
+					res.send(games);
+				}
+			});
+		}
+	});
+//  res.sendFile(__dirname + "/" + "game.html");
 });
 
 //POST Requests
@@ -110,23 +120,21 @@ router.post("/", function(req, res) {
         "participants": []
       };
   //push data into existing json and stringify it for saving
-  gamedatabase.games.push(games);
-  saveGameData(gamedatabase);
-  //formats responds to json
-  res.format({
-    "application/json": function() {
-      res.json(games);
-      }
-  });
+	var newGame = new Game(games);
+	newGame.save(function(err){
+		if(err)
+			throw err;
+	});
+	console.log(gameid)
+	res.format({
+		"application/json": function(){
+			res.json(games);
+		}
+	});
 });
 
 router.post("/:gameId/clues", function(req, res) {
   //create latest gameid according to array lenght in json
-  for (var i = 0; i < gamedatabase.games.length; i++) {
-		if (gamedatabase.games[i].id == req.params.gameId) {
-			break;
-		}
-  }
 	var clueid = shortid.generate();
   //fill json with request data
   clues = {
@@ -141,23 +149,21 @@ router.post("/:gameId/clues", function(req, res) {
 				"media": []
       };
   //push data into existing json and stringify it for saving
-  gamedatabase.games[i].clues.push(clues);
-  saveGameData(gamedatabase);
-  //formats responds to json
-  res.format({
-    "application/json": function() {
-      res.json(clues);
-    }
-  });
+	Game.findOneAndUpdate({"id": req.params.gameId}, {"clues":clues}, function(err,clues){
+		if(!err){res.status(200);
+		res.format({
+	    "application/json": function() {
+	      res.json(clues);
+	    }
+	  });
+	}
+	else{res.status(404); res.send("Game mit ID "+req.params.gameId+"existiert nicht!");}
+	});
 });
 
 router.post("/:gameId/participants", function(req, res) {
   //create latest gameid according to array lenght in json
-	for (var i = 0; i < gamedatabase.games.length; i++) {
-		if (gamedatabase.games[i].id == req.params.gameId) {
-			break;
-		}
-  }
+
 	var participantid = shortid.generate();
   //fill json with request data
   participants = {
@@ -170,29 +176,22 @@ router.post("/:gameId/participants", function(req, res) {
         "joindate": Date()
       };
   //push data into existing json and stringify it for saving
-  gamedatabase.games[i].participants.push(participants);
-  saveGameData(gamedatabase);
-  //formats responds to json
-  res.format({
-    "application/json": function() {
-      res.send(participants);
-    }
-  });
+	Game.findOneAndUpdate({"id": req.params.gameId}, {"participants":participants}, function(err,participants){
+		if(!err){res.status(200);
+		res.format({
+	    "application/json": function() {
+	      res.json(participants);
+	    }
+	  });
+	}
+	else{res.status(404); res.send("Game mit ID "+req.params.gameId+"existiert nicht!");}
+	});
 });
 
 router.post("/:gameId/clues/:clueId/media", function(req, res) {
   //check if gameid and clueid exist and save index
-	for (var i = 0; i < gamedatabase.games.length; i++) {
-		if (gamedatabase.games[i].id == req.params.gameId) {
-			break;
-		}
-	};
-  for (var j = 0; j < gamedatabase.games[i].clues.length; j++) {
-		if (gamedatabase.games[i].clues[j].id == req.params.clueId) {
-			break;
-		}
-  };
 	var mediaid = shortid.generate();
+	var clueid = req.params.clueId;
   //fill json with request data
   media = {
         "gameid": req.params.gameId,
@@ -205,14 +204,23 @@ router.post("/:gameId/clues/:clueId/media", function(req, res) {
         "creationdate": Date()
       };
   //push data into existing json and stringify it for saving
-  gamedatabase.games[i].clues[j].media.push(media);
-  saveGameData(gamedatabase);
-  //formats responds to json
-  res.format({
-    "application/json": function() {
-      res.json(media);
-    }
-  });
+ //funktioniert noch nicht
+	Game.findOne({"id": req.params.gameId}, function(err,game){
+		if(!err){
+			game.clues.media = media;
+			Game.findOneAndUpdate({"id": req.params.gameId}, game, function(err,game){
+				if(!err){ res.status(200);
+					res.format({
+					"application/json": function() {
+						res.json(game);
+						}
+					});
+				}
+				else {res.status(404); res.send("User mit ID "+req.params.userid+" existier nicht!");}
+			});
+			}
+		});
+
 });
 
 router.post("/:gameId/poi", function(req, res) {
@@ -235,45 +243,39 @@ router.post("/:gameId/poi", function(req, res) {
 
 //GET Requests
 router.get("/", function(req, res) {
-	var gameurls = new Array();
-	for (i = 0;  i < gamedatabase.games.length; i++){
-		gameurls.push(gamedatabase.games[i].url);
-  };
-	res.format({
-	  "application/json": function() {
-			res.send(gameurls)
-			}
-	  });
+	Game.find({}, function(err, games){
+		if(!err) {
+			res.format({
+				"application/json": function() {
+					res.send(games);
+				}
+			});
+		}
+	});
 });
 
 router.get("/:gameId", function(req, res) {
-  let gameIndex = findGameIndexById(req.params.gameId);
-  if (gameIndex< 0) {
-    res.status(404);
-    res.send("Das Spiel mit ID " + req.params.gameId + " existiert noch nicht!");
-  } else {
-		let game = gamedatabase.games[gameIndex];
-    res.format({
-      "application/json": function() {
-        res.json(game);
-      }
-    });
-  }
+	Game.findOne({ "id": req.params.gameId}, function(err,game){
+		if(game!=null)
+		res.format({
+			"application/json": function() {
+				res.json(game);
+			}
+		});
+		else{res.status(404); res.send("Game konnte nicht gefunden werden!")}
+	});
 });
 
 router.get("/:gameId/clues", function(req, res) {
-  let gameIndex = findGameIndexById(req.params.gameId);
-  if (gameIndex < 0) {
-    res.status(404);
-    res.send("Die Hinweise von dem Spiel mit ID " + req.params.gameId + " existiert noch nicht!");
-  } else {
-		let clues = gamedatabase.games[gameIndex].clues;
-    res.format({
-      "application/json": function() {
-        res.json(clues);
-      }
-    });
-  }
+	Game.findOne({ "id": req.params.gameId}, function(err,game){
+		if(game!=null)
+		res.format({
+			"application/json": function() {
+				res.json(game.clues);
+			}
+		});
+		else{res.status(404); res.send("Game konnte nicht gefunden werden!")}
+	});
 });
 
 router.get("/:gameId/clues/:clueId", function(req, res) {
@@ -293,18 +295,15 @@ router.get("/:gameId/clues/:clueId", function(req, res) {
 });
 
 router.get("/:gameId/participants/", function(req, res) {
-  let gameIndex = findGameIndexById(req.params.gameId);
-  if (gameIndex < 0) {
-    res.status(404);
-    res.send("Das Spiel mit ID " + req.params.gameId + " existiert noch nicht!");
-  } else {
-		let participants = gamedatabase.games[gameIndex].participants;
-    res.format({
-      "application/json": function() {
-        res.json(participants);
-      }
-    });
-  }
+	Game.findOne({ "id": req.params.gameId}, function(err,game){
+		if(game!=null)
+		res.format({
+			"application/json": function() {
+				res.json(game.participants);
+			}
+		});
+		else{res.status(404); res.send("Game konnte nicht gefunden werden!")}
+	});
 });
 
 router.get("/:gameId/participants/:participantId", function(req, res) {
