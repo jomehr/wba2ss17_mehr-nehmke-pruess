@@ -119,7 +119,7 @@ router.post("/", function(req, res) {
 				},
 				"email": req.body.email,
 				"url": url + userid,
-				"password": passwordHash.generate(req.body.password)
+				"password": passwordHash.generate(req.body.password),
 				"tagabos": [],
 				"followers": []
 			};
