@@ -187,6 +187,53 @@ app.post('/users', function(req, res) {
   });
 });
 
+app.post('/users/:userid/tagabos', function(req, res) {
+  var userid = req.params.userid;
+  var url = dURL + '/users/' + userid + '/tagabos/';
+  var data = req.body;
+  //TODO implement POST method
+  var options = {
+    uri: url,
+    method: 'POST',
+    json: data
+  }
+
+  request(options, function(err, response, body){
+    console.log(options.uri);
+    res.json(body);
+    console.log("dienstnutzer.js wird aufgerufen " + body);
+    client.publish( "/users", {text: "Ein neuer Tag wurde abonniert! "})
+   .then(function() {
+      console.log("Message received by server");
+    }, function(error) {
+      console.log("Error while publishing: " + error.message);
+    });
+  });
+});
+
+app.post('/users/:userid/followers', function(req, res) {
+  var userid = req.params.userid;
+  var url = dURL + '/users/' + userid + '/followers/';
+  var data = req.body;
+  //TODO implement POST method
+  var options = {
+    uri: url,
+    method: 'POST',
+    json: data
+  }
+
+  request(options, function(err, response, body){
+    res.json(body);
+    console.log(response.body);
+    client.publish( "/users", {text: "Du hast einen neuen Follower! "+ url + body.id})
+   .then(function() {
+      console.log("Message received by server");
+    }, function(error) {
+      console.log("Error while publishing: " + error.message);
+    });
+  });
+});
+
 app.post('/games', function(req, res) {
   var url = dURL + '/games/';
   //var ressourceURI = helper.pathJoin(config.remoteService.url, "game");
@@ -201,6 +248,30 @@ app.post('/games', function(req, res) {
   request(options, function(err, response, body){
     res.json(body);
     client.publish( "/games", {text: "Ein neues Spiel wurde hinzugefügt! "+ url + body.id})
+   .then(function() {
+      console.log("Message received by server");
+    }, function(error) {
+      console.log("Error while publishing: " + error.message);
+    });
+  });
+});
+
+app.post('/games/:gameid/tags', function(req, res) {
+  var gameid = req.params.gameid;
+  var url = dURL + '/games/' + gameid + '/tags/';
+  var data = req.body;
+  //TODO implement POST method
+  var options = {
+    uri: url,
+    method: 'POST',
+    json: data
+  }
+
+  request(options, function(err, response, body){
+    console.log(options.uri);
+    res.json(body);
+    console.log("dienstnutzer.js wird aufgerufen " + body);
+    client.publish( "/games", {text: "Ein neuer Tag wurde zum Game hinzugefügt! "})
    .then(function() {
       console.log("Message received by server");
     }, function(error) {
@@ -330,11 +401,59 @@ app.delete('/users/:userid', function(req, res) {
   });
 });
 
+app.delete('/users/:userid/tagabos', function(req, res) {
+  var userid = req.params.userid;
+  var url = dURL + '/users/' + userid + '/tagabos/';
+
+  client.publish( "/users"+userid+"/tagabos", {text: "Der Tag ist nicht mehr abonniert!"})
+  .then(function() {
+    console.log("Message received by server");
+  }, function(error) {
+    console.log("Error while publishing: " + error.message);
+  });
+
+  //TODO implement DELETE Method
+  request.delete(url, function(err, response, body) {
+    let json = JSON.parse(body);
+    res.json(json);
+  });
+});
+
+app.delete('/users/:userid/followers', function(req, res) {
+  var userid = req.params.userid;
+  var url = dURL + '/users/' + userid + '/followers/';
+
+  client.publish( "/users"+userid+"/followers", {text: "Der User "+deletedFollower+" folgt dir nicht mehr!"})
+  .then(function() {
+    console.log("Message received by server");
+  }, function(error) {
+    console.log("Error while publishing: " + error.message);
+  });
+});
+
 app.delete('/games/:gameid', function(req, res) {
   var gameid = req.params.gameid;
   var url = dURL + '/games/' + gameid;
 
   client.publish( "/games"+gameid, {text: "Game "+gameid+" wurde gelöscht"})
+  .then(function() {
+    console.log("Message received by server");
+  }, function(error) {
+    console.log("Error while publishing: " + error.message);
+  });
+
+  //TODO implement DELETE Method
+  request.delete(url, function(err, response, body) {
+    let json = JSON.parse(body);
+    res.json(json);
+  });
+});
+
+app.delete('/games/:gameid/tags', function(req, res) {
+  var gameid = req.params.gameid;
+  var url = dURL + '/games/' + gameid + '/tags/';
+
+  client.publish( "/games"+gameid+"/tags", {text: "Der Tag wurde erfolgreich gelöscht"})
   .then(function() {
     console.log("Message received by server");
   }, function(error) {
