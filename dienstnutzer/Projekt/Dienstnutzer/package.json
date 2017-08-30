@@ -1,0 +1,24 @@
+{
+  "name": "dienstnutzer",
+  "version": "1.0.0",
+  "description": "dienstnutzer deployment for weba2 project \"schnztzeljagd\"",
+  "main": "dienstnutzer.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node dienstnutzer.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/jomehr/wba2ss17_mehr-nehmke-pruess.git"
+  },
+  "author": "Jared Prüß",
+  "license": "ISC",
+  "dependencies": {
+    "body-parser": "^1.17.2",
+    "express": "^4.15.3",
+    "faye": "^1.2.4",
+    "query-overpass": "^1.5.1",
+    "request": "^2.81.0",
+    "socket.io": "^2.0.3"
+  }
+}

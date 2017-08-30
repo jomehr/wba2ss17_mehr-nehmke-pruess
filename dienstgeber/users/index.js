@@ -29,14 +29,6 @@ function findUserIndexById (userId) {
 	);
 };
 
-//Helper-Funktion zum finden eines tag im Array
-//function findtagabosIndexByString (tagabos) {                                                     //überprüft ob beide Strings & den selben Index haben
-//    return userdatabase.users.id.tagabos.findIndex(
-//        users => users.id.tagabos === tagabos   //überprüft ob beide Strings & den selben Index haben
-//    );
-//};
-
-
 //errorhandler
 router.use(function(err, req, res, next) {
   console.log(err.stack);
@@ -55,7 +47,7 @@ router.use(function(req, res, next) {
 router.get('/', function (req, res) {
 	var userurls = new Array();
 	for (i = 0;  i < userdatabase.users.length; i++){
-		userurls.push(userdatabase.users[i].user_name + ": " + userdatabase.users[i].url);
+		userurls.push(userdatabase.users[i].id + ": " + userdatabase.users[i].url);
 	};
 	res.format({
 		"application/json": function() {
@@ -67,10 +59,9 @@ router.get('/', function (req, res) {
 //GET Request auf User ID
 router.get('/:userid', function (req, res) {
 	let userIndex = findUserIndexById(req.params.userid);
-		console.log(userIndex);
 	if (userIndex < 0) {
 		res.status(404);
-		res.send("Der User mit ID " + req.params.userId + " existiert noch nicht!");
+		res.send("Der User mit ID " + req.params.userid + " existiert noch nicht!");
 	} else {
 		let user = userdatabase.users[userIndex];
 		res.format({
@@ -81,53 +72,27 @@ router.get('/:userid', function (req, res) {
 	}
 });
 
-router.get("/:userid/tagabos", function(req, res) {
-	let userIndex = findUserIndexById(req.params.userid);
-  if (userIndex < 0) {
-    res.status(404);
-		res.send("Der User mit der ID " + req.params.userId + " besitzt noch keine Tag Abos!");
-  } else {
-		let tagabos = userdatabase.users[userIndex].tagabos;
-    res.format({
-      "application/json": function() {
-        res.json(tagabos);
-      }
-    });
-  }
-});
-
-router.get("/:userid/followers", function(req, res) {
-	let userIndex = findUserIndexById(req.params.userid);
-  if (userIndex < 0) {
-    res.status(404);
-		res.send("Der User mit der ID " + req.params.userId + " besitzt noch keine Followers!");
-  } else {
-		let followers = userdatabase.users[userIndex].followers;
-    res.format({
-      "application/json": function() {
-        res.json(followers);
-      }
-    });
-  }
-});
-
 //POST Request
 router.post("/", function(req, res) {
 	var userid = shortid.generate();
+	var url = "https://wba2ss17-team38.herokuapp.com/users/"
   //fill json with request data
-  users = {
+	users = {
 				"id": userid,
-				"url": "https://wba2ss17-team38.herokuapp.com/users/" + userid,
-				"user_name": req.body.user_name || "template username",
-				"first_name": req.body.first_name || "template firstname",
-				"last_name": req.body.last_name || "template lastname",
-				"age": req.body.age || "template age",
-				"email": req.body.email || "template email",
+				"user_name": req.body.user_name,
+				"first_name": req.body.first_name,
+				"last_name": req.body.last_name,
+				"age": req.body.age,
+				"coordinates": {
+					"latitude": req.body.latitude,
+					"longitude": req.body.longitude
+				},
+				"email": req.body.email,
+				"url": url + userid,
 				"password": passwordHash.generate(req.body.password),
-				"experience_points": 0,
 				"tagabos": [],
 				"followers": []
-      };
+			};
   //push data into existing json and stringify it for saving
   userdatabase.users.push(users);
   saveUserData(userdatabase);
@@ -181,11 +146,11 @@ router.post("/:userid/followers", function(req, res) {
 });
 
 //DELETE Request
-router.delete("/:userid", function (req, res) {
+router.delete('/:userid', function (req, res) {
 	let userIndex = findUserIndexById(req.params.userid);
 	if (userIndex < 0) {
 		res.status(404);
-		res.send("Der User mit ID " + req.params.userId + " existiert noch nicht!");
+		res.send("Der User mit ID " + req.params.userid + " existiert noch nicht!");
 	} else {
 		let user = userdatabase.users[userIndex];
 		userdatabase.users.splice(userIndex, 1);
@@ -202,7 +167,6 @@ router.delete("/:userid/tagabos", function(req, res) {
 	var deltag = req.body.tagabos;
 	var check = true;
 	console.log(deltag);
-  //let userIndex = findUserIndexById(req.params.userId);
 	for(var c = 0; c < userdatabase.users.length; c++) {
 		if(userdatabase.users[c].id === req.params.userid) {
 			var userIndex = c;
@@ -211,7 +175,7 @@ router.delete("/:userid/tagabos", function(req, res) {
 	console.log(userIndex);
   if (userdatabase.users[userIndex].tagabos.length === 0) {
     res.status(404);
-		res.send("Der User mit der ID " + req.params.userId + " besitzt noch keine Tag Abos!");
+		res.send("Der User mit der ID " + req.params.userid + " besitzt noch keine Tag Abos!");
   } else {
 		for(var i = 0; i < userdatabase.users[userIndex].tagabos.length; i++) {
 			if(userdatabase.users[userIndex].tagabos[i] == deltag) {
@@ -224,66 +188,52 @@ router.delete("/:userid/tagabos", function(req, res) {
 				"application/json": function() {
 					if(!check) {
 						res.json(userdatabase.users[userIndex].tagabos);
+						res.status(200);
+						res.send("Der Tag " + deltag + " wurde für den user User mit der ID " + req.params.userId + " gelöscht!");
 					} else {
-						res.status(404);
-						res.send("Der User mit der ID " + req.params.userId + " hat den Tag " + deltag+ "!");
+						res.status(200);
+						res.send("Der User mit der ID " + req.params.userid + " hat den gesuchten Tag " + deltag + " nicht abonniert!");
 					}
 				}
 			});
   }
 });
 
-router.delete("/:userid/followers/:follower", function(req, res) {
-	let userIndex = findUserIndexById(req.params.userid);
-	let followersOfUser = userdatabase.users[userIndex].followers
-	let followerIndex = followersOfUser.findIndex(follower => follower === req.params.follower)
-
-	//gesuchter String Vergleich mit Strings im Array
-	//true = wenn followers gleich req.params.followers --> Index gefunden
-	function searchFollower (follower) {
-			return follower === req.params.follower
-	}
-
-	if (followerIndex < 0) {
-			res.status(404);
-			res.send("Der User mit der ID " + req.params.userId + " besitzt noch keine Followers!");
-		} else {
-			let deletedFollower = followersOfUser[followerIndex]
-
-			followersOfUser.splice(followerIndex, 1) 	//splice löscht genau EIN Element
-
-			res.send(deletedFollower) 								//gelöschten Tag anzeigen
+router.delete("/:userid/followers", function(req, res) {
+	var delfollower = req.body.followers;
+	var check = true;
+	console.log(delfollower);
+	for(var d = 0; d < userdatabase.users.length; d++) {
+		if(userdatabase.users[d].id === req.params.userid) {
+			var userIndex = d;
 		}
+	}
+	console.log(userIndex);
+  if (userdatabase.users[userIndex].followers.length === 0) {
+    res.status(404);
+		res.send("Der User mit der ID " + req.params.userid + " hat noch keine Followers!");
+  } else {
+		for(var i = 0; i < userdatabase.users[userIndex].tagabos.length; i++) {
+			if(userdatabase.users[userIndex].followers[i] == delfollower) {
+				check = false;
+				userdatabase.users[userIndex].followers.splice(i, 1);
+				saveUserData(userdatabase);
+			}
+		}
+			res.format({
+				"application/json": function() {
+					if(!check) {
+						res.json(userdatabase.users[userIndex].followers);
+						res.status(200);
+						res.send("Der Follower " + delfollower + " wurde für den user User mit der ID " + req.params.userId + " gelöscht!");
+					} else {
+						res.status(404);
+						res.send("Der User mit der ID " + req.params.userid + " besitzt den gesuchten Follower " + delfollower + " nicht!");
+					}
+				}
+			});
+  }
 });
-
-
-//router.delete("/:userid/tagabos", function(req, res) {
-//	let userIndex = findUserIndexById(req.params.userid);
-//	let tagabosIndex = findtagabosIndexByString(userIndex, req.params.tagaboString);
-//  if (tagabosIndex < 0) {
-//      res.status(404);
-//			res.send("Der User mit der ID " + req.params.userId + " besitzt noch keine Tag Abos!");
-//  } else {
-//			br = new BufferedReader(new InputStreamReader(System.in));
-//			StringToBeChecked = br.readLine();
-//			for (int j = 0 ; j < userdatabase.users[i].tagabos.length; j++) {
-//			   if(tagabos[index]==StringToBeChecked)
-//			   {
-//			      System.out.println("Der Tag " + tagabos[index] + " existiert!");
-//						let user = userdatabase.users[userIndex];
-//						userdatabase.users.splice(userIndex, 1);
-//						saveUserData(userdatabase);
-//						res.format({
-//							"application/json": function() {
-//								res.json(user);
-//							}
-//						});
-//					}
-//				} else {
-//			     System.out.println("Der Tag " + tagabos[index] + " existiert nicht!");
-//				}
-//		 }
-//	});
 
 //PATCH Request
 router.patch('/:userid', function (req, res) {
@@ -291,7 +241,7 @@ router.patch('/:userid', function (req, res) {
 	console.log(req.body);
 	if (userIndex < 0) {
 		res.status(404);
-		res.send("Der User mit ID " + req.params.userId + " existiert noch nicht!");
+		res.send("Der User mit ID " + req.params.userid + " existiert noch nicht!");
 	} else {
 		let changes = req.body;
 		let userBefore = userdatabase.users[userIndex];

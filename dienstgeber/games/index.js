@@ -83,28 +83,29 @@ router.get("/game.html", function(req, res) {
 router.post("/", function(req, res) {
 	var gameid = shortid.generate();
 	if (req.body.startdate != undefined) {
-		var startdatepart = req.body.startdate.split(".");
-		var starttimepart = req.body.starttime.split(":");
-		var expirationdatepart = req.body.expirationdate.split(".");
-		var expirationtimepart = req.body.expirationtime.split(":")
-		var tmps= new Date(startdatepart[2], (startdatepart[1]-1), startdatepart[0], starttimepart[0], starttimepart[1]);
+		var startdatepart = req.body.startdate.split(/[\s.:]/);
+		var expirationdatepart = req.body.expirationdate.split(/[\s.:]/);
+		var tmps= new Date(startdatepart[2], (startdatepart[1]-1), startdatepart[0], startdatepart[3], startdatepart[4]);
 		var startdate = Date.parse(tmps);
-		var tmpd = new Date(expirationdatepart[2], (expirationdatepart[1]-1), expirationdatepart[0], expirationtimepart[0], expirationtimepart[1]);
+		var tmpd = new Date(expirationdatepart[2], (expirationdatepart[1]-1), expirationdatepart[0], expirationdatepart[3], expirationdatepart[4]);
 		var expirationdate = Date.parse(tmpd);
 	}
 	//fill json with request data
   games = {
         "id": gameid,
         "titel": req.body.titel || "templatetitel",
-        "tag": req.body.tag || "templatetag",
+				"tags": [],
         "description": req.body.description || "templatedescription",
-				"endcoordinates": req.body.endcoordinates || "templatecoordinates",
+				"endcoordinates": {
+						"latitude": req.body.latitude || "templlat",
+						"longitude": req.body.longitude || "templong"
+					},
         "creator": req.body.creator || "templatecreator",
         "creationdate": Date(),
         "startdate": startdate || "Startdatum fehlt",
         "expirationdate": expirationdate || "Enddatum fehlt",
 				"finished": false,
-        "reward": req.body.reward,
+        "reward": req.body.reward || "templatereward",
 				"url": "https://wba2ss17-team38.herokuapp.com/games/" + gameid,
         "clues": [],
         "participants": []
@@ -115,7 +116,7 @@ router.post("/", function(req, res) {
   //formats responds to json
   res.format({
     "application/json": function() {
-      res.status(200).json(games);
+      res.json(games);
       }
   });
 });
@@ -134,7 +135,10 @@ router.post("/:gameId/clues", function(req, res) {
         "id": clueid,
         "titel": req.body.titel || "templatetitel",
         "description": req.body.description || "templatedescription",
-        "coordinate": req.body.coordinate || "templatecoordinates",
+        "coordinates": {
+					"latitude": req.body.latitude || "templlat",
+					"longitude": req.body.longitude || "templong"
+				},
         "creator": req.body.creator || "templatecreator",
 				"gameurl": "https://wba2ss17-team38.herokuapp.com/games/"+req.params.gameId,
         "creationdate": Date(),
@@ -146,7 +150,27 @@ router.post("/:gameId/clues", function(req, res) {
   //formats responds to json
   res.format({
     "application/json": function() {
-			res.status(200).json(clues);
+      res.json(clues);
+    }
+  });
+});
+
+router.post("/:gameId/tags", function(req, res) {
+	//create latest userid according to array lenght in json
+  for (var i = 0; i < gamedatabase.games.length; i++) {
+		if (gamedatabase.games[i].id == req.params.gameId) {
+			break;
+		}
+  }
+  //fill json with request data
+	var newTag = req.body.newTag;
+  //push data into existing json and stringify it for saving
+  gamedatabase.games[i].tags.push(newTag);
+  saveGameData(gamedatabase);
+  //formats responds to json
+  res.format({
+    "application/json": function() {
+			res.json(gamedatabase.games[i].tags);
     }
   });
 });
@@ -162,21 +186,22 @@ router.post("/:gameId/participants", function(req, res) {
   //fill json with request data
   participants = {
         "gameid": req.params.gameId,
+				"userid": req.body.userid,
         "id": participantid,
         "first_name": req.body.first_name || "templatefirstname",
         "last_name": req.body.last_name || "templatelastname",
 				"username": req.body.username || "templateusername",
+				"userurl": "https://wba2ss17-team38.herokuapp.com/users/"+req.body.userid,
 				"gameurl": "https://wba2ss17-team38.herokuapp.com/games/"+req.params.gameId,
         "joindate": Date()
       };
   //push data into existing json and stringify it for saving
   gamedatabase.games[i].participants.push(participants);
-	console.log("TEST");
   saveGameData(gamedatabase);
   //formats responds to json
   res.format({
     "application/json": function() {
-      res.status(200).json(participants);
+      res.send(participants);
     }
   });
 });
@@ -211,7 +236,7 @@ router.post("/:gameId/clues/:clueId/media", function(req, res) {
   //formats responds to json
   res.format({
     "application/json": function() {
-      res.status(200).json(media);
+      res.json(media);
     }
   });
 });
@@ -229,7 +254,7 @@ router.post("/:gameId/poi", function(req, res) {
 	saveOverpassData(poidatabase);
 	res.format({
 		"application/json": function() {
-			res.status(200).send(poistart);
+			res.json(poistart);
 		}
 	});
 })
@@ -263,7 +288,7 @@ router.get("/:gameId", function(req, res) {
 		let game = gamedatabase.games[gameIndex];
     res.format({
       "application/json": function() {
-        res.status(200).json(game);
+        res.json(game);
       }
     });
   }
@@ -492,6 +517,42 @@ router.delete("/:gameId", function(req, res) {
         res.json(game);
       }
     });
+  }
+});
+
+router.delete("/:gameId/tags", function(req, res) {
+	var deltag = req.body.tags;
+	var check = true;
+	console.log(deltag);
+	for(var c = 0; c < gamedatabase.games.length; c++) {
+		if(gamedatabase.games[c].id === req.params.gameId) {
+			var gameIndex = c;
+		}
+	}
+	console.log(gameIndex);
+  if (gamedatabase.games[gameIndex].tags.length === 0) {
+    res.status(404);
+		res.send("Das Game mit der ID " + req.params.gameId + " besitzt noch keine Tags!");
+  } else {
+		for(var i = 0; i < gamedatabase.games[gameIndex].tags.length; i++) {
+			if(gamedatabase.games[gameIndex].tags[i] == deltag) {
+				check = false;
+				gamedatabase.games[gameIndex].tags.splice(i, 1);
+				saveGameData(gamedatabase);
+			}
+		}
+			res.format({
+				"application/json": function() {
+					if(!check) {
+						res.json(gamedatabase.games[gameIndex].tags);
+						res.status(200);
+						res.send("Der Tag " + deltag + " wurde für das Game mit der ID " + req.params.gameId + " gelöscht!");
+					} else {
+						res.status(200);
+						res.send("Das Game mit der ID " + req.params.gameId + " besitzt den gesuchten Tag " + deltag + " nicht!");
+					}
+				}
+			});
   }
 });
 
