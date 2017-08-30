@@ -543,7 +543,7 @@ router.delete("/:gameId/tags", function(req, res) {
 		}
 			res.format({
 				"application/json": function() {
-					if(!check) {
+					if(check) {
 						res.json(gamedatabase.games[gameIndex].tags);
 						res.status(200);
 						res.send("Der Tag " + deltag + " wurde für das Game mit der ID " + req.params.gameId + " gelöscht!");
