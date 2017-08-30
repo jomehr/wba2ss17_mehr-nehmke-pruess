@@ -94,6 +94,7 @@ router.post("/", function(req, res) {
   games = {
         "id": gameid,
         "titel": req.body.titel || "templatetitel",
+				"tags": [],
         "description": req.body.description || "templatedescription",
 				"endcoordinates": {
 						"latitude": req.body.latitude || "templlat",
@@ -150,6 +151,26 @@ router.post("/:gameId/clues", function(req, res) {
   res.format({
     "application/json": function() {
       res.json(clues);
+    }
+  });
+});
+
+router.post("/:gameId/tags", function(req, res) {
+	//create latest userid according to array lenght in json
+  for (var i = 0; i < gamedatabase.games.length; i++) {
+		if (gamedatabase.games[i].id == req.params.gameId) {
+			break;
+		}
+  }
+  //fill json with request data
+	var newTag = req.body.newTag;
+  //push data into existing json and stringify it for saving
+  gamedatabase.games[i].tags.push(newTag);
+  saveGameData(gamedatabase);
+  //formats responds to json
+  res.format({
+    "application/json": function() {
+			res.json(gamedatabase.games[i].tags);
     }
   });
 });
@@ -496,6 +517,42 @@ router.delete("/:gameId", function(req, res) {
         res.json(game);
       }
     });
+  }
+});
+
+router.delete("/:gameId/tags", function(req, res) {
+	var deltag = req.body.tags;
+	var check = true;
+	console.log(deltag);
+	for(var c = 0; c < gamedatabase.games.length; c++) {
+		if(gamedatabase.games[c].id === req.params.gameId) {
+			var gameIndex = c;
+		}
+	}
+	console.log(gameIndex);
+  if (gamedatabase.games[gameIndex].tags.length === 0) {
+    res.status(404);
+		res.send("Das Game mit der ID " + req.params.gameId + " besitzt noch keine Tags!");
+  } else {
+		for(var i = 0; i < gamedatabase.games[gameIndex].tags.length; i++) {
+			if(gamedatabase.games[gameIndex].tags[i] == deltag) {
+				check = false;
+				gamedatabase.games[gameIndex].tags.splice(i, 1);
+				saveGameData(gamedatabase);
+			}
+		}
+			res.format({
+				"application/json": function() {
+					if(!check) {
+						res.json(gamedatabase.games[gameIndex].tags);
+						res.status(200);
+						res.send("Der Tag " + deltag + " wurde für das Game mit der ID " + req.params.gameId + " gelöscht!");
+					} else {
+						res.status(200);
+						res.send("Das Game mit der ID " + req.params.gameId + " besitzt den gesuchten Tag " + deltag + " nicht!");
+					}
+				}
+			});
   }
 });
 
