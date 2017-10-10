@@ -284,6 +284,63 @@
             "url": "https://wba2ss17-team38.herokuapp.com/games/Sypm0N9n-",
             "clues": [],
             "participants": []
+        },
+        {
+            "id": "rk0xkB5hW",
+            "titel": "templatetitel",
+            "tags": [],
+            "description": "templatedescription",
+            "endcoordinates": {
+                "latitude": 52.518611,
+                "longitude": 13.408056
+            },
+            "creator": "templatecreator",
+            "creationdate": "Tue Oct 10 2017 14:37:09 GMT+0200 (Mitteleuropäische Sommerzeit)",
+            "startdate": 1507632000000,
+            "expirationdate": 1508432400000,
+            "finished": false,
+            "reward": "templatereward",
+            "url": "https://wba2ss17-team38.herokuapp.com/games/rk0xkB5hW",
+            "clues": [],
+            "participants": []
+        },
+        {
+            "id": "BJnZJB9hZ",
+            "titel": "templatetitel",
+            "tags": [],
+            "description": "templatedescription",
+            "endcoordinates": {
+                "latitude": 52.518611,
+                "longitude": 13.408056
+            },
+            "creator": "templatecreator",
+            "creationdate": "Tue Oct 10 2017 14:37:24 GMT+0200 (Mitteleuropäische Sommerzeit)",
+            "startdate": 1507633500000,
+            "expirationdate": 1508432400000,
+            "finished": false,
+            "reward": "templatereward",
+            "url": "https://wba2ss17-team38.herokuapp.com/games/BJnZJB9hZ",
+            "clues": [],
+            "participants": []
+        },
+        {
+            "id": "rJeMyHc3W",
+            "titel": "templatetitel",
+            "tags": [],
+            "description": "templatedescription",
+            "endcoordinates": {
+                "latitude": 52.518611,
+                "longitude": 13.408056
+            },
+            "creator": "templatecreator",
+            "creationdate": "Tue Oct 10 2017 14:37:28 GMT+0200 (Mitteleuropäische Sommerzeit)",
+            "startdate": 1507633680000,
+            "expirationdate": 1508432400000,
+            "finished": false,
+            "reward": "templatereward",
+            "url": "https://wba2ss17-team38.herokuapp.com/games/rJeMyHc3W",
+            "clues": [],
+            "participants": []
         }
     ]
 }
