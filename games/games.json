@@ -227,6 +227,44 @@
             "url": "https://wba2ss17-team38.herokuapp.com/games/SyTS3N9nW",
             "clues": [],
             "participants": []
+        },
+        {
+            "id": "Skz5TVqnW",
+            "titel": "templatetitel",
+            "tags": [],
+            "description": "templatedescription",
+            "endcoordinates": {
+                "latitude": 52.518611,
+                "longitude": 13.408056
+            },
+            "creator": "templatecreator",
+            "creationdate": "Tue Oct 10 2017 14:31:06 GMT+0200 (Mitteleuropäische Sommerzeit)",
+            "startdate": 1507647900000,
+            "expirationdate": 1508432400000,
+            "finished": false,
+            "reward": "templatereward",
+            "url": "https://wba2ss17-team38.herokuapp.com/games/Skz5TVqnW",
+            "clues": [],
+            "participants": []
+        },
+        {
+            "id": "SyIqpVc2b",
+            "titel": "templatetitel",
+            "tags": [],
+            "description": "templatedescription",
+            "endcoordinates": {
+                "latitude": 52.518611,
+                "longitude": 13.408056
+            },
+            "creator": "templatecreator",
+            "creationdate": "Tue Oct 10 2017 14:31:10 GMT+0200 (Mitteleuropäische Sommerzeit)",
+            "startdate": 1507648080000,
+            "expirationdate": 1508432400000,
+            "finished": false,
+            "reward": "templatereward",
+            "url": "https://wba2ss17-team38.herokuapp.com/games/SyIqpVc2b",
+            "clues": [],
+            "participants": []
         }
     ]
 }
