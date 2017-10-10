@@ -1,28 +1,6 @@
 {
     "games": [
         {
-            "id": "rJ403dMdZ",
-            "titel": "templatetitel",
-            "tags": [
-                "stadion",
-                "hallo"
-            ],
-            "description": "templatedescription",
-            "endcoordinates": {
-                "latitude": 52.518611,
-                "longitude": 13.408056
-            },
-            "creator": "templatecreator",
-            "creationdate": "Thu Aug 17 2017 04:17:48 GMT+0200 (Mitteleuropäische Sommerzeit)",
-            "startdate": 1502929200000,
-            "expirationdate": 1503054000000,
-            "finished": false,
-            "reward": "templatereward",
-            "url": "https://wba2ss17-team38.herokuapp.com/games/rJ403dMdZ",
-            "clues": [],
-            "participants": []
-        },
-        {
             "id": "SJp1AufuW",
             "titel": "node ist super /s",
             "tags": [
@@ -213,92 +191,41 @@
             "participants": []
         },
         {
-            "id": "rkAxAOG_W",
+            "id": "r1uf3Nq3W",
             "titel": "templatetitel",
+            "tags": [],
             "description": "templatedescription",
             "endcoordinates": {
                 "latitude": 52.518611,
                 "longitude": 13.408056
             },
             "creator": "templatecreator",
-            "creationdate": "Thu Aug 17 2017 04:22:46 GMT+0200 (Mitteleuropäische Sommerzeit)",
-            "startdate": 1502931000000,
-            "expirationdate": 1503054000000,
+            "creationdate": "Tue Oct 10 2017 14:24:48 GMT+0200 (Mitteleuropäische Sommerzeit)",
+            "startdate": 1507640700000,
+            "expirationdate": 1508432400000,
             "finished": false,
             "reward": "templatereward",
-            "url": "https://wba2ss17-team38.herokuapp.com/games/rkAxAOG_W",
+            "url": "https://wba2ss17-team38.herokuapp.com/games/r1uf3Nq3W",
             "clues": [],
             "participants": []
         },
         {
-            "id": "S1Hb0_MdZ",
+            "id": "SyTS3N9nW",
             "titel": "templatetitel",
-            "tag": "templatetag",
+            "tags": [],
             "description": "templatedescription",
             "endcoordinates": {
                 "latitude": 52.518611,
                 "longitude": 13.408056
             },
             "creator": "templatecreator",
-            "creationdate": "Thu Aug 17 2017 04:22:52 GMT+0200 (Mitteleuropäische Sommerzeit)",
-            "startdate": 1502931300000,
-            "expirationdate": 1503054000000,
+            "creationdate": "Tue Oct 10 2017 14:25:41 GMT+0200 (Mitteleuropäische Sommerzeit)",
+            "startdate": 1507640880000,
+            "expirationdate": 1508432400000,
             "finished": false,
             "reward": "templatereward",
-            "url": "https://wba2ss17-team38.herokuapp.com/games/S1Hb0_MdZ",
+            "url": "https://wba2ss17-team38.herokuapp.com/games/SyTS3N9nW",
             "clues": [],
-            "participants": []
-        },
-        {
-            "id": "rJ2-AufuZ",
-            "titel": "templatetitel",
-            "tag": "templatetag",
-            "description": "templatedescription",
-            "endcoordinates": {
-                "latitude": 52.518611,
-                "longitude": 13.408056
-            },
-            "creator": "templatecreator",
-            "creationdate": "Thu Aug 17 2017 04:23:00 GMT+0200 (Mitteleuropäische Sommerzeit)",
-            "startdate": 1502931600000,
-            "expirationdate": 1503054000000,
-            "finished": false,
-            "reward": "templatereward",
-            "url": "https://wba2ss17-team38.herokuapp.com/games/rJ2-AufuZ",
-            "clues": [],
-            "participants": []
-        },
-        {
-            "id": "Sy4LUNEKZ",
-            "titel": "neues Spiel",
-            "description": "toll toll toll",
-            "endcoordinates": {
-                "latitude": "templlat",
-                "longitude": "templong"
-            },
-            "creator": "Heinz",
-            "creationdate": "Wed Aug 30 2017 14:57:48 GMT+0200 (Mitteleuropäische Sommerzeit)",
-            "startdate": "Startdatum fehlt",
-            "expirationdate": "Enddatum fehlt",
-            "finished": false,
-            "reward": "Zuckerschnecken",
-            "url": "https://wba2ss17-team38.herokuapp.com/games/Sy4LUNEKZ",
-            "clues": [
-                {
-                    "gameid": "Sy4LUNEKZ",
-                    "id": "By0xv4EYW",
-                    "titel": "Hinweis zu tollem Spiel",
-                    "description": "super einfach",
-                    "coordinates": {
-                        "latitude": "templlat",
-                        "longitude": "templong"
-                    },
-                    "creator": "Heinz",
-                    "gameurl": "https://wba2ss17-team38.herokuapp.com/games/Sy4LUNEKZ",
-                    "creationdate": "Wed Aug 30 2017 15:00:37 GMT+0200 (Mitteleuropäische Sommerzeit)",
-                    "media": []
-                }
-            ],
             "participants": []
         }
     ]
